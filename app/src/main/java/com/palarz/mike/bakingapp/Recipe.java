@@ -95,4 +95,17 @@ public class Recipe {
         this.mImage = image;
     }
 
+    public String toString(){
+        String recipeToString =  "Recipe ID: " + mID + "\nName: " + mName + "Ingredients:\n";
+        for (int i = 0; i < this.getIngredients().length; i++){
+            recipeToString += this.getIngredients()[i].toString();
+        }
+        recipeToString += "\nSteps:\n";
+        for (int j = 0; j < this.getSteps().length; j++){
+            recipeToString += this.getSteps()[j].toString();
+        }
+        recipeToString += "\nServings: " + mServings + "\nImage: " + mImage;
+        return recipeToString;
+    }
+
 }
