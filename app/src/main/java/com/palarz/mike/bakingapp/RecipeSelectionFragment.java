@@ -36,7 +36,7 @@ public class RecipeSelectionFragment extends Fragment {
         recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-        mAdapter = new RecipeAdapter(createList(30));
+        mAdapter = new RecipeAdapter(createList(4));
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
@@ -47,9 +47,8 @@ public class RecipeSelectionFragment extends Fragment {
         List<Recipe> result = new ArrayList<Recipe>();
         for (int i=1; i <= size; i++) {
             Recipe recipe = new Recipe();
-            recipe.name = Recipe.NAME_PREFIX + i;
-            recipe.surname = Recipe.SURNAME_PREFIX + i;
-            recipe.email = Recipe.EMAIL_PREFIX + i + "@test.com";
+            recipe.setName(getString(R.string.default_recipe_name));
+            recipe.setServings(0);
 
             result.add(recipe);
 
