@@ -13,42 +13,17 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     RecipeAdapter mAdapter;
 
-
-    // DONE (1): First thing to do is to implement a RecyclerView w/ CardViews
-
-    // DONE (2): After that, turn this into a fragment embedded within an activity so that
-    // this is ready for a tablet layout as well
+    // TODO: Look into adding a navigation drawer for a nice, aesthetic touch :D
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//
-//        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-//        mRecyclerView.setHasFixedSize(true);
-//        LinearLayoutManager recyclerViewManager = new LinearLayoutManager(this);
-//        recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
-//        mRecyclerView.setLayoutManager(recyclerViewManager);
-//
-//        mAdapter = new RecipeAdapter(createList(30));
-//        mRecyclerView.setAdapter(mAdapter);
 
+        // TODO: At some point, you'll need to use fragment transactions for this activity
+        // in order for it to be properly implemented for the tablet layout. More info on this
+        // can be found here: https://developer.android.com/guide/components/fragments.html
 
     }
 
-//    private List<Recipe> createList(int size) {
-//
-//        List<Recipe> result = new ArrayList<Recipe>();
-//        for (int i=1; i <= size; i++) {
-//            Recipe recipe = new Recipe();
-//            recipe.name = Recipe.NAME_PREFIX + i;
-//            recipe.surname = Recipe.SURNAME_PREFIX + i;
-//            recipe.email = Recipe.EMAIL_PREFIX + i + "@test.com";
-//
-//            result.add(recipe);
-//
-//        }
-//
-//        return result;
-//    }
 }
