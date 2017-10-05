@@ -1,5 +1,6 @@
 package com.palarz.mike.bakingapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +40,8 @@ public class RecipeSelectionFragment extends Fragment {
         mAdapter = new RecipeAdapter(createList(4));
         mRecyclerView.setAdapter(mAdapter);
 
+        new FetchRecipesTask().execute();
+
         return rootView;
     }
 
@@ -56,4 +59,20 @@ public class RecipeSelectionFragment extends Fragment {
 
         return result;
     }
+
+    private class FetchRecipesTask extends AsyncTask<Void, Void, List<Recipe>>{
+
+        @Override
+        protected List<Recipe> doInBackground(Void... voids) {
+            return new RecipeFetcher().fetchRecipes();
+        }
+
+        @Override
+        protected void onPostExecute(List<Recipe> fetchedRecipes) {
+            if (fetchedRecipes.size() > 0){
+                mAdapter.swapRecipes(fetchedRecipes);
+            }
+        }
+    }
+
 }

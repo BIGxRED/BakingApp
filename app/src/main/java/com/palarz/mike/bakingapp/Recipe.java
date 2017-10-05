@@ -96,15 +96,15 @@ public class Recipe {
     }
 
     public String toString(){
-        String recipeToString =  "Recipe ID: " + mID + "\nName: " + mName + "Ingredients:\n";
+        String recipeToString =  "Recipe ID: " + mID + "\nName: " + mName + "\nIngredients:\n";
         for (int i = 0; i < this.getIngredients().length; i++){
-            recipeToString += this.getIngredients()[i].toString();
+            recipeToString += this.getIngredients()[i].toString() + "\n";
         }
         recipeToString += "\nSteps:\n";
         for (int j = 0; j < this.getSteps().length; j++){
-            recipeToString += this.getSteps()[j].toString();
+            recipeToString += this.getSteps()[j].toString() + "\n";
         }
-        recipeToString += "\nServings: " + mServings + "\nImage: " + mImage;
+        recipeToString += "\nServings: " + mServings + "\nImage: " + mImage + "\n";
         return recipeToString;
     }
 
