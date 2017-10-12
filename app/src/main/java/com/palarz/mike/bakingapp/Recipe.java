@@ -49,8 +49,8 @@ public class Recipe implements Parcelable {
     public Recipe(Parcel in, ClassLoader loader){
         this.mID = in.readInt();
         this.mName = in.readString();
-        this.mIngredients = (Ingredient[]) in.readParcelableArray(loader);
-        this.mSteps = (Step[]) in.readParcelableArray(loader);
+        this.mIngredients = in.createTypedArray(Ingredient.CREATOR);
+        this.mSteps = in.createTypedArray(Step.CREATOR);
         this.mServings = in.readInt();
         this.mImage = in.readString();
     }
@@ -133,8 +133,8 @@ public class Recipe implements Parcelable {
     public void writeToParcel(Parcel out, int flags) {
         out.writeInt(mID);
         out.writeString(mName);
-        out.writeParcelableArray(mIngredients, flags);
-        out.writeParcelableArray(mSteps, flags);
+        out.writeTypedArray(mIngredients,flags);
+        out.writeTypedArray(mSteps, flags);
         out.writeInt(mServings);
         out.writeString(mImage);
     }

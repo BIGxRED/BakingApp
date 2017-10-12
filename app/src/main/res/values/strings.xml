@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BakingApp</string>
     <string name="default_recipe_name">Unknown Recipe</string>
+    <string name="recipe_details_name_testing">Banana Cream Pie</string>
 </resources>

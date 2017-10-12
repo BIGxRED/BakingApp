@@ -68,7 +68,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         public void onClick(View view) {
             Recipe clickedRecipe = mRecipeList.get(this.getAdapterPosition());
-            Intent makingTheRecipeIntent = new Intent(mContext, MakingTheRecipeActivity.class);
+            Intent makingTheRecipeIntent = new Intent(mContext, RecipeDetailsActivity.class);
             makingTheRecipeIntent.putExtra(EXTRA_RECIPE, clickedRecipe);
             mContext.startActivity(makingTheRecipeIntent);
         }

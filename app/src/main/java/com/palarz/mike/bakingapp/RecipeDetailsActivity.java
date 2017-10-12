@@ -10,16 +10,16 @@ import android.widget.TextView;
  * Created by mpala on 10/10/2017.
  */
 
-public class MakingTheRecipeActivity extends AppCompatActivity {
+public class RecipeDetailsActivity extends AppCompatActivity {
 
     TextView mRecipeName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_making_the_recipe);
+        setContentView(R.layout.activity_recipe_details);
 
-        mRecipeName = (TextView) findViewById(R.id.recipe_name_test);
+        mRecipeName = (TextView) findViewById(R.id.recipe_details_name);
         Intent receivedIntent = getIntent();
         Recipe clickedRecipe = null;
         if (receivedIntent != null){
