@@ -1,10 +1,13 @@
 package com.palarz.mike.bakingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by mpala on 10/3/2017.
  */
 
-public class Ingredient {
+public class Ingredient implements Parcelable {
 
     double mQuantity;
     String mMeasure;
@@ -20,6 +23,12 @@ public class Ingredient {
         this.mDescription = description;
         this.mMeasure = measure;
         this.mQuantity = quantity;
+    }
+
+    public Ingredient(Parcel in){
+        this.mDescription = in.readString();
+        this.mMeasure = in.readString();
+        this.mQuantity = in.readDouble();
     }
 
     public double getQuantity() {
@@ -49,5 +58,31 @@ public class Ingredient {
     public String toString(){
         return "Ingredient name: " + mDescription + "\nQuantity: " + mQuantity + "\nUnit: " + mMeasure;
     }
+
+    //Methods necessary to implement the Parcelable interface
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int i) {
+        out.writeString(mDescription);
+        out.writeString(mMeasure);
+        out.writeDouble(mQuantity);
+    }
+
+    public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>(){
+        @Override
+        public Ingredient createFromParcel(Parcel parcel) {
+            return new Ingredient(parcel);
+        }
+
+        @Override
+        public Ingredient[] newArray(int size) {
+            return new Ingredient[size];
+        }
+    };
 
 }

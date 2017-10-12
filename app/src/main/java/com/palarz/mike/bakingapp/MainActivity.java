@@ -10,8 +10,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView mRecyclerView;
-    RecipeAdapter mAdapter;
+//    RecyclerView mRecyclerView;
+//    RecipeAdapter mAdapter;
 
     // TODO: Look into adding a navigation drawer for a nice, aesthetic touch :D
 

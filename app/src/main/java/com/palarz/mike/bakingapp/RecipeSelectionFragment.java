@@ -37,7 +37,7 @@ public class RecipeSelectionFragment extends Fragment {
         recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-        mAdapter = new RecipeAdapter(createList(4));
+        mAdapter = new RecipeAdapter(getContext(), null);
         mRecyclerView.setAdapter(mAdapter);
 
         new FetchRecipesTask().execute();

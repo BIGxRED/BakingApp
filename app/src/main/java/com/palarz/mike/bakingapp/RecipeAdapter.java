@@ -1,5 +1,7 @@
 package com.palarz.mike.bakingapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +16,14 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    private List<Recipe> mRecipeList;
+    public static final String EXTRA_RECIPE = "com.palarz.mike.bakingapp.recipe";
 
-    public RecipeAdapter(List<Recipe> recipeList) {
+    private List<Recipe> mRecipeList;
+    private Context mContext;
+
+    public RecipeAdapter(Context context, List<Recipe> recipeList) {
         this.mRecipeList = recipeList;
+        this.mContext = context;
     }
 
     @Override
@@ -49,13 +55,22 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
 
-    public static class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected TextView vName;
 
 
         public RecipeViewHolder(View v) {
             super(v);
             vName =  (TextView) v.findViewById(R.id.recipe_name);
+            vName.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Recipe clickedRecipe = mRecipeList.get(this.getAdapterPosition());
+            Intent makingTheRecipeIntent = new Intent(mContext, MakingTheRecipeActivity.class);
+            makingTheRecipeIntent.putExtra(EXTRA_RECIPE, clickedRecipe);
+            mContext.startActivity(makingTheRecipeIntent);
         }
     }
 }

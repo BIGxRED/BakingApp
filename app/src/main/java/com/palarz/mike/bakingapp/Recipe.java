@@ -1,10 +1,13 @@
 package com.palarz.mike.bakingapp;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by mpala on 9/30/2017.
  */
 
-public class Recipe {
+public class Recipe implements Parcelable {
 
     int mID;
     String mName;
@@ -39,6 +42,17 @@ public class Recipe {
 
         this.mServings = servings;
         this.mImage = image;
+
+    }
+
+    // An overloaded constructor needed to implement Parcelable
+    public Recipe(Parcel in, ClassLoader loader){
+        this.mID = in.readInt();
+        this.mName = in.readString();
+        this.mIngredients = (Ingredient[]) in.readParcelableArray(loader);
+        this.mSteps = (Step[]) in.readParcelableArray(loader);
+        this.mServings = in.readInt();
+        this.mImage = in.readString();
     }
 
     public int getID() {
@@ -107,5 +121,40 @@ public class Recipe {
         recipeToString += "\nServings: " + mServings + "\nImage: " + mImage + "\n";
         return recipeToString;
     }
+
+    //Methods necessary to implement the Parcelable interface
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mID);
+        out.writeString(mName);
+        out.writeParcelableArray(mIngredients, flags);
+        out.writeParcelableArray(mSteps, flags);
+        out.writeInt(mServings);
+        out.writeString(mImage);
+    }
+
+    public static final Parcelable.ClassLoaderCreator<Recipe> CREATOR =
+            new Parcelable.ClassLoaderCreator<Recipe>(){
+        @Override
+        public Recipe createFromParcel(Parcel source, ClassLoader loader) {
+            return new Recipe(source, loader);
+        }
+
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return createFromParcel(source, null);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 
 }
