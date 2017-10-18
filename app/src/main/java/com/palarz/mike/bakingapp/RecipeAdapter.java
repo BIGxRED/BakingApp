@@ -71,8 +71,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         // If the image property of the Recipe is empty in any way, we'll simply load a random
         // recipe image from drawables
         if  (recipe.getImage() == null || recipe.getImage() == "" || recipe.getImage().isEmpty()){
+            int imageResource = getImageResource(recipe);
+            recipe.setImage(String.valueOf(imageResource));
+            mRecipeList.set(position, recipe);
+
             Picasso.with(mContext)
-                    .load(getImageResource(recipe))
+                    .load(Integer.parseInt(recipe.getImage()))
                     .placeholder(R.drawable.hourglass)
                     .into(recipeViewHolder.vImage);
         }
@@ -82,7 +86,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             Picasso.with(mContext)
                     .load(recipe.getImage())
                     .placeholder(R.drawable.hourglass)
-                    .error(getRandomImageResource())
+                    .error(getImageResource(recipe))
                     .into(recipeViewHolder.vImage);
         }
     }
@@ -116,7 +120,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         public void onClick(View view) {
             Recipe clickedRecipe = mRecipeList.get(this.getAdapterPosition());
-            Intent makingTheRecipeIntent = new Intent(mContext, RecipeDetailsActivity.class);
+            Intent makingTheRecipeIntent = new Intent(mContext, RecipeDetails.class);
             makingTheRecipeIntent.putExtra(EXTRA_RECIPE, clickedRecipe);
             mContext.startActivity(makingTheRecipeIntent);
         }

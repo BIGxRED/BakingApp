@@ -22,6 +22,7 @@ public class Recipe implements Parcelable {
     Step[] mSteps;
     int mServings;
     String mImage;
+    boolean mImageOverride;
 
     public Recipe(){
         this.mID = 0;
@@ -49,7 +50,6 @@ public class Recipe implements Parcelable {
 
         this.mServings = servings;
         this.mImage = image;
-
     }
 
     // An overloaded constructor needed to implement Parcelable

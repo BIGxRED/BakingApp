@@ -15,6 +15,7 @@
         android:textSize="@dimen/recipe_details_name_textsize"/>
 
     <ImageView
+        android:id="@+id/recipe_details_image"
         android:layout_width="@dimen/recipe_details_image_width"
         android:layout_height="@dimen/recipe_details_image_height"
         tools:src="@color/colorAccent"
