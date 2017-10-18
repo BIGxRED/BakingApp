@@ -3,23 +3,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/recipe_details_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/recipe_details_name_margin_top"
+        android:layout_marginTop="@dimen/recipe_details_margin_top"
         tools:text="@string/recipe_details_name_testing"
-        android:textSize="@dimen/recipe_details_name_textsize"/>
+        android:textSize="@dimen/recipe_details_name_text_size"/>
 
     <ImageView
         android:id="@+id/recipe_details_image"
         android:layout_width="@dimen/recipe_details_image_width"
         android:layout_height="@dimen/recipe_details_image_height"
-        tools:src="@color/colorAccent"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/recipe_details_image_margin_top"/>
+        tools:src="@drawable/hourglass"
+        android:layout_marginTop="@dimen/recipe_details_margin_top"/>
+
+    <TextView
+        android:id="@+id/recipe_details_ingredients_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/recipe_details_margin_top"
+        android:textSize="@dimen/recipe_details_ingredients_heading_text_size"
+        android:text="@string/recipe_details_ingredients_heading"
+        />
+
+    <TextView
+        android:id="@+id/recipe_details_ingredients"
+        android:layout_width="@dimen/recipe_details_ingredients_width"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/recipe_details_ingredients_text_size"
+        android:layout_marginTop="@dimen/recipe_details_margin_top"
+        tools:text="@string/recipe_details_ingredients_testing"/>
 
 </LinearLayout>
