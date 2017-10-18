@@ -25,14 +25,26 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public static final String EXTRA_RECIPE = "com.palarz.mike.bakingapp.recipe";
 
-    public static final int[] IMAGE_RESOURCES = new int[]{R.drawable.recipe1,
-                                                            R.drawable.recipe2,
-                                                            R.drawable.recipe3,
-                                                            R.drawable.recipe4,
-                                                            R.drawable.recipe5,
-                                                            R.drawable.recipe6,
-                                                            R.drawable.recipe7,
-                                                            R.drawable.recipe8};
+    public static final int[] IMAGE_RESOURCES = new int[]{
+            R.drawable.brownies,
+            R.drawable.cheesecake,
+            R.drawable.nutella,
+            R.drawable.yellow_cake,
+            R.drawable.random_recipe1,
+            R.drawable.random_recipe2,
+            R.drawable.random_recipe3,
+            R.drawable.random_recipe4,
+            R.drawable.random_recipe5,
+            R.drawable.random_recipe6,
+            R.drawable.random_recipe7,
+            R.drawable.random_recipe8};
+
+    public static final int INDEX_BROWNIES = 0;
+    public static final int INDEX_CHEESECAKE = 1;
+    public static final int INDEX_NUTELLA = 2;
+    public static final int INDEX_YELLOW_CAKE = 3;
+    public static final int INDEX_RANDOM_BEGINNING = 4;
+    public static final int IMAGE_RESOURCES_LENGTH = IMAGE_RESOURCES.length;
 
     private List<Recipe> mRecipeList;
     private Context mContext;
@@ -56,11 +68,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         recipeViewHolder.vName.setText(recipe.getName());
 
-        //TODO: Maybe find a placeholder image for when the image is attempted to being loaded?
-        Picasso.with(mContext)
-                .load(recipe.getImage())
-                .error(getRandomImageResource())
-                .into(recipeViewHolder.vImage);
+        // If the image property of the Recipe is empty in any way, we'll simply load a random
+        // recipe image from drawables
+        if  (recipe.getImage() == null || recipe.getImage() == "" || recipe.getImage().isEmpty()){
+            Picasso.with(mContext)
+                    .load(getImageResource(recipe))
+                    .placeholder(R.drawable.hourglass)
+                    .into(recipeViewHolder.vImage);
+        }
+
+        // Otherwise, we'll load the image into our CardView
+        else {
+            Picasso.with(mContext)
+                    .load(recipe.getImage())
+                    .placeholder(R.drawable.hourglass)
+                    .error(getRandomImageResource())
+                    .into(recipeViewHolder.vImage);
+        }
     }
 
     @Override
@@ -98,10 +122,40 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
     }
 
+    /*
+    The purpose of this function is to generate a random drawable ID in case the Recipe object
+    does not have anything specified for the JSON "image" key. This function has taken into account
+    that some of the Recipes are known based on the current state of the JSON data. Therefore,
+    a drawable ID is only created for the random drawables that have been provided.
+     */
     public int getRandomImageResource(){
-        int randomIndex = new Random().nextInt(IMAGE_RESOURCES.length);
+        /*
+        This version of nextInt() allows us to place a range for the int value that is returned -
+        the argument for nextInt() is exclusive of the random number that will be generated.
+        Therefore, nextInt() will generate a random int within 0 inclusive and the argument value
+        exclusive. We than add INDEX_RANDOM_BEGINNING to randomIndex to make sure that the returned
+        value is always at least INDEX_RANDOM_BEGINNING.
+         */
+        int randomIndex = new Random().nextInt(IMAGE_RESOURCES_LENGTH - INDEX_RANDOM_BEGINNING) + INDEX_RANDOM_BEGINNING;
         Log.d(TAG, "Result of random index: " + randomIndex);
 
         return IMAGE_RESOURCES[randomIndex];
+    }
+
+    public int getImageResource(Recipe recipe){
+        String recipeName = recipe.getName();
+
+        switch (recipeName){
+            case Recipe.RECIPE_BROWNIES:
+                return IMAGE_RESOURCES[INDEX_BROWNIES];
+            case Recipe.RECIPE_CHEESECAKE:
+                return IMAGE_RESOURCES[INDEX_CHEESECAKE];
+            case Recipe.RECIPE_NUTELLA_PIE:
+                return IMAGE_RESOURCES[INDEX_NUTELLA];
+            case Recipe.RECIPE_YELLOW_CAKE:
+                return IMAGE_RESOURCES[INDEX_YELLOW_CAKE];
+            default:
+                return getRandomImageResource();
+        }
     }
 }

@@ -9,6 +9,13 @@ import android.os.Parcelable;
 
 public class Recipe implements Parcelable {
 
+    // Strings of recipe names that are primarily used for the RecipeAdapter when it tries to match
+    // a recipe to a drawable image
+    public static final String RECIPE_NUTELLA_PIE = "Nutella Pie";
+    public static final String RECIPE_BROWNIES = "Brownies";
+    public static final String RECIPE_YELLOW_CAKE = "Yellow Cake";
+    public static final String RECIPE_CHEESECAKE = "Cheesecake";
+
     int mID;
     String mName;
     Ingredient[] mIngredients;

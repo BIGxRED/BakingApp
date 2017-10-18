@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
     android:layout_margin="4dp">
@@ -21,7 +21,7 @@
             android:text="@string/default_recipe_name"
             android:gravity="center"
             android:textColor="@android:color/white"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/recipe_list_item_name_text_size"/>
 
         <ImageView
             android:id="@+id/recipe_list_item_image"
@@ -29,10 +29,9 @@
             android:layout_height="@dimen/recipe_list_item_image_height"
             android:scaleType="centerCrop"
             android:layout_below="@id/recipe_list_item_name"
-            android:layout_marginTop="@dimen/recipe_list_item_image_margin_top"
-            android:layout_marginBottom="@dimen/recipe_list_item_image_margin_bottom"
+            android:layout_margin="@dimen/recipe_list_item_image_margin"
             android:layout_centerInParent="true"
-            tools:src="@drawable/recipe1"/>
+            tools:src="@drawable/random_recipe1"/>
 
     </RelativeLayout>
 
