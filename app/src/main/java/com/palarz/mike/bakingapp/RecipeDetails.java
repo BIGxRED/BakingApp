@@ -30,12 +30,20 @@ public class RecipeDetails extends AppCompatActivity {
         mRecipeName = (TextView) findViewById(R.id.recipe_details_name);
         mRecipeImage = (ImageView) findViewById(R.id.recipe_details_image);
         mIngredientsTV = (TextView) findViewById(R.id.recipe_details_ingredients);
+        mIngredientsTV.setVisibility(View.GONE);
         mIngredientsHeadingTV = (TextView) findViewById(R.id.recipe_details_ingredients_heading);
 
         mIngredientsHeadingTV.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                mIngredientsTV.setVisibility(mIngredientsTV.isShown() ? View.GONE : View.VISIBLE);
+                if (mIngredientsTV.isShown()){
+                    Slider.slideUp(getApplicationContext(), mIngredientsTV);
+                    mIngredientsTV.setVisibility(View.GONE);
+                }
+                else {
+                    mIngredientsTV.setVisibility(View.VISIBLE);
+                    Slider.slideDown(getApplicationContext(), mIngredientsTV);
+                }
             }
         });
 
