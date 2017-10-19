@@ -1,4 +1,4 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.palarz.mike.bakingapp.R;
+import com.palarz.mike.bakingapp.utilities.Slider;
+import com.palarz.mike.bakingapp.data.Recipe;
+import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -17,6 +21,8 @@ import com.squareup.picasso.Picasso;
  */
 
 public class RecipeDetails extends AppCompatActivity {
+
+    public static final String EXTRA_STEPS = "com.palarz.mike.bakingapp.steps";
 
     TextView mNameTV;
     ImageView mImageIV;
@@ -52,10 +58,9 @@ public class RecipeDetails extends AppCompatActivity {
         mStartCookingButton = (Button) findViewById(R.id.recipe_details_start_cooking_button);
 
         Intent receivedIntent = getIntent();
-        Recipe clickedRecipe = null;
         if (receivedIntent != null){
             if (receivedIntent.hasExtra(RecipeAdapter.EXTRA_RECIPE)){
-                clickedRecipe = receivedIntent.getParcelableExtra(RecipeAdapter.EXTRA_RECIPE);
+                final Recipe clickedRecipe = receivedIntent.getParcelableExtra(RecipeAdapter.EXTRA_RECIPE);
                 mNameTV.setText(clickedRecipe.getName());
                 String recipeImage = clickedRecipe.getImage();
                 try{
@@ -78,12 +83,14 @@ public class RecipeDetails extends AppCompatActivity {
 
                     @Override
                     public void onClick(View view) {
-
+                        Intent stepDisplayIntent = new Intent(getApplicationContext(), StepDisplay.class);
+                        stepDisplayIntent.putExtra(EXTRA_STEPS, clickedRecipe.getSteps());
+                        startActivity(stepDisplayIntent);
                     }
                 });
-
             }
         }
+
     }
 
 }

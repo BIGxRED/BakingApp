@@ -1,4 +1,4 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.utilities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.palarz.mike.bakingapp.R;
+import com.palarz.mike.bakingapp.activities.RecipeDetails;
+import com.palarz.mike.bakingapp.data.Recipe;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.data;
 
 import android.net.Uri;
 import android.util.Log;

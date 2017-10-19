@@ -1,9 +1,11 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.utilities;
 
 import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import com.palarz.mike.bakingapp.R;
 
 /**
  * Created by mpala on 10/18/2017.

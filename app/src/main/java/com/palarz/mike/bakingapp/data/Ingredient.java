@@ -1,4 +1,4 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;

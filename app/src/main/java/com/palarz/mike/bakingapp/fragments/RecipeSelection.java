@@ -1,4 +1,4 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.palarz.mike.bakingapp.R;
+import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
+import com.palarz.mike.bakingapp.data.RecipeFetcher;
+import com.palarz.mike.bakingapp.data.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,11 @@
-package com.palarz.mike.bakingapp;
+package com.palarz.mike.bakingapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
+import com.palarz.mike.bakingapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
