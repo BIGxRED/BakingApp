@@ -17,4 +17,7 @@
     <dimen name="recipe_details_ingredients_heading_text_size">18sp</dimen>
     <dimen name="recipe_details_ingredients_heading_width">320dp</dimen>
 
+    <dimen name="step_list_item_height">80dp</dimen>
+    <dimen name="step_list_item_margin">8dp</dimen>
+
 </resources>

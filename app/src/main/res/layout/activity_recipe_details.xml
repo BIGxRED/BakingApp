@@ -38,4 +38,10 @@
         android:layout_marginTop="@dimen/recipe_details_margin_top"
         tools:text="@string/recipe_details_ingredients_testing"/>
 
+    <Button
+        android:id="@+id/recipe_details_start_cooking_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_details_start_cooking_button_text"/>
+
 </LinearLayout>

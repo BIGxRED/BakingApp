@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,18 +18,19 @@ import com.squareup.picasso.Picasso;
 
 public class RecipeDetails extends AppCompatActivity {
 
-    TextView mRecipeName;
-    ImageView mRecipeImage;
+    TextView mNameTV;
+    ImageView mImageIV;
     TextView mIngredientsTV;
     TextView mIngredientsHeadingTV;
+    Button mStartCookingButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
-        mRecipeName = (TextView) findViewById(R.id.recipe_details_name);
-        mRecipeImage = (ImageView) findViewById(R.id.recipe_details_image);
+        mNameTV = (TextView) findViewById(R.id.recipe_details_name);
+        mImageIV = (ImageView) findViewById(R.id.recipe_details_image);
         mIngredientsTV = (TextView) findViewById(R.id.recipe_details_ingredients);
         mIngredientsTV.setVisibility(View.GONE);
         mIngredientsHeadingTV = (TextView) findViewById(R.id.recipe_details_ingredients_heading);
@@ -47,21 +49,23 @@ public class RecipeDetails extends AppCompatActivity {
             }
         });
 
+        mStartCookingButton = (Button) findViewById(R.id.recipe_details_start_cooking_button);
+
         Intent receivedIntent = getIntent();
         Recipe clickedRecipe = null;
         if (receivedIntent != null){
             if (receivedIntent.hasExtra(RecipeAdapter.EXTRA_RECIPE)){
                 clickedRecipe = receivedIntent.getParcelableExtra(RecipeAdapter.EXTRA_RECIPE);
-                mRecipeName.setText(clickedRecipe.getName());
+                mNameTV.setText(clickedRecipe.getName());
                 String recipeImage = clickedRecipe.getImage();
                 try{
-                    mRecipeImage.setImageResource(Integer.valueOf(recipeImage));
+                    mImageIV.setImageResource(Integer.valueOf(recipeImage));
                 }
                 catch (NumberFormatException nfe){
                     Picasso.with(this)
                             .load(recipeImage)
                             .placeholder(R.drawable.hourglass)
-                            .into(mRecipeImage);
+                            .into(mImageIV);
                 }
                 catch (Exception e){
                     Toast.makeText(this, "Could not load image resourse", Toast.LENGTH_SHORT).show();
@@ -69,6 +73,14 @@ public class RecipeDetails extends AppCompatActivity {
                 }
 
                 mIngredientsTV.setText(clickedRecipe.printIngredients());
+
+                mStartCookingButton.setOnClickListener(new View.OnClickListener(){
+
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
 
             }
         }

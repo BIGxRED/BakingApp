@@ -4,4 +4,6 @@
     <string name="recipe_details_name_testing">Banana Cream Pie</string>
     <string name="recipe_details_ingredients_testing">Step 1: Mix eggs\nStep 2: Add flour</string>
     <string name="recipe_details_ingredients_heading">Ingredients</string>
+    <string name="recipe_details_start_cooking_button_text">Let\'s start cooking!</string>
+    <string name="Step_list_item_text_testing">Step 1: Mix eggs</string>
 </resources>

@@ -17,12 +17,12 @@ import java.util.List;
  * Created by mpala on 10/1/2017.
  */
 
-public class RecipeSelectionFragment extends Fragment {
+public class RecipeSelection extends Fragment {
 
     RecyclerView mRecyclerView;
     RecipeAdapter mAdapter;
 
-    public RecipeSelectionFragment() {
+    public RecipeSelection() {
 
     }
 
