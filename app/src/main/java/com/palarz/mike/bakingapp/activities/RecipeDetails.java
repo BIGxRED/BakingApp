@@ -27,7 +27,6 @@ public class RecipeDetails extends AppCompatActivity {
     TextView mNameTV;
     ImageView mImageIV;
     TextView mIngredientsTV;
-    TextView mIngredientsHeadingTV;
     Button mStartCookingButton;
 
     @Override
@@ -38,22 +37,6 @@ public class RecipeDetails extends AppCompatActivity {
         mNameTV = (TextView) findViewById(R.id.recipe_details_name);
         mImageIV = (ImageView) findViewById(R.id.recipe_details_image);
         mIngredientsTV = (TextView) findViewById(R.id.recipe_details_ingredients);
-        mIngredientsTV.setVisibility(View.GONE);
-        mIngredientsHeadingTV = (TextView) findViewById(R.id.recipe_details_ingredients_heading);
-
-        mIngredientsHeadingTV.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if (mIngredientsTV.isShown()){
-                    Slider.slideUp(getApplicationContext(), mIngredientsTV);
-                    mIngredientsTV.setVisibility(View.GONE);
-                }
-                else {
-                    mIngredientsTV.setVisibility(View.VISIBLE);
-                    Slider.slideDown(getApplicationContext(), mIngredientsTV);
-                }
-            }
-        });
 
         mStartCookingButton = (Button) findViewById(R.id.recipe_details_start_cooking_button);
 

@@ -5,12 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/step_list_item_height"
     android:layout_margin="@dimen/step_list_item_margin"
-    android:gravity="center_horizontal">
+    android:gravity="center"
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/step_list_item_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/Step_list_item_text_testing"/>
+        tools:text="@string/Step_list_item_text_testing"
+        android:textSize="@dimen/step_list_item_description_text_size"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>

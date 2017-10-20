@@ -2,6 +2,7 @@ package com.palarz.mike.bakingapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +28,9 @@ public class StepDisplay extends AppCompatActivity {
 
         Intent receivedIntent = getIntent();
         if (receivedIntent.hasExtra(RecipeDetails.EXTRA_STEPS)){
-            Step[] steps = (Step[]) receivedIntent.getParcelableArrayExtra(RecipeDetails.EXTRA_STEPS);
+            Parcelable[] parcelables = receivedIntent.getParcelableArrayExtra(RecipeDetails.EXTRA_STEPS);
+            Step[] steps = new Step[parcelables.length];
+            System.arraycopy(parcelables, 0, steps, 0, parcelables.length);
             Bundle bundle = new Bundle();
             bundle.putParcelableArray(BUNDLE_KEY_STEPS, steps);
             stepSelection.setArguments(bundle);

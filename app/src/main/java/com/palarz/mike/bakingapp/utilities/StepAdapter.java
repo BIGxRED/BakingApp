@@ -18,8 +18,13 @@ import java.util.List;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
+    public interface StepSwitcher{
+        public void switchToWatchStep();
+    }
+
     Context mContext;
     Step[] mSteps;
+    StepSwitcher mStepSwitcher;
 
     public StepAdapter(Context context, Step[] steps){
         this.mContext = context;

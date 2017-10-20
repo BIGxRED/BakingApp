@@ -1,6 +1,7 @@
 package com.palarz.mike.bakingapp.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,10 +43,12 @@ public class StepSelection extends Fragment {
 
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
-            mSteps = (Step[]) receivedBundle.getParcelableArray(StepDisplay.BUNDLE_KEY_STEPS);
+            Parcelable[] parcelables = receivedBundle.getParcelableArray(StepDisplay.BUNDLE_KEY_STEPS);
+            mSteps = new Step[parcelables.length];
+            System.arraycopy(parcelables, 0, mSteps, 0, parcelables.length);
         }
 
-        mAdapter = new StepAdapter(getContext(), null);
+        mAdapter = new StepAdapter(getContext(), mSteps);
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

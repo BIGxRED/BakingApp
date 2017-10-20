@@ -30,13 +30,20 @@
         android:text="@string/recipe_details_ingredients_heading"
         />
 
-    <TextView
-        android:id="@+id/recipe_details_ingredients"
+    <ScrollView
         android:layout_width="@dimen/recipe_details_ingredients_width"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/recipe_details_ingredients_text_size"
-        android:layout_marginTop="@dimen/recipe_details_margin_top"
-        tools:text="@string/recipe_details_ingredients_testing"/>
+        android:layout_height="@dimen/recipe_details_ingredients_height"
+        android:layout_marginTop="@dimen/recipe_details_margin_top">
+
+        <TextView
+            android:id="@+id/recipe_details_ingredients"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/recipe_details_ingredients_text_size"
+            tools:text="@string/recipe_details_ingredients_testing"
+            android:layout_gravity="center_horizontal"/>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/recipe_details_start_cooking_button"

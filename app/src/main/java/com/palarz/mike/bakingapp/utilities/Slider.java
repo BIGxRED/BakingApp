@@ -11,6 +11,7 @@ import com.palarz.mike.bakingapp.R;
  * Created by mpala on 10/18/2017.
  */
 
+// TODO: Consider getting rid of this class if you don't plan on using animations for RecipeDetails
 public class Slider {
 
     public static void slideDown(Context context, View view){
