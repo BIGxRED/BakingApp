@@ -22,4 +22,10 @@
     <dimen name="step_list_item_margin">8dp</dimen>
     <dimen name="step_list_item_description_text_size">20sp</dimen>
 
+    <dimen name="step_watcher_margin_top">12dp</dimen>
+    <dimen name="step_watcher_short_description_text_size">26sp</dimen>
+    <dimen name="step_watcher_long_description_text_size">18sp</dimen>
+    <dimen name="step_watcher_description_width">320dp</dimen>
+    <dimen name="step_watcher_player_width">320dp</dimen>
+
 </resources>

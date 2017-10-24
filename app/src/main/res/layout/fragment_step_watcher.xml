@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:id="@+id/step_watcher_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/step_watcher_player_width"/>
+
+    <TextView
+        android:id="@+id/step_watcher_short_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="@string/step_watcher_short_description_testing"
+        android:textSize="@dimen/step_watcher_short_description_text_size"
+        android:layout_marginTop="@dimen/step_watcher_margin_top"
+        />
+
+    <TextView
+        android:id="@+id/step_watcher_long_description"
+        android:layout_width="@dimen/step_watcher_description_width"
+        android:layout_height="wrap_content"
+        tools:text="@string/step_watcher_long_description_testing"
+        android:textSize="@dimen/step_watcher_long_description_text_size"
+        android:layout_marginTop="@dimen/step_watcher_margin_top"
+        />
 
 </LinearLayout>

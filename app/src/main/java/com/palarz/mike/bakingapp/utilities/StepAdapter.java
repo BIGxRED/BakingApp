@@ -1,6 +1,9 @@
 package com.palarz.mike.bakingapp.utilities;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.data.Step;
+import com.palarz.mike.bakingapp.fragments.StepWatcher;
 
 import java.util.List;
 
@@ -18,13 +22,10 @@ import java.util.List;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
-    public interface StepSwitcher{
-        public void switchToWatchStep();
-    }
+    public static final String BUNDLE_KEY_CURRENT_STEP = "com.palarz.mike.bakingapp.utilities.current_step";
 
     Context mContext;
     Step[] mSteps;
-    StepSwitcher mStepSwitcher;
 
     public StepAdapter(Context context, Step[] steps){
         this.mContext = context;
@@ -72,7 +73,20 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         @Override
         public void onClick(View view) {
-            //TODO: Will need to implement this eventually
+            StepWatcher watcher = new StepWatcher();
+            Step currentStep = mSteps[this.getAdapterPosition()];
+            Bundle b = new Bundle();
+            b.putParcelable(BUNDLE_KEY_CURRENT_STEP, currentStep);
+            watcher.setArguments(b);
+
+            // TODO: You can add an transition animation to the FragmentTransaction by using
+            // setTransition(). Maybe look into playing around with this?
+            FragmentActivity activity = (FragmentActivity) mContext;
+            FragmentManager manager = activity.getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.step_display_current_step, watcher)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 }

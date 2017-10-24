@@ -41,4 +41,14 @@ public class StepDisplay extends AppCompatActivity {
                 .add(R.id.step_display_current_step, stepSelection)
                 .commit();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0){
+            getSupportFragmentManager().popBackStack();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
 }
