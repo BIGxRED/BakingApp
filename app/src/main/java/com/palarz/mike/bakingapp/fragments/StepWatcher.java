@@ -1,12 +1,15 @@
 package com.palarz.mike.bakingapp.fragments;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -30,6 +33,12 @@ import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
 public class StepWatcher extends Fragment {
 
+    private static final String STATE_PLAYBACK_POSITION = "playback_position";
+    private static final String STATE_CURRENT_WINDOW = "current_window";
+    private static final String STATE_PLAY_WHEN_READY = "play_when_ready";
+
+    private static final String TAG = StepWatcher.class.getSimpleName();
+
     TextView mShortDescriptionTV;
     TextView mLongDescriptionTV;
 
@@ -38,6 +47,7 @@ public class StepWatcher extends Fragment {
     boolean mPlayWhenReady;
     int mCurrentWindow;
     long mPlaybackPosition;
+    String mVideoURL;
 
     @Nullable
     @Override
@@ -50,11 +60,39 @@ public class StepWatcher extends Fragment {
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
             Step currentStep = receivedBundle.getParcelable(StepAdapter.BUNDLE_KEY_CURRENT_STEP);
-            mShortDescriptionTV.setText(currentStep.getShortDescription());
-            mLongDescriptionTV.setText(currentStep.getLongDescription());
+            if (mShortDescriptionTV != null && mLongDescriptionTV != null){
+                mShortDescriptionTV.setText(currentStep.getShortDescription());
+                mLongDescriptionTV.setText(currentStep.getLongDescription());
+            }
+            mVideoURL = currentStep.getURL();
+        }
+
+        if (savedInstanceState != null){
+            mPlaybackPosition = savedInstanceState.getLong(STATE_PLAYBACK_POSITION);
+            Log.d(TAG, "Value of playback position: " + mPlaybackPosition);
+            mCurrentWindow = savedInstanceState.getInt(STATE_CURRENT_WINDOW);
+            Log.d(TAG, "Value of current window: " + mCurrentWindow);
+            mPlayWhenReady = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY);
+            Log.d(TAG, "Value of play when ready: " + mPlayWhenReady);
+        }
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            hideSystemUI();
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        mPlaybackPosition = mPlayer.getCurrentPosition();
+        mCurrentWindow = mPlayer.getCurrentWindowIndex();
+        mPlayWhenReady = mPlayer.getPlayWhenReady();
+        outState.putLong(STATE_PLAYBACK_POSITION, mPlaybackPosition);
+        outState.putInt(STATE_CURRENT_WINDOW, mCurrentWindow);
+        outState.putBoolean(STATE_PLAY_WHEN_READY, mPlayWhenReady);
+
+        super.onSaveInstanceState(outState);
     }
 
     private void initializePlayer(){
@@ -68,9 +106,15 @@ public class StepWatcher extends Fragment {
         mPlayer.setPlayWhenReady(mPlayWhenReady);
         mPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
 
-        Uri uri = Uri.parse(getString(R.string.step_watcher_player_uri_testing));
-        MediaSource mediaSource = buildMediaSource(uri);
-        mPlayer.prepare(mediaSource, true, false);
+        if (!(mVideoURL.isEmpty())) {
+            mPlayerView.setVisibility(View.VISIBLE);
+            Uri uri = Uri.parse(mVideoURL);
+            MediaSource mediaSource = buildMediaSource(uri);
+            mPlayer.prepare(mediaSource, true, false);
+        }
+        else {
+            mPlayerView.setVisibility(View.GONE);
+        }
     }
 
     private MediaSource buildMediaSource(Uri uri){
@@ -82,12 +126,36 @@ public class StepWatcher extends Fragment {
     }
 
     private void releasePlayer(){
+//        Log.d(TAG, "releasePlayer() has been called\n");
         if (mPlayer != null){
             mPlaybackPosition = mPlayer.getCurrentPosition();
             mCurrentWindow = mPlayer.getCurrentWindowIndex();
             mPlayWhenReady = mPlayer.getPlayWhenReady();
             mPlayer.release();
             mPlayer = null;
+        }
+    }
+
+    private void hideSystemUI() {
+        mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
+
+    private void fullScreenOn(){
+        // We first want to check if mPlayerView even has content to show; in other words,
+        // we want to be sure the URL of the Step wasn't empty
+        if (!(mPlayerView.getVisibility() == View.GONE)){
+            // Let's hide the other TextViews, making sure they won't be visible
+            mShortDescriptionTV.setVisibility(View.GONE);
+            mLongDescriptionTV.setVisibility(View.GONE);
+            mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT));
+
+            hideSystemUI();
         }
     }
 
@@ -102,6 +170,7 @@ public class StepWatcher extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+//        hideSystemUI();
         if (Util.SDK_INT <= 23 || mPlayer == null){
             initializePlayer();
         }
@@ -122,5 +191,7 @@ public class StepWatcher extends Fragment {
             releasePlayer();
         }
     }
+
+
 
 }

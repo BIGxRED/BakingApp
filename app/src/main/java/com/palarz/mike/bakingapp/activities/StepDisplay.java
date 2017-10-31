@@ -24,22 +24,31 @@ public class StepDisplay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_display);
 
-        StepSelection stepSelection = new StepSelection();
+        /* It is important for us to check if savedInstanceState is null. It is only null the first
+        * time the activity is created. In that moment, we want the StepSelection fragment to
+        * be the only fragment that is being displayed.
+        *
+        * If we didn't check this, then a StepSelection would be added to the display every time
+        * the screen would be rotated.
+        */
+        if (savedInstanceState == null){
+            StepSelection stepSelection = new StepSelection();
 
-        Intent receivedIntent = getIntent();
-        if (receivedIntent.hasExtra(RecipeDetails.EXTRA_STEPS)){
-            Parcelable[] parcelables = receivedIntent.getParcelableArrayExtra(RecipeDetails.EXTRA_STEPS);
-            Step[] steps = new Step[parcelables.length];
-            System.arraycopy(parcelables, 0, steps, 0, parcelables.length);
-            Bundle bundle = new Bundle();
-            bundle.putParcelableArray(BUNDLE_KEY_STEPS, steps);
-            stepSelection.setArguments(bundle);
+            Intent receivedIntent = getIntent();
+            if (receivedIntent.hasExtra(RecipeDetails.EXTRA_STEPS)){
+                Parcelable[] parcelables = receivedIntent.getParcelableArrayExtra(RecipeDetails.EXTRA_STEPS);
+                Step[] steps = new Step[parcelables.length];
+                System.arraycopy(parcelables, 0, steps, 0, parcelables.length);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArray(BUNDLE_KEY_STEPS, steps);
+                stepSelection.setArguments(bundle);
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .add(R.id.step_display_current_step, stepSelection)
+                    .commit();
         }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .add(R.id.step_display_current_step, stepSelection)
-                .commit();
     }
 
     @Override
