@@ -103,7 +103,7 @@ public class Recipe implements Parcelable {
     public String printIngredients(){
         String recipeIngredients = "";
         for (int j = 0; j < this.getIngredients().length; j++){
-            recipeIngredients += this.getIngredients()[j].toString() + "\n";
+            recipeIngredients += this.getIngredients()[j].toString() + "\n\n";
         }
 
         return recipeIngredients;

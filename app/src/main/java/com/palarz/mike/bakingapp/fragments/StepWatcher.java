@@ -60,6 +60,13 @@ public class StepWatcher extends Fragment {
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
             Step currentStep = receivedBundle.getParcelable(StepAdapter.BUNDLE_KEY_CURRENT_STEP);
+            /*
+            These views only exist if the phone is placed into landscape orientation. Therefore, we
+            only want to set the text on these Views if they exist.
+             */
+
+            // TODO: If the SimpleExoPlayerView doesn't exist because there was no URL, then
+            // maybe we should still show these TVs?
             if (mShortDescriptionTV != null && mLongDescriptionTV != null){
                 mShortDescriptionTV.setText(currentStep.getShortDescription());
                 mLongDescriptionTV.setText(currentStep.getLongDescription());
