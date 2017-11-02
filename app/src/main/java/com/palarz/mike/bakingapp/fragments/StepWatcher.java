@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,8 @@ public class StepWatcher extends Fragment {
 
     TextView mShortDescriptionTV;
     TextView mLongDescriptionTV;
+    Button mPreviousButton;
+    Button mNextButton;
 
     SimpleExoPlayerView mPlayerView;
     SimpleExoPlayer mPlayer;
@@ -49,6 +52,11 @@ public class StepWatcher extends Fragment {
     long mPlaybackPosition;
     String mVideoURL;
 
+    // TODO: Add the two buttons on the bottom of the screen to easily be able to move onto the
+    // next or previous step
+
+    // TODO: Show the thumbnail associated to a step if it exists and if the video URL is empty
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,12 +64,14 @@ public class StepWatcher extends Fragment {
         mShortDescriptionTV = (TextView) rootView.findViewById(R.id.step_watcher_short_description);
         mLongDescriptionTV = (TextView) rootView.findViewById(R.id.step_watcher_long_description);
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_watcher_player_view);
+        mPreviousButton = (Button) rootView.findViewById(R.id.step_watcher_previous_button);
+        mNextButton = (Button) rootView.findViewById(R.id.step_watcher_next_button);
 
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
             Step currentStep = receivedBundle.getParcelable(StepAdapter.BUNDLE_KEY_CURRENT_STEP);
             /*
-            These views only exist if the phone is placed into landscape orientation. Therefore, we
+            These views only exist if the phone is placed into portrait orientation. Therefore, we
             only want to set the text on these Views if they exist.
              */
 
@@ -76,11 +86,8 @@ public class StepWatcher extends Fragment {
 
         if (savedInstanceState != null){
             mPlaybackPosition = savedInstanceState.getLong(STATE_PLAYBACK_POSITION);
-            Log.d(TAG, "Value of playback position: " + mPlaybackPosition);
             mCurrentWindow = savedInstanceState.getInt(STATE_CURRENT_WINDOW);
-            Log.d(TAG, "Value of current window: " + mCurrentWindow);
             mPlayWhenReady = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY);
-            Log.d(TAG, "Value of play when ready: " + mPlayWhenReady);
         }
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -152,20 +159,6 @@ public class StepWatcher extends Fragment {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
-    private void fullScreenOn(){
-        // We first want to check if mPlayerView even has content to show; in other words,
-        // we want to be sure the URL of the Step wasn't empty
-        if (!(mPlayerView.getVisibility() == View.GONE)){
-            // Let's hide the other TextViews, making sure they won't be visible
-            mShortDescriptionTV.setVisibility(View.GONE);
-            mLongDescriptionTV.setVisibility(View.GONE);
-            mPlayerView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT));
-
-            hideSystemUI();
-        }
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -177,7 +170,6 @@ public class StepWatcher extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        hideSystemUI();
         if (Util.SDK_INT <= 23 || mPlayer == null){
             initializePlayer();
         }
