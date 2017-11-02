@@ -7,7 +7,13 @@
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/step_watcher_player_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/step_watcher_player_width"/>
+        android:layout_height="@dimen/step_watcher_player_height"/>
+
+    <ImageView
+        android:id="@+id/step_watcher_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/step_watcher_player_height"
+        tools:src="@drawable/hourglass"/>
 
     <TextView
         android:id="@+id/step_watcher_short_description"

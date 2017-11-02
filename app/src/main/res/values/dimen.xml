@@ -26,6 +26,6 @@
     <dimen name="step_watcher_short_description_text_size">26sp</dimen>
     <dimen name="step_watcher_long_description_text_size">18sp</dimen>
     <dimen name="step_watcher_description_width">320dp</dimen>
-    <dimen name="step_watcher_player_width">320dp</dimen>
+    <dimen name="step_watcher_player_height">320dp</dimen>
 
 </resources>

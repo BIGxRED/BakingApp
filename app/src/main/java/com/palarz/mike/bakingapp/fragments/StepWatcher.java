@@ -5,12 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -27,6 +26,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.data.Step;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by mpala on 10/20/2017.
@@ -44,13 +44,16 @@ public class StepWatcher extends Fragment {
     TextView mLongDescriptionTV;
     Button mPreviousButton;
     Button mNextButton;
+    ImageView mThumbnailIV;
 
     SimpleExoPlayerView mPlayerView;
     SimpleExoPlayer mPlayer;
+
     boolean mPlayWhenReady;
     int mCurrentWindow;
     long mPlaybackPosition;
     String mVideoURL;
+    String mThumbnailURL;
 
     // TODO: Add the two buttons on the bottom of the screen to easily be able to move onto the
     // next or previous step
@@ -66,6 +69,7 @@ public class StepWatcher extends Fragment {
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_watcher_player_view);
         mPreviousButton = (Button) rootView.findViewById(R.id.step_watcher_previous_button);
         mNextButton = (Button) rootView.findViewById(R.id.step_watcher_next_button);
+        mThumbnailIV = (ImageView) rootView.findViewById(R.id.step_watcher_thumbnail);
 
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
@@ -82,6 +86,18 @@ public class StepWatcher extends Fragment {
                 mLongDescriptionTV.setText(currentStep.getLongDescription());
             }
             mVideoURL = currentStep.getURL();
+            mThumbnailURL = currentStep.getThumbnail();
+
+            if (mVideoURL.isEmpty() && !(mThumbnailURL.isEmpty())){
+                mThumbnailIV.setVisibility(View.VISIBLE);
+                mPlayerView.setVisibility(View.GONE);
+
+                // TODO: Use Picasso to load the image at this point
+            }
+            else {
+                mThumbnailIV.setVisibility(View.GONE);
+                mPlayerView.setVisibility(View.VISIBLE);
+            }
         }
 
         if (savedInstanceState != null){
