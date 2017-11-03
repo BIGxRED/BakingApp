@@ -4,27 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/step_watcher_player_view"
+    <FrameLayout
+        android:id="@+id/step_watcher_video_and_thumbnail_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/step_watcher_player_height"/>
+        android:layout_height="@dimen/step_watcher_player_height">
 
-    <ImageView
-        android:id="@+id/step_watcher_thumbnail"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/step_watcher_player_height"
-        tools:src="@drawable/hourglass"/>
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/step_watcher_player_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/step_watcher_thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/hourglass"/>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/step_watcher_short_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/step_watcher_player_view"
-        android:layout_centerInParent="true"
         tools:text="@string/step_watcher_short_description_testing"
         android:textSize="@dimen/step_watcher_short_description_text_size"
-        android:layout_marginTop="@dimen/step_watcher_margin_top"
-        />
+        android:layout_marginTop="12dp"
+        android:layout_below="@id/step_watcher_video_and_thumbnail_container"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/step_watcher_long_description"

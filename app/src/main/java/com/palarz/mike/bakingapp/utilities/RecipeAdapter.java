@@ -28,7 +28,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public static final String EXTRA_RECIPE = "com.palarz.mike.bakingapp.recipe";
 
-    public static final int[] IMAGE_RESOURCES = new int[]{
+    public static final int[] RECIPE_IMAGES = {
             R.drawable.brownies,
             R.drawable.cheesecake,
             R.drawable.nutella,
@@ -40,14 +40,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             R.drawable.random_recipe5,
             R.drawable.random_recipe6,
             R.drawable.random_recipe7,
-            R.drawable.random_recipe8};
+            R.drawable.random_recipe8
+    };
 
     public static final int INDEX_BROWNIES = 0;
     public static final int INDEX_CHEESECAKE = 1;
     public static final int INDEX_NUTELLA = 2;
     public static final int INDEX_YELLOW_CAKE = 3;
     public static final int INDEX_RANDOM_BEGINNING = 4;
-    public static final int IMAGE_RESOURCES_LENGTH = IMAGE_RESOURCES.length;
+    public static final int IMAGE_RESOURCES_LENGTH = RECIPE_IMAGES.length;
 
     private List<Recipe> mRecipeList;
     private Context mContext;
@@ -144,9 +145,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         value is always at least INDEX_RANDOM_BEGINNING.
          */
         int randomIndex = new Random().nextInt(IMAGE_RESOURCES_LENGTH - INDEX_RANDOM_BEGINNING) + INDEX_RANDOM_BEGINNING;
-        Log.d(TAG, "Result of random index: " + randomIndex);
 
-        return IMAGE_RESOURCES[randomIndex];
+        return RECIPE_IMAGES[randomIndex];
     }
 
     public int getImageResource(Recipe recipe){
@@ -154,13 +154,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         switch (recipeName){
             case Recipe.RECIPE_BROWNIES:
-                return IMAGE_RESOURCES[INDEX_BROWNIES];
+                return RECIPE_IMAGES[INDEX_BROWNIES];
             case Recipe.RECIPE_CHEESECAKE:
-                return IMAGE_RESOURCES[INDEX_CHEESECAKE];
+                return RECIPE_IMAGES[INDEX_CHEESECAKE];
             case Recipe.RECIPE_NUTELLA_PIE:
-                return IMAGE_RESOURCES[INDEX_NUTELLA];
+                return RECIPE_IMAGES[INDEX_NUTELLA];
             case Recipe.RECIPE_YELLOW_CAKE:
-                return IMAGE_RESOURCES[INDEX_YELLOW_CAKE];
+                return RECIPE_IMAGES[INDEX_YELLOW_CAKE];
             default:
                 return getRandomImageResource();
         }

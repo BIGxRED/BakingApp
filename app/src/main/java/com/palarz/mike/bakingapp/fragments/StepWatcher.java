@@ -28,6 +28,8 @@ import com.palarz.mike.bakingapp.data.Step;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 import com.squareup.picasso.Picasso;
 
+import java.util.Random;
+
 /**
  * Created by mpala on 10/20/2017.
  */
@@ -60,6 +62,33 @@ public class StepWatcher extends Fragment {
 
     // TODO: Show the thumbnail associated to a step if it exists and if the video URL is empty
 
+    public static final int [] STEP_IMAGES = {
+            R.drawable.step1,
+            R.drawable.step2,
+            R.drawable.step3,
+            R.drawable.step4,
+            R.drawable.step5,
+            R.drawable.step6,
+            R.drawable.step7,
+            R.drawable.step8,
+            R.drawable.step9,
+            R.drawable.step10,
+            R.drawable.step11,
+            R.drawable.step12,
+            R.drawable.step13,
+            R.drawable.step14,
+            R.drawable.step15,
+            R.drawable.step16,
+            R.drawable.step17,
+            R.drawable.step18,
+            R.drawable.step19,
+            R.drawable.step20,
+            R.drawable.step21,
+            R.drawable.step22,
+            R.drawable.step23,
+            R.drawable.step24
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,15 +117,48 @@ public class StepWatcher extends Fragment {
             mVideoURL = currentStep.getURL();
             mThumbnailURL = currentStep.getThumbnail();
 
-            if (mVideoURL.isEmpty() && !(mThumbnailURL.isEmpty())){
+            // If we weren't provided a URL for the video, then let's at least load an image to be
+            // shown in the Step
+            if (mVideoURL.isEmpty()){
+
                 mThumbnailIV.setVisibility(View.VISIBLE);
                 mPlayerView.setVisibility(View.GONE);
 
-                // TODO: Use Picasso to load the image at this point
+                // TODO: Once you create the Singleton class, update this part of the code to update
+                // an individual Step's thumbnail
+
+                // However, there is the case where both the video and thumbnail URLs weren't
+                // provided. In that case, we'll still show an image, but it will be a random image
+                // from our drawables
+                if (mThumbnailURL.isEmpty()){
+                    Picasso.with(getContext())
+                            .load(getRandomImageResource())
+                            .placeholder(R.drawable.hourglass)
+                            .into(mThumbnailIV);
+                }
+                // Otherwise, if the thumbnail URL was provided, then we will download and display it
+                else {
+                    Picasso.with(getContext())
+                            .load(mThumbnailURL)
+                            .placeholder(R.drawable.hourglass)
+                            .error(getRandomImageResource())
+                            .into(mThumbnailIV);
+                }
+
             }
+
+            // If we do have a URL for the video, then we'll hide the thumbnail ImageView and show
+            // the video instead
             else {
+
                 mThumbnailIV.setVisibility(View.GONE);
                 mPlayerView.setVisibility(View.VISIBLE);
+
+                // If the device is in landscape mode, then we hide all of the system UI buttons
+                // in order to have a fullscreen experience
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                    hideSystemUI();
+                }
             }
         }
 
@@ -104,10 +166,6 @@ public class StepWatcher extends Fragment {
             mPlaybackPosition = savedInstanceState.getLong(STATE_PLAYBACK_POSITION);
             mCurrentWindow = savedInstanceState.getInt(STATE_CURRENT_WINDOW);
             mPlayWhenReady = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY);
-        }
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            hideSystemUI();
         }
 
         return rootView;
@@ -166,6 +224,7 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    // TODO: Do we need to make another function, such as showSystemUI()?
     private void hideSystemUI() {
         mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -207,6 +266,10 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    public int getRandomImageResource(){
+        int randomIndex = new Random().nextInt(STEP_IMAGES.length );
 
+        return STEP_IMAGES[randomIndex];
+    }
 
 }
