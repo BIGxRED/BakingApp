@@ -125,7 +125,8 @@ public class StepWatcher extends Fragment {
                 mPlayerView.setVisibility(View.GONE);
 
                 // TODO: Once you create the Singleton class, update this part of the code to update
-                // an individual Step's thumbnail
+                // an individual Step's thumbnail. This way, the same thumbnail will be opened
+                // the next time the user comes back to the same Step.
 
                 // However, there is the case where both the video and thumbnail URLs weren't
                 // provided. In that case, we'll still show an image, but it will be a random image
