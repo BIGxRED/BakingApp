@@ -56,7 +56,7 @@ public class RecipeDetails extends AppCompatActivity {
                             .into(mImageIV);
                 }
                 catch (Exception e){
-                    Toast.makeText(this, "Could not load image resourse", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Could not load image recourse", Toast.LENGTH_SHORT).show();
                     finish();
                 }
 

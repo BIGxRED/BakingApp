@@ -27,5 +27,6 @@
     <dimen name="step_watcher_long_description_text_size">18sp</dimen>
     <dimen name="step_watcher_description_width">320dp</dimen>
     <dimen name="step_watcher_player_height">320dp</dimen>
+    <dimen name="step_watcher_thumbnail_height_landscape">240dp</dimen>
 
 </resources>
