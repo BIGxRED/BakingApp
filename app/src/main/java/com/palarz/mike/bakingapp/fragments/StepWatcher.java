@@ -304,6 +304,9 @@ public class StepWatcher extends Fragment {
             mPlayer.prepare(mediaSource, true, false);
         }
         else {
+            // TODO: See that you're already making mPlayerView GONE here? Maybe you don't have
+            // to do so many checks in onCreateView() regarding the video URL being empty
+            // because of this. Perhaps you can simplify onCreateView()?
             mPlayerView.setVisibility(View.GONE);
         }
     }
