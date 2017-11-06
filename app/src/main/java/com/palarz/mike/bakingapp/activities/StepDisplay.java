@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.palarz.mike.bakingapp.R;
-import com.palarz.mike.bakingapp.data.Step;
+import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
 
 /**

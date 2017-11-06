@@ -3,7 +3,6 @@ package com.palarz.mike.bakingapp.utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,7 @@ import android.widget.TextView;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.activities.RecipeDetails;
-import com.palarz.mike.bakingapp.data.Recipe;
+import com.palarz.mike.bakingapp.model.Recipe;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

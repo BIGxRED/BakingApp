@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.palarz.mike.bakingapp.R;
-import com.palarz.mike.bakingapp.data.Recipe;
+import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.squareup.picasso.Picasso;
 

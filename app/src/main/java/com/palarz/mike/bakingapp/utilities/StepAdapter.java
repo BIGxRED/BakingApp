@@ -11,10 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.palarz.mike.bakingapp.R;
-import com.palarz.mike.bakingapp.data.Step;
+import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepWatcher;
-
-import java.util.List;
 
 /**
  * Created by mpala on 10/19/2017.

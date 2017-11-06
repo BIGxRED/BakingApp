@@ -1,7 +1,11 @@
-package com.palarz.mike.bakingapp.data;
+package com.palarz.mike.bakingapp.utilities;
 
 import android.net.Uri;
 import android.util.Log;
+
+import com.palarz.mike.bakingapp.model.Ingredient;
+import com.palarz.mike.bakingapp.model.Recipe;
+import com.palarz.mike.bakingapp.model.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;

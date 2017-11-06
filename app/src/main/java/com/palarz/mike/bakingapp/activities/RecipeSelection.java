@@ -9,8 +9,8 @@ import android.support.v7.widget.RecyclerView;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
-import com.palarz.mike.bakingapp.data.RecipeFetcher;
-import com.palarz.mike.bakingapp.data.Recipe;
+import com.palarz.mike.bakingapp.utilities.RecipeFetcher;
+import com.palarz.mike.bakingapp.model.Recipe;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ public class RecipeSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_selection);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager recyclerViewManager = new LinearLayoutManager(this);

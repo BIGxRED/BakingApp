@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.activities.StepDisplay;
-import com.palarz.mike.bakingapp.data.Step;
-import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
+import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
 /**

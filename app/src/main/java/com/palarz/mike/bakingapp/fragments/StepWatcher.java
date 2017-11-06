@@ -25,7 +25,7 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.palarz.mike.bakingapp.R;
-import com.palarz.mike.bakingapp.data.Step;
+import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
