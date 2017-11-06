@@ -75,7 +75,6 @@ public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSw
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.step_display_current_step, watcher)
-                .addToBackStack(null)
                 .commit();
     }
 }
