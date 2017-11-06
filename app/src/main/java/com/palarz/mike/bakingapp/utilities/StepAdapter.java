@@ -23,7 +23,9 @@ import butterknife.ButterKnife;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
-    public static final String BUNDLE_KEY_CURRENT_STEP = "com.palarz.mike.bakingapp.utilities.current_step";
+    public static final String BUNDLE_KEY_ALL_STEPS = "com.palarz.mike.bakingapp.utilities.all_steps";
+    public static final String BUNDLE_KEY_STEP_ARRAY_INDEX =
+            "com.palarz.mike.bakingapp.utilities.step_array_index";
 
     Context mContext;
     Step[] mSteps;
@@ -75,9 +77,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         @Override
         public void onClick(View view) {
             StepWatcher watcher = new StepWatcher();
-            Step currentStep = mSteps[this.getAdapterPosition()];
             Bundle b = new Bundle();
-            b.putParcelable(BUNDLE_KEY_CURRENT_STEP, currentStep);
+            b.putParcelableArray(BUNDLE_KEY_ALL_STEPS, mSteps);
+            b.putInt(BUNDLE_KEY_STEP_ARRAY_INDEX, this.getAdapterPosition());
             watcher.setArguments(b);
 
             // TODO: You can add an transition animation to the FragmentTransaction by using

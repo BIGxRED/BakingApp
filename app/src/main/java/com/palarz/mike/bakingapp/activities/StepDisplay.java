@@ -8,14 +8,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.palarz.mike.bakingapp.R;
+import com.palarz.mike.bakingapp.fragments.StepWatcher;
 import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
+import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
 /**
  * Created by mpala on 10/19/2017.
  */
 
-public class StepDisplay extends AppCompatActivity {
+public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSwitcher {
 
     public static final String BUNDLE_KEY_STEPS = "com.palarz.mike.bakingapp.activities.steps";
 
@@ -59,5 +61,21 @@ public class StepDisplay extends AppCompatActivity {
         else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void switchStep(Step[] steps, int nextStepIndex) {
+        StepWatcher watcher = new StepWatcher();
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArray(StepAdapter.BUNDLE_KEY_ALL_STEPS, steps);
+        bundle.putInt(StepAdapter.BUNDLE_KEY_STEP_ARRAY_INDEX, nextStepIndex);
+        watcher.setArguments(bundle);
+
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.step_display_current_step, watcher)
+                .addToBackStack(null)
+                .commit();
     }
 }

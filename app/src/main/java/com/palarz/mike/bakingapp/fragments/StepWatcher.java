@@ -1,8 +1,10 @@
 package com.palarz.mike.bakingapp.fragments;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -34,6 +36,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by mpala on 10/20/2017.
@@ -61,9 +64,10 @@ public class StepWatcher extends Fragment {
     long mPlaybackPosition;
     String mVideoURL;
     String mThumbnailURL;
+    Step[] mSteps;
+    int mCurrentStepIndex;
+    StepSwitcher mCallback;
 
-    // TODO: Add the two buttons on the bottom of the screen to easily be able to move onto the
-    // next or previous step
 
     public static final int [] STEP_IMAGES = {
             R.drawable.step1,
@@ -92,6 +96,25 @@ public class StepWatcher extends Fragment {
             R.drawable.step24
     };
 
+    public interface StepSwitcher{
+        void switchStep(Step[] steps, int nextStepIndex);
+    }
+
+    // Override onAttach to make sure that the container activity has implemented the callback
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+            mCallback = (StepSwitcher) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement StepSwitcher");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,7 +124,12 @@ public class StepWatcher extends Fragment {
 
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
-            final Step currentStep = receivedBundle.getParcelable(StepAdapter.BUNDLE_KEY_CURRENT_STEP);
+            Parcelable[] parcelables = receivedBundle.getParcelableArray(StepAdapter.BUNDLE_KEY_ALL_STEPS);
+            mSteps = new Step[parcelables.length];
+            System.arraycopy(parcelables, 0, mSteps, 0, parcelables.length);
+
+            mCurrentStepIndex = receivedBundle.getInt(StepAdapter.BUNDLE_KEY_STEP_ARRAY_INDEX);
+            final Step currentStep = mSteps[mCurrentStepIndex];
             /*
             These views only exist if the phone is placed into portrait orientation. Therefore, we
             only want to set the text on these Views if they exist.
@@ -228,6 +256,21 @@ public class StepWatcher extends Fragment {
             mPlayWhenReady = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY);
         }
 
+        /* Finally, we only want to show the next and previous buttons if we aren't close to the
+        end of mSteps. For example, if we're already on the last Step, then mNextButton should
+        be GONE.
+          */
+        if (mSteps != null){
+            // If we're at the last index of mSteps, then mNextButton is GONE
+            if (mCurrentStepIndex == (mSteps.length - 1)){
+                mNextButton.setVisibility(View.GONE);
+            }
+            // Likewise, if we're at the very beginning of mSteps, then mPreviousButton is GONE
+            else if (mCurrentStepIndex == (0)){
+                mPreviousButton.setVisibility(View.GONE);
+            }
+        }
+
         return rootView;
     }
 
@@ -329,6 +372,24 @@ public class StepWatcher extends Fragment {
         int randomIndex = new Random().nextInt(STEP_IMAGES.length );
 
         return STEP_IMAGES[randomIndex];
+    }
+
+    @OnClick(R.id.step_watcher_previous_button)
+    public void displayPreviousStep(){
+        int previousIndex = mCurrentStepIndex - 1;
+        if (previousIndex < 0) {
+            return;
+        }
+        mCallback.switchStep(mSteps, previousIndex);
+    }
+
+    @OnClick(R.id.step_watcher_next_button)
+    public void displayNextStep(){
+        int nextIndex = mCurrentStepIndex + 1;
+        if (nextIndex > (mSteps.length - 1)){
+            return;
+        }
+        mCallback.switchStep(mSteps, nextIndex);
     }
 
 }

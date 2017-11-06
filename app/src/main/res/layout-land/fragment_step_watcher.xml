@@ -47,7 +47,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/step_watcher_previous_button_text"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:onClick="displayPreviousStep"/>
 
     <Button
         android:id="@+id/step_watcher_next_button"
@@ -56,6 +57,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="@string/step_watcher_next_button_text"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:onClick="displayNextStep"/>
 
 </RelativeLayout>
