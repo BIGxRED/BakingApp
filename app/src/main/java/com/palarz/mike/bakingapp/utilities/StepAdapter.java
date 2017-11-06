@@ -14,6 +14,9 @@ import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepWatcher;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by mpala on 10/19/2017.
  */
@@ -61,11 +64,11 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView vStepDescriptionTV;
+        @BindView(R.id.step_list_item_description) public TextView vStepDescriptionTV;
 
         public StepViewHolder(View view){
             super(view);
-            vStepDescriptionTV = view.findViewById(R.id.step_list_item_description);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 

@@ -32,6 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by mpala on 10/20/2017.
  */
@@ -44,13 +47,13 @@ public class StepWatcher extends Fragment {
 
     private static final String TAG = StepWatcher.class.getSimpleName();
 
-    TextView mShortDescriptionTV;
-    TextView mLongDescriptionTV;
-    Button mPreviousButton;
-    Button mNextButton;
-    ImageView mThumbnailIV;
+    @BindView(R.id.step_watcher_short_description) TextView mShortDescriptionTV;
+    @BindView(R.id.step_watcher_long_description) TextView mLongDescriptionTV;
+    @BindView(R.id.step_watcher_previous_button) Button mPreviousButton;
+    @BindView(R.id.step_watcher_next_button) Button mNextButton;
+    @BindView(R.id.step_watcher_thumbnail) ImageView mThumbnailIV;
 
-    SimpleExoPlayerView mPlayerView;
+    @BindView(R.id.step_watcher_player_view) SimpleExoPlayerView mPlayerView;
     SimpleExoPlayer mPlayer;
 
     boolean mPlayWhenReady;
@@ -93,12 +96,8 @@ public class StepWatcher extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_watcher, container, false);
-        mShortDescriptionTV = (TextView) rootView.findViewById(R.id.step_watcher_short_description);
-        mLongDescriptionTV = (TextView) rootView.findViewById(R.id.step_watcher_long_description);
-        mPlayerView = (SimpleExoPlayerView) rootView.findViewById(R.id.step_watcher_player_view);
-        mPreviousButton = (Button) rootView.findViewById(R.id.step_watcher_previous_button);
-        mNextButton = (Button) rootView.findViewById(R.id.step_watcher_next_button);
-        mThumbnailIV = (ImageView) rootView.findViewById(R.id.step_watcher_thumbnail);
+
+        ButterKnife.bind(this, rootView);
 
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){

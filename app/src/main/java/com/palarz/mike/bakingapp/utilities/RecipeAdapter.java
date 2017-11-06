@@ -17,6 +17,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by mpala on 9/30/2017.
  */
@@ -110,13 +113,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView vName;
-        public ImageView vImage;
+        @BindView(R.id.recipe_list_item_name) public TextView vName;
+        @BindView(R.id.recipe_list_item_image) public ImageView vImage;
 
         public RecipeViewHolder(View view) {
             super(view);
-            vName = view.findViewById(R.id.recipe_list_item_name);
-            vImage = view.findViewById(R.id.recipe_list_item_image);
+            ButterKnife.bind(this, view);
             view.setOnClickListener(this);
         }
 

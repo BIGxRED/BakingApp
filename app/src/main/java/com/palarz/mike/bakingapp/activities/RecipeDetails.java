@@ -15,6 +15,9 @@ import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by mpala on 10/10/2017.
  */
@@ -23,21 +26,17 @@ public class RecipeDetails extends AppCompatActivity {
 
     public static final String EXTRA_STEPS = "com.palarz.mike.bakingapp.steps";
 
-    TextView mNameTV;
-    ImageView mImageIV;
-    TextView mIngredientsTV;
-    Button mStartCookingButton;
+    @BindView(R.id.recipe_details_name) TextView mNameTV;
+    @BindView(R.id.recipe_details_image) ImageView mImageIV;
+    @BindView(R.id.recipe_details_ingredients) TextView mIngredientsTV;
+    @BindView(R.id.recipe_details_start_cooking_button) Button mStartCookingButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_details);
 
-        mNameTV = (TextView) findViewById(R.id.recipe_details_name);
-        mImageIV = (ImageView) findViewById(R.id.recipe_details_image);
-        mIngredientsTV = (TextView) findViewById(R.id.recipe_details_ingredients);
-
-        mStartCookingButton = (Button) findViewById(R.id.recipe_details_start_cooking_button);
+        ButterKnife.bind(this);
 
         Intent receivedIntent = getIntent();
         if (receivedIntent != null){

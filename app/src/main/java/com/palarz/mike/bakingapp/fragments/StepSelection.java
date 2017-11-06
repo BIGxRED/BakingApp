@@ -15,6 +15,9 @@ import com.palarz.mike.bakingapp.activities.StepDisplay;
 import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by mpala on 10/19/2017.
  */
@@ -22,7 +25,7 @@ import com.palarz.mike.bakingapp.utilities.StepAdapter;
 public class StepSelection extends Fragment {
 
     StepAdapter mAdapter;
-    RecyclerView mRecyclerView;
+    @BindView(R.id.step_selection_recycler_view) RecyclerView mRecyclerView;
     Step[] mSteps;
 
     public StepSelection(){
@@ -33,7 +36,9 @@ public class StepSelection extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_step_selection, container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.step_selection_recycler_view);
+
+        ButterKnife.bind(this, rootView);
+
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager recyclerViewManager = new LinearLayoutManager(getContext());

@@ -14,13 +14,16 @@ import com.palarz.mike.bakingapp.model.Recipe;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by mpala on 10/1/2017.
  */
 
 public class RecipeSelection extends AppCompatActivity {
 
-    RecyclerView mRecyclerView;
+    @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     RecipeAdapter mAdapter;
 
     @Override
@@ -28,7 +31,8 @@ public class RecipeSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_selection);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        ButterKnife.bind(this);
+
         mRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager recyclerViewManager = new LinearLayoutManager(this);
