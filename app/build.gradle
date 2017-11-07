@@ -35,8 +35,18 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:26.0.0-alpha1'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
 
     // Dependencies for Butterknife
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    //Dependency for Timber
+    compile 'com.jakewharton.timber:timber:4.6.0'
 }

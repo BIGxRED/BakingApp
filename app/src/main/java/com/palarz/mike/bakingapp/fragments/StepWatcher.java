@@ -37,6 +37,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 /**
  * Created by mpala on 10/20/2017.
@@ -103,7 +104,9 @@ public class StepWatcher extends Fragment {
     // Override onAttach to make sure that the container activity has implemented the callback
     @Override
     public void onAttach(Context context) {
+
         super.onAttach(context);
+        Timber.d("onAttach() has been called");
 
         // This makes sure that the host activity has implemented the callback interface
         // If not, it throws an exception
@@ -115,9 +118,17 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Timber.plant(new Timber.DebugTree());
+        Timber.d("onCreate() has been called");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d("onCreateView() has been called");
         View rootView = inflater.inflate(R.layout.fragment_step_watcher, container, false);
 
         ButterKnife.bind(this, rootView);
@@ -276,6 +287,8 @@ public class StepWatcher extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Timber.d("onSaveInstanceState() has been called. Is mPlayer indeed null?: "
+                + (mPlayer == null));
         mPlaybackPosition = mPlayer.getCurrentPosition();
         mCurrentWindow = mPlayer.getCurrentWindowIndex();
         mPlayWhenReady = mPlayer.getPlayWhenReady();
@@ -342,33 +355,41 @@ public class StepWatcher extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        Timber.d("onStart() has been called.");
         if (Util.SDK_INT > 23){
             initializePlayer();
         }
+        Timber.d("Is mPlayer initialized?: " + (mPlayer != null));
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Timber.d("onResume() has been called.");
         if (Util.SDK_INT <= 23 || mPlayer == null){
             initializePlayer();
         }
+        Timber.d("Is mPlayer initialized?: " + (mPlayer != null));
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Timber.d("onPause() has been called.");
         if (Util.SDK_INT <= 23){
             releasePlayer();
         }
+        Timber.d("Is mPlayer indeed null?: " + (mPlayer == null));
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        Timber.d("onStop() has been called.");
         if (Util.SDK_INT > 23){
             releasePlayer();
         }
+        Timber.d("Is mPlayer indeed null?: " + (mPlayer == null));
     }
 
     public int getRandomImageResource(){
@@ -395,4 +416,10 @@ public class StepWatcher extends Fragment {
         mCallback.switchStep(mSteps, nextIndex);
     }
 
+    // TODO: Make sure to remove this once you're done debugging
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Timber.uprootAll();
+    }
 }
