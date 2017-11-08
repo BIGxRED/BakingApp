@@ -22,7 +22,6 @@ public class Recipe implements Parcelable {
     Step[] mSteps;
     int mServings;
     String mImage;
-    boolean mImageOverride;
 
     public Recipe(){
         this.mID = 0;
