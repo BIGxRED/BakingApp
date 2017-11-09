@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.fragments.StepWatcher;
@@ -13,18 +15,36 @@ import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
+import timber.log.Timber;
+
 /**
  * Created by mpala on 10/19/2017.
  */
 
-public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSwitcher {
+public class StepDisplay extends AppCompatActivity
+        implements StepWatcher.StepSwitcher, FragmentManager.OnBackStackChangedListener {
 
     public static final String BUNDLE_KEY_STEPS = "com.palarz.mike.bakingapp.activities.steps";
+    public static final String TAG = StepDisplay.class.getSimpleName();
+
+    private boolean mTwoPane;
+
+    @Override
+    public void onBackStackChanged() {
+        super.onBackPressed();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Timber.d("Contents of backstack with onBackStackChanged():\n");
+        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
+            Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
+        }
+        Timber.d("\n");
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_display);
+        Timber.plant(new Timber.DebugTree());
 
         /* It is important for us to check if savedInstanceState is null. It is only null the first
         * time the activity is created. In that moment, we want the StepSelection fragment to
@@ -49,14 +69,27 @@ public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSw
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .add(R.id.step_display_current_step, stepSelection)
+                    .addToBackStack(null)
                     .commit();
+
+            Timber.d("Contents of backstack within onCreate():\n");
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
+                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
+            }
+            Timber.d("\n");
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 0){
-            getSupportFragmentManager().popBackStack();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0){
+            fragmentManager.popBackStack();
+            Timber.d("Contents of backstack within onBackPressed():\n");
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
+                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
+            }
+            Timber.d("\n");
         }
         else {
             super.onBackPressed();
@@ -76,5 +109,11 @@ public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSw
         manager.beginTransaction()
                 .replace(R.id.step_display_current_step, watcher)
                 .commit();
+
+        Timber.d("Contents of backstack when switchStep() is called:\n");
+        for (int i = 0; i < manager.getBackStackEntryCount(); i++){
+            Timber.d("Index: " + i + "; backstack entry ID: " + manager.getBackStackEntryAt(i));
+        }
+        Timber.d("\n");
     }
 }

@@ -16,6 +16,7 @@ import com.palarz.mike.bakingapp.fragments.StepWatcher;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by mpala on 10/19/2017.
@@ -45,6 +46,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public StepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Timber.plant(new Timber.DebugTree());
+
         View viewHolder = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.step_list_item, parent, false);
@@ -90,6 +93,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                     .replace(R.id.step_display_current_step, watcher)
                     .addToBackStack(null)
                     .commit();
+
+            Timber.d("Contents of backstack when switchStep() is called:\n");
+            for (int i = 0; i < manager.getBackStackEntryCount(); i++){
+                Timber.d("Index: " + i + "; backstack entry ID: " + manager.getBackStackEntryAt(i));
+            }
+            Timber.d("\n");
         }
+
     }
 }
