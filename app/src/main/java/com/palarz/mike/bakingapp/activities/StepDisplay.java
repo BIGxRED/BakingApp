@@ -15,23 +15,24 @@ import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
  * Created by mpala on 10/19/2017.
  */
 
-public class StepDisplay extends AppCompatActivity
-        implements StepWatcher.StepSwitcher, FragmentManager.OnBackStackChangedListener {
+public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSwitcher, FragmentManager.OnBackStackChangedListener {
 
     public static final String BUNDLE_KEY_STEPS = "com.palarz.mike.bakingapp.activities.steps";
     public static final String TAG = StepDisplay.class.getSimpleName();
 
     private boolean mTwoPane;
 
+    // TODO: Perhaps look into reusing that SingleFragmentActivity class from Big Nerd Ranch?
+
     @Override
     public void onBackStackChanged() {
-        super.onBackPressed();
         FragmentManager fragmentManager = getSupportFragmentManager();
         Timber.d("Contents of backstack with onBackStackChanged():\n");
         for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
@@ -44,7 +45,6 @@ public class StepDisplay extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_step_display);
-        Timber.plant(new Timber.DebugTree());
 
         /* It is important for us to check if savedInstanceState is null. It is only null the first
         * time the activity is created. In that moment, we want the StepSelection fragment to
@@ -53,6 +53,9 @@ public class StepDisplay extends AppCompatActivity
         * If we didn't check this, then a StepSelection would be added to the display every time
         * the screen would be rotated.
         */
+        
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        
         if (savedInstanceState == null){
             StepSelection stepSelection = new StepSelection();
 
@@ -68,8 +71,8 @@ public class StepDisplay extends AppCompatActivity
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .add(R.id.step_display_current_step, stepSelection)
-                    .addToBackStack(null)
+                    .replace(R.id.step_display_current_step, stepSelection)
+//                    .addToBackStack(null)
                     .commit();
 
             Timber.d("Contents of backstack within onCreate():\n");
@@ -106,6 +109,7 @@ public class StepDisplay extends AppCompatActivity
         watcher.setArguments(bundle);
 
         FragmentManager manager = getSupportFragmentManager();
+//        manager.popBackStack();
         manager.beginTransaction()
                 .replace(R.id.step_display_current_step, watcher)
                 .commit();

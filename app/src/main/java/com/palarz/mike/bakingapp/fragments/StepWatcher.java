@@ -121,7 +121,6 @@ public class StepWatcher extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Timber.plant(new Timber.DebugTree());
         Timber.d("onCreate() has been called");
     }
 

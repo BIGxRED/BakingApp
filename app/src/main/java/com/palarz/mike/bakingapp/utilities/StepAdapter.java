@@ -46,7 +46,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     @Override
     public StepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Timber.plant(new Timber.DebugTree());
 
         View viewHolder = LayoutInflater
                 .from(parent.getContext())
@@ -94,7 +93,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                     .addToBackStack(null)
                     .commit();
 
-            Timber.d("Contents of backstack when switchStep() is called:\n");
+            Timber.d("Contents of backstack when onClick() is called:\n");
             for (int i = 0; i < manager.getBackStackEntryCount(); i++){
                 Timber.d("Index: " + i + "; backstack entry ID: " + manager.getBackStackEntryAt(i));
             }

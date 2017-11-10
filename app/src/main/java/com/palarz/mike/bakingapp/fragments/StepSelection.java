@@ -24,6 +24,8 @@ import butterknife.ButterKnife;
 
 public class StepSelection extends Fragment {
 
+    // TODO: Maybe turn this into a ListFragment instead of a simple Fragment?
+
     StepAdapter mAdapter;
     @BindView(R.id.step_selection_recycler_view) RecyclerView mRecyclerView;
     Step[] mSteps;
