@@ -1,5 +1,6 @@
 package com.palarz.mike.bakingapp.utilities;
 
+import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -19,6 +20,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import timber.log.Timber;
 
 /**
  * Created by mpala on 10/4/2017.
@@ -52,7 +55,7 @@ public class RecipeFetcher {
         try{
             //The Uri is then converted into a URL if possible
             url = new URL(builtUri.toString());
-            Log.i(TAG, "The resulting built URL: " + url.toString());
+            Timber.d("The resulting built URL: " + url.toString());
         }
         catch (MalformedURLException mue){
             Log.e(TAG, "Encountered a MalformedURLException when building the URL");
@@ -72,7 +75,7 @@ public class RecipeFetcher {
             String httpResponse = null;
             if(scanner.hasNext()) {
                 httpResponse = scanner.next();
-                Log.i(TAG, "Full HTTP response: \n" + httpResponse + "\n");
+                Timber.d("Full HTTP response: \n" + httpResponse + "\n");
                 return httpResponse;
             }
             return httpResponse;
@@ -120,13 +123,13 @@ public class RecipeFetcher {
             int servings = jsonRecipe.getInt(JSON_KEY_SERVINGS);
             String image = jsonRecipe.getString(JSON_KEY_IMAGE);
             Recipe currentRecipe = new Recipe(recipeID, recipeName, ingredients, steps, servings, image);
-            Log.i(TAG, "Current recipe added: \n" + currentRecipe.toString());
+            Timber.d("Current recipe added: \n" + currentRecipe.toString());
             recipesList.add(currentRecipe);
         }
     }
 
     public List<Recipe> fetchRecipes(){
-        List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> recipes = Bakery.get().getRecipes();
         try {
             String httpResponse = getHTTPResponse(buildURL());
             parseRecipes(httpResponse, recipes);
