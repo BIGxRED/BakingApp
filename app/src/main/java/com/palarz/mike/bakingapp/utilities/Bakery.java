@@ -1,7 +1,5 @@
 package com.palarz.mike.bakingapp.utilities;
 
-import android.content.Context;
-
 import com.palarz.mike.bakingapp.model.Recipe;
 
 import java.util.ArrayList;

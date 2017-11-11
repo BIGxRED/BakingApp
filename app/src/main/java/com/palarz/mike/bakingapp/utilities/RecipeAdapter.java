@@ -28,7 +28,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private static final String TAG = RecipeAdapter.class.getSimpleName();
 
-    public static final String EXTRA_RECIPE = "com.palarz.mike.bakingapp.recipe";
+    public static final String EXTRA_RECIPE_ID = "com.palarz.mike.bakingapp.recipe_id";
 
     public static final int[] RECIPE_IMAGES = {
             R.drawable.brownies,
@@ -125,8 +125,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @Override
         public void onClick(View view) {
             Recipe clickedRecipe = mRecipeList.get(this.getAdapterPosition());
+            int recipeID = clickedRecipe.getID();
             Intent makingTheRecipeIntent = new Intent(mContext, RecipeDetails.class);
-            makingTheRecipeIntent.putExtra(EXTRA_RECIPE, clickedRecipe);
+            makingTheRecipeIntent.putExtra(EXTRA_RECIPE_ID, recipeID);
             mContext.startActivity(makingTheRecipeIntent);
         }
     }

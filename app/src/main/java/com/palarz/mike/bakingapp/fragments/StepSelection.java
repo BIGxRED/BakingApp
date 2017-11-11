@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.activities.StepDisplay;
 import com.palarz.mike.bakingapp.model.Step;
+import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
 import butterknife.BindView;
@@ -26,12 +27,30 @@ public class StepSelection extends Fragment {
 
     // TODO: Maybe turn this into a ListFragment instead of a simple Fragment?
 
-    StepAdapter mAdapter;
+    private static final String ARGS_RECIPE_ID = "recipe_id";
+
     @BindView(R.id.step_selection_recycler_view) RecyclerView mRecyclerView;
+
+    StepAdapter mAdapter;
     Step[] mSteps;
 
     public StepSelection(){
+    }
 
+    public static StepSelection newInstance(int recipeID){
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARGS_RECIPE_ID, recipeID);
+
+        StepSelection fragment = new StepSelection();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int recipeID = getArguments().getInt(ARGS_RECIPE_ID);
+        mSteps = Bakery.get().getRecipe(recipeID).getSteps();
     }
 
     @Nullable
@@ -46,13 +65,6 @@ public class StepSelection extends Fragment {
         LinearLayoutManager recyclerViewManager = new LinearLayoutManager(getContext());
         recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(recyclerViewManager);
-
-        Bundle receivedBundle = this.getArguments();
-        if (receivedBundle != null){
-            Parcelable[] parcelables = receivedBundle.getParcelableArray(StepDisplay.BUNDLE_KEY_STEPS);
-            mSteps = new Step[parcelables.length];
-            System.arraycopy(parcelables, 0, mSteps, 0, parcelables.length);
-        }
 
         mAdapter = new StepAdapter(getContext(), mSteps);
         mRecyclerView.setAdapter(mAdapter);

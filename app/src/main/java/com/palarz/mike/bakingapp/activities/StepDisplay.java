@@ -13,6 +13,7 @@ import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.fragments.StepWatcher;
 import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
+import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
 import butterknife.OnClick;
@@ -53,33 +54,24 @@ public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSw
         * If we didn't check this, then a StepSelection would be added to the display every time
         * the screen would be rotated.
         */
-        
+
         getSupportFragmentManager().addOnBackStackChangedListener(this);
-        
-        if (savedInstanceState == null){
-            StepSelection stepSelection = new StepSelection();
+
+        if (savedInstanceState == null) {
 
             Intent receivedIntent = getIntent();
-            if (receivedIntent.hasExtra(RecipeDetails.EXTRA_STEPS)){
-                Parcelable[] parcelables = receivedIntent.getParcelableArrayExtra(RecipeDetails.EXTRA_STEPS);
-                Step[] steps = new Step[parcelables.length];
-                System.arraycopy(parcelables, 0, steps, 0, parcelables.length);
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArray(BUNDLE_KEY_STEPS, steps);
-                stepSelection.setArguments(bundle);
+            if (receivedIntent.hasExtra(RecipeDetails.EXTRA_RECIPE_ID)) {
+
+                int recipeID = receivedIntent.getIntExtra(RecipeDetails.EXTRA_RECIPE_ID, 0);
+                StepSelection stepSelection = StepSelection.newInstance(recipeID);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .add(R.id.step_display_current_step, stepSelection)
+                        .addToBackStack(null)
+                        .commit();
             }
 
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.step_display_current_step, stepSelection)
-//                    .addToBackStack(null)
-                    .commit();
-
-            Timber.d("Contents of backstack within onCreate():\n");
-            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
-                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
-            }
-            Timber.d("\n");
         }
     }
 
@@ -109,7 +101,6 @@ public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSw
         watcher.setArguments(bundle);
 
         FragmentManager manager = getSupportFragmentManager();
-//        manager.popBackStack();
         manager.beginTransaction()
                 .replace(R.id.step_display_current_step, watcher)
                 .commit();
