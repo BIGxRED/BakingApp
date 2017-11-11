@@ -88,6 +88,15 @@ public class Recipe implements Parcelable {
         }
     }
 
+    public String printIngredients(){
+        String recipeIngredients = "";
+        for (int j = 0; j < this.getIngredients().length; j++){
+            recipeIngredients += this.getIngredients()[j].toString() + "\n\n";
+        }
+
+        return recipeIngredients;
+    }
+
     public Step[] getSteps() {
         return mSteps;
     }
@@ -97,15 +106,6 @@ public class Recipe implements Parcelable {
         for (int j = 0; j < steps.length; j++){
             mSteps[j] = steps[j];
         }
-    }
-
-    public String printIngredients(){
-        String recipeIngredients = "";
-        for (int j = 0; j < this.getIngredients().length; j++){
-            recipeIngredients += this.getIngredients()[j].toString() + "\n\n";
-        }
-
-        return recipeIngredients;
     }
 
     public int getServings() {

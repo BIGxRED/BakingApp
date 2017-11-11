@@ -1,5 +1,6 @@
 package com.palarz.mike.bakingapp.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ public class StepSelection extends Fragment {
 
     StepAdapter mAdapter;
     Step[] mSteps;
+    StepAdapter.StepLoader mAdapterCallback;
 
     public StepSelection(){
     }
@@ -44,6 +46,22 @@ public class StepSelection extends Fragment {
         StepSelection fragment = new StepSelection();
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            // In this case, we first obtain a reference to the hosting activity, StepDisplay,
+            // through the context. Then, we ensure that StepDisplay has implemented the interface.
+            // Otherwise, we throw an exception.
+            mAdapterCallback = (StepAdapter.StepLoader) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnImageClickListener");
+        }
+
     }
 
     @Override
@@ -66,8 +84,10 @@ public class StepSelection extends Fragment {
         recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
-        mAdapter = new StepAdapter(getContext(), mSteps);
+        mAdapter = new StepAdapter(getContext(), mSteps, mAdapterCallback);
         mRecyclerView.setAdapter(mAdapter);
+
+
 
         return rootView;
     }

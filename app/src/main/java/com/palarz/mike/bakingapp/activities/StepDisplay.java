@@ -2,33 +2,30 @@ package com.palarz.mike.bakingapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.palarz.mike.bakingapp.R;
-import com.palarz.mike.bakingapp.fragments.StepWatcher;
-import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
-import com.palarz.mike.bakingapp.utilities.Bakery;
+import com.palarz.mike.bakingapp.fragments.StepWatcher;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
-import butterknife.OnClick;
 import timber.log.Timber;
+
+import static com.palarz.mike.bakingapp.utilities.StepAdapter.BUNDLE_KEY_ALL_STEPS;
+import static com.palarz.mike.bakingapp.utilities.StepAdapter.BUNDLE_KEY_STEP_ARRAY_INDEX;
 
 /**
  * Created by mpala on 10/19/2017.
  */
 
-public class StepDisplay extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
-
-    public static final String BUNDLE_KEY_STEPS = "com.palarz.mike.bakingapp.activities.steps";
-    public static final String TAG = StepDisplay.class.getSimpleName();
+public class StepDisplay extends AppCompatActivity
+        implements FragmentManager.OnBackStackChangedListener, StepAdapter.StepLoader {
 
     private boolean mTwoPane;
+    private int mRecipeID;
 
     // TODO: Perhaps look into reusing that SingleFragmentActivity class from Big Nerd Ranch?
 
@@ -62,12 +59,12 @@ public class StepDisplay extends AppCompatActivity implements FragmentManager.On
             Intent receivedIntent = getIntent();
             if (receivedIntent.hasExtra(RecipeDetails.EXTRA_RECIPE_ID)) {
 
-                int recipeID = receivedIntent.getIntExtra(RecipeDetails.EXTRA_RECIPE_ID, 0);
-                StepSelection stepSelection = StepSelection.newInstance(recipeID);
+                mRecipeID = receivedIntent.getIntExtra(RecipeDetails.EXTRA_RECIPE_ID, 0);
+                StepSelection stepSelection = StepSelection.newInstance(mRecipeID);
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .add(R.id.step_display_current_step, stepSelection)
+                        .add(R.id.step_display_list_of_steps, stepSelection)
                         .addToBackStack(null)
                         .commit();
             }
@@ -88,6 +85,25 @@ public class StepDisplay extends AppCompatActivity implements FragmentManager.On
         }
         else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void loadNextStep(int stepID) {
+        Timber.d("loadNextStep() has been called");
+
+        if (mTwoPane){
+            // We're gonna do something here, lots of things
+        }
+        else {
+            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepID);
+
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.step_display_list_of_steps, watcher)
+                    .addToBackStack(null)
+                    .commit();
+
         }
     }
 }

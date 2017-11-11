@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
     
     <FrameLayout
-        android:id="@+id/step_display_current_step"
+        android:id="@+id/step_display_list_of_steps"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"/>

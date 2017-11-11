@@ -30,10 +30,22 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     Context mContext;
     Step[] mSteps;
+    StepLoader mCallback;
 
-    public StepAdapter(Context context, Step[] steps){
+    public StepAdapter(Context context, Step[] steps, StepLoader stepLoader){
         this.mContext = context;
         this.mSteps = steps;
+        mCallback = stepLoader;
+    }
+
+    /*
+    * This interface allows us to have the hosting activity, which is StepDisplay in this case,
+    * load a StepWatcher instance when a StepViewHolder is clicked on. It's important that
+    * StepDisplay does this since it should be left to the hosting activity to perform all
+    * FragmentTransactions and not the Fragments themselves.
+    */
+    public interface StepLoader{
+        void loadNextStep(int stepIndex);
     }
 
     @Override
@@ -62,11 +74,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     }
 
-    public void swapSteps(Step[] newSteps){
-        mSteps = newSteps;
-        notifyDataSetChanged();
-    }
-
     public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.step_list_item_description) public TextView vStepDescriptionTV;
 
@@ -76,28 +83,14 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             view.setOnClickListener(this);
         }
 
+        // This method allows us to determine when an individual step is clicked on.
         @Override
         public void onClick(View view) {
-            StepWatcher watcher = new StepWatcher();
-            Bundle b = new Bundle();
-            b.putParcelableArray(BUNDLE_KEY_ALL_STEPS, mSteps);
-            b.putInt(BUNDLE_KEY_STEP_ARRAY_INDEX, this.getAdapterPosition());
-            watcher.setArguments(b);
-
-            // TODO: You can add an transition animation to the FragmentTransaction by using
-            // setTransition(). Maybe look into playing around with this?
-            FragmentActivity activity = (FragmentActivity) mContext;
-            FragmentManager manager = activity.getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.step_display_current_step, watcher)
-                    .addToBackStack(null)
-                    .commit();
-
-            Timber.d("Contents of backstack when onClick() is called:\n");
-            for (int i = 0; i < manager.getBackStackEntryCount(); i++){
-                Timber.d("Index: " + i + "; backstack entry ID: " + manager.getBackStackEntryAt(i));
-            }
-            Timber.d("\n");
+            int stepIndex = getAdapterPosition();
+            // When the step is clicked on, we want to pass the index of the clicked step within
+            // mSteps to the StepLoader callback, which is implemented by the StepDisplay
+            // hosting activity.
+            mCallback.loadNextStep(stepIndex);
         }
 
     }

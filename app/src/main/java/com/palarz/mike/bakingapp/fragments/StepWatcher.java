@@ -1,10 +1,8 @@
 package com.palarz.mike.bakingapp.fragments;
 
-import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,7 +26,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.model.Step;
-import com.palarz.mike.bakingapp.utilities.StepAdapter;
+import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +34,6 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -49,14 +46,14 @@ public class StepWatcher extends Fragment {
     private static final String STATE_CURRENT_WINDOW = "current_window";
     private static final String STATE_PLAY_WHEN_READY = "play_when_ready";
 
-    private static final String TAG = StepWatcher.class.getSimpleName();
+    private static final String ARGS_RECIPE_ID = "recipe_id";
+    private static final String ARGS_STEP_INDEX = "step_id";
 
     @BindView(R.id.step_watcher_short_description) TextView mShortDescriptionTV;
     @BindView(R.id.step_watcher_long_description) TextView mLongDescriptionTV;
     @BindView(R.id.step_watcher_previous_button) Button mPreviousButton;
     @BindView(R.id.step_watcher_next_button) Button mNextButton;
     @BindView(R.id.step_watcher_thumbnail) ImageView mThumbnailIV;
-
     @BindView(R.id.step_watcher_player_view) SimpleExoPlayerView mPlayerView;
     SimpleExoPlayer mPlayer;
 
@@ -67,6 +64,8 @@ public class StepWatcher extends Fragment {
     String mThumbnailURL;
     Step[] mSteps;
     int mCurrentStepIndex;
+
+    Step mCurrentStep;
 
 
     public static final int [] STEP_IMAGES = {
@@ -96,10 +95,28 @@ public class StepWatcher extends Fragment {
             R.drawable.step24
     };
 
+    public StepWatcher(){
+    }
+
+    public static StepWatcher newInstance(int recipeID, int stepID){
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARGS_RECIPE_ID, recipeID);
+        arguments.putInt(ARGS_STEP_INDEX, stepID);
+
+        StepWatcher fragment = new StepWatcher();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Timber.d("onCreate() has been called");
+        Bundle arguments = getArguments();
+        int recipeID = arguments.getInt(ARGS_RECIPE_ID);
+        
+        mCurrentStepIndex = arguments.getInt(ARGS_STEP_INDEX);
+        mSteps = Bakery.get().getRecipe(recipeID).getSteps();
+        mCurrentStep = Bakery.get().getStep(recipeID, mCurrentStepIndex);
     }
 
     @Nullable
@@ -112,23 +129,18 @@ public class StepWatcher extends Fragment {
 
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
-            Parcelable[] parcelables = receivedBundle.getParcelableArray(StepAdapter.BUNDLE_KEY_ALL_STEPS);
-            mSteps = new Step[parcelables.length];
-            System.arraycopy(parcelables, 0, mSteps, 0, parcelables.length);
 
-            mCurrentStepIndex = receivedBundle.getInt(StepAdapter.BUNDLE_KEY_STEP_ARRAY_INDEX);
-            final Step currentStep = mSteps[mCurrentStepIndex];
             /*
             These views only exist if the phone is placed into portrait orientation. Therefore, we
             only want to set the text on these Views if they exist.
              */
 
             if (mShortDescriptionTV != null && mLongDescriptionTV != null){
-                mShortDescriptionTV.setText(currentStep.getShortDescription());
-                mLongDescriptionTV.setText(currentStep.getLongDescription());
+                mShortDescriptionTV.setText(mCurrentStep.getShortDescription());
+                mLongDescriptionTV.setText(mCurrentStep.getLongDescription());
             }
-            mVideoURL = currentStep.getURL();
-            mThumbnailURL = currentStep.getThumbnail();
+            mVideoURL = mCurrentStep.getURL();
+            mThumbnailURL = mCurrentStep.getThumbnail();
 
             // If we weren't provided a URL for the video, then let's at least load an image to be
             // shown in the Step
@@ -158,7 +170,7 @@ public class StepWatcher extends Fragment {
                 // from our drawables
                 if (mThumbnailURL.isEmpty()){
                     int newThumbnail = getRandomImageResource();
-                    currentStep.setThumbnail(Integer.toString(newThumbnail));
+                    mCurrentStep.setThumbnail(Integer.toString(newThumbnail));
 
                     mThumbnailIV.setImageResource(newThumbnail);
 
@@ -170,7 +182,7 @@ public class StepWatcher extends Fragment {
                 else {
                     try {
                         // First we try to see if the thumbnail String is actually a drawable
-                        mThumbnailIV.setImageResource(Integer.valueOf(currentStep.getThumbnail()));
+                        mThumbnailIV.setImageResource(Integer.valueOf(mCurrentStep.getThumbnail()));
                     }
                     catch (NumberFormatException nfe) {
                         // If it wasn't a drawable, then we will attempt to download and display
@@ -199,7 +211,7 @@ public class StepWatcher extends Fragment {
                                     @Override
                                     public void onError() {
                                         int newThumbnail = getRandomImageResource();
-                                        currentStep.setThumbnail(Integer.toString(newThumbnail));
+                                        mCurrentStep.setThumbnail(Integer.toString(newThumbnail));
                                         mThumbnailIV.setImageResource(newThumbnail);
                                     }
                                 });
@@ -222,7 +234,7 @@ public class StepWatcher extends Fragment {
 
                 // If the device is in landscape mode, then we hide all of the system UI buttons
                 // in order to have a fullscreen experience
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
                     mShortDescriptionTV.setVisibility(View.GONE);
                     mLongDescriptionTV.setVisibility(View.GONE);
                     mNextButton.setVisibility(View.GONE);
