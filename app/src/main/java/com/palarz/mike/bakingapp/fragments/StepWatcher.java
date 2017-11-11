@@ -67,7 +67,6 @@ public class StepWatcher extends Fragment {
     String mThumbnailURL;
     Step[] mSteps;
     int mCurrentStepIndex;
-    StepSwitcher mCallback;
 
 
     public static final int [] STEP_IMAGES = {
@@ -96,27 +95,6 @@ public class StepWatcher extends Fragment {
             R.drawable.step23,
             R.drawable.step24
     };
-
-    public interface StepSwitcher{
-        void switchStep(Step[] steps, int nextStepIndex);
-    }
-
-    // Override onAttach to make sure that the container activity has implemented the callback
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-        Timber.d("onAttach() has been called");
-
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
-        try {
-            mCallback = (StepSwitcher) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement StepSwitcher");
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -397,28 +375,4 @@ public class StepWatcher extends Fragment {
         return STEP_IMAGES[randomIndex];
     }
 
-    @OnClick(R.id.step_watcher_previous_button)
-    public void displayPreviousStep(){
-        int previousIndex = mCurrentStepIndex - 1;
-        if (previousIndex < 0) {
-            return;
-        }
-        mCallback.switchStep(mSteps, previousIndex);
-    }
-
-    @OnClick(R.id.step_watcher_next_button)
-    public void displayNextStep(){
-        int nextIndex = mCurrentStepIndex + 1;
-        if (nextIndex > (mSteps.length - 1)){
-            return;
-        }
-        mCallback.switchStep(mSteps, nextIndex);
-    }
-
-    // TODO: Make sure to remove this once you're done debugging
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Timber.uprootAll();
-    }
 }

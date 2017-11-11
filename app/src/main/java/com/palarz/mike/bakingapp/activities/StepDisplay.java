@@ -23,7 +23,7 @@ import timber.log.Timber;
  * Created by mpala on 10/19/2017.
  */
 
-public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSwitcher, FragmentManager.OnBackStackChangedListener {
+public class StepDisplay extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     public static final String BUNDLE_KEY_STEPS = "com.palarz.mike.bakingapp.activities.steps";
     public static final String TAG = StepDisplay.class.getSimpleName();
@@ -89,26 +89,5 @@ public class StepDisplay extends AppCompatActivity implements StepWatcher.StepSw
         else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void switchStep(Step[] steps, int nextStepIndex) {
-        StepWatcher watcher = new StepWatcher();
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArray(StepAdapter.BUNDLE_KEY_ALL_STEPS, steps);
-        bundle.putInt(StepAdapter.BUNDLE_KEY_STEP_ARRAY_INDEX, nextStepIndex);
-        watcher.setArguments(bundle);
-
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.step_display_current_step, watcher)
-                .commit();
-
-        Timber.d("Contents of backstack when switchStep() is called:\n");
-        for (int i = 0; i < manager.getBackStackEntryCount(); i++){
-            Timber.d("Index: " + i + "; backstack entry ID: " + manager.getBackStackEntryAt(i));
-        }
-        Timber.d("\n");
     }
 }
