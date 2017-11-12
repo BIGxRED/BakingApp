@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.palarz.mike.bakingapp.utilities.RecipeFetcher;
 import com.palarz.mike.bakingapp.model.Recipe;
+import com.palarz.mike.bakingapp.utilities.Utilities;
 
 import java.util.List;
 
@@ -35,8 +37,15 @@ public class RecipeSelection extends AppCompatActivity {
 
         mRecyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager recyclerViewManager = new LinearLayoutManager(this);
-        recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
+        GridLayoutManager recyclerViewManager;
+//        recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
+        if (Utilities.isTablet(this)){
+            recyclerViewManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+
+        }
+        else {
+            recyclerViewManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
+        }
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
         mAdapter = new RecipeAdapter(this, null);

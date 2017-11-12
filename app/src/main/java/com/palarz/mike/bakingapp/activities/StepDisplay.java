@@ -22,7 +22,7 @@ import static com.palarz.mike.bakingapp.utilities.StepAdapter.BUNDLE_KEY_STEP_AR
  */
 
 public class StepDisplay extends AppCompatActivity
-        implements FragmentManager.OnBackStackChangedListener, StepAdapter.StepLoader {
+        implements FragmentManager.OnBackStackChangedListener, StepAdapter.StepLoader, StepWatcher.StepSwitcher {
 
     private boolean mTwoPane;
     private int mRecipeID;
@@ -32,9 +32,10 @@ public class StepDisplay extends AppCompatActivity
     @Override
     public void onBackStackChanged() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        Timber.d("Contents of backstack with onBackStackChanged():\n");
+        Timber.d("Contents of backstack in onBackStackChanged():\n");
         for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
-            Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
+            Timber.d("Index: " + i + "; fragment transaction name: "
+                    + fragmentManager.getBackStackEntryAt(i).getName());
         }
         Timber.d("\n");
     }
@@ -64,8 +65,7 @@ public class StepDisplay extends AppCompatActivity
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .add(R.id.step_display_list_of_steps, stepSelection)
-                        .addToBackStack(null)
+                        .replace(R.id.step_display_list_of_steps, stepSelection)
                         .commit();
             }
 
@@ -77,11 +77,11 @@ public class StepDisplay extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0){
             fragmentManager.popBackStack();
-            Timber.d("Contents of backstack within onBackPressed():\n");
-            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
-                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
-            }
-            Timber.d("\n");
+            Timber.d("onBackPressed() has been called\n");
+//            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
+//                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
+//            }
+//            Timber.d("\n");
         }
         else {
             super.onBackPressed();
@@ -89,21 +89,31 @@ public class StepDisplay extends AppCompatActivity
     }
 
     @Override
-    public void loadNextStep(int stepID) {
+    public void loadNextStep(int stepIndex) {
         Timber.d("loadNextStep() has been called");
 
         if (mTwoPane){
             // We're gonna do something here, lots of things
         }
         else {
-            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepID);
+            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
 
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
                     .replace(R.id.step_display_list_of_steps, watcher)
-                    .addToBackStack(null)
+                    .addToBackStack("Remove StepSelection, add StepWatcher")
                     .commit();
 
         }
+    }
+
+    @Override
+    public void switchStep(int stepIndex) {
+        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.step_display_list_of_steps, watcher)
+                .commit();
     }
 }

@@ -59,7 +59,7 @@ public class StepSelection extends Fragment {
             mAdapterCallback = (StepAdapter.StepLoader) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement OnImageClickListener");
+                    + " must implement StepLoader");
         }
 
     }

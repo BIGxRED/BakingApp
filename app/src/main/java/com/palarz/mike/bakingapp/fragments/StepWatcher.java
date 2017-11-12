@@ -1,5 +1,6 @@
 package com.palarz.mike.bakingapp.fragments;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
 /**
@@ -64,8 +66,8 @@ public class StepWatcher extends Fragment {
     String mThumbnailURL;
     Step[] mSteps;
     int mCurrentStepIndex;
-
     Step mCurrentStep;
+    private StepSwitcher mCallback;
 
 
     public static final int [] STEP_IMAGES = {
@@ -95,17 +97,37 @@ public class StepWatcher extends Fragment {
             R.drawable.step24
     };
 
+    public interface StepSwitcher{
+        void switchStep(int stepIndex);
+    }
+
     public StepWatcher(){
     }
 
-    public static StepWatcher newInstance(int recipeID, int stepID){
+    public static StepWatcher newInstance(int recipeID, int stepIndex){
         Bundle arguments = new Bundle();
         arguments.putInt(ARGS_RECIPE_ID, recipeID);
-        arguments.putInt(ARGS_STEP_INDEX, stepID);
+        arguments.putInt(ARGS_STEP_INDEX, stepIndex);
 
         StepWatcher fragment = new StepWatcher();
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            // In this case, we first obtain a reference to the hosting activity, StepDisplay,
+            // through the context. Then, we ensure that StepDisplay has implemented the interface.
+            // Otherwise, we throw an exception.
+            mCallback = (StepSwitcher) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement StepSwitcher");
+        }
+
     }
 
     @Override
@@ -385,6 +407,14 @@ public class StepWatcher extends Fragment {
         int randomIndex = new Random().nextInt(STEP_IMAGES.length );
 
         return STEP_IMAGES[randomIndex];
+    }
+
+    @OnClick(R.id.step_watcher_next_button)
+    public void displayNextStep(){
+        if (mCurrentStepIndex < (mSteps.length - 1)){
+            mCurrentStepIndex++;
+            mCallback.switchStep(mCurrentStepIndex);
+        }
     }
 
 }
