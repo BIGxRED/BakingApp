@@ -147,7 +147,6 @@ public class StepWatcher extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Timber.d("onCreateView() has been called");
         View rootView = inflater.inflate(R.layout.fragment_step_watcher, container, false);
 
         ButterKnife.bind(this, rootView);
@@ -239,10 +238,11 @@ public class StepWatcher extends Fragment {
 
             }
 
-            // If we do have a URL for the video, then we'll hide the thumbnail ImageView and show
-            // the video instead
+            // If we do have a URL for the video, then we'll hide the system UI to provide a
+            // fullscreen experience.
             else {
                 if (Utilities.isLandscape(getContext()) && !(Utilities.isTablet(getContext()))){
+                    boolean test = Utilities.isTablet(getActivity());
                     hideSystemUI();
                 }
             }
@@ -274,16 +274,12 @@ public class StepWatcher extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Timber.d("onSaveInstanceState() has been called. Is mPlayer indeed null?: "
-                + (mPlayer == null));
-        if (mPlayer != null){
-            mPlaybackPosition = mPlayer.getCurrentPosition();
-            mCurrentWindow = mPlayer.getCurrentWindowIndex();
-            mPlayWhenReady = mPlayer.getPlayWhenReady();
-            outState.putLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION, mPlaybackPosition);
-            outState.putInt(BUNDLE_SIS_KEY_CURRENT_WINDOW, mCurrentWindow);
-            outState.putBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY, mPlayWhenReady);
-        }
+        mPlaybackPosition = mPlayer.getCurrentPosition();
+        mCurrentWindow = mPlayer.getCurrentWindowIndex();
+        mPlayWhenReady = mPlayer.getPlayWhenReady();
+        outState.putLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION, mPlaybackPosition);
+        outState.putInt(BUNDLE_SIS_KEY_CURRENT_WINDOW, mCurrentWindow);
+        outState.putBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY, mPlayWhenReady);
 
 
         super.onSaveInstanceState(outState);
@@ -307,9 +303,6 @@ public class StepWatcher extends Fragment {
             mPlayer.prepare(mediaSource, true, false);
         }
         else {
-            // TODO: See that you're already making mPlayerView GONE here? Maybe you don't have
-            // to do so many checks in onCreateView() regarding the video URL being empty
-            // because of this. Perhaps you can simplify onCreateView()?
             mPlayerView.setVisibility(View.GONE);
         }
     }
@@ -345,41 +338,33 @@ public class StepWatcher extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        Timber.d("onStart() has been called.");
         if (Util.SDK_INT > 23){
             initializePlayer();
         }
-        Timber.d("Is mPlayer initialized?: " + (mPlayer != null));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Timber.d("onResume() has been called.");
         if (Util.SDK_INT <= 23 || mPlayer == null){
             initializePlayer();
         }
-        Timber.d("Is mPlayer initialized?: " + (mPlayer != null));
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Timber.d("onPause() has been called.");
         if (Util.SDK_INT <= 23){
             releasePlayer();
         }
-        Timber.d("Is mPlayer indeed null?: " + (mPlayer == null));
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Timber.d("onStop() has been called.");
         if (Util.SDK_INT > 23){
             releasePlayer();
         }
-        Timber.d("Is mPlayer indeed null?: " + (mPlayer == null));
     }
 
     public int getRandomImageResource(){

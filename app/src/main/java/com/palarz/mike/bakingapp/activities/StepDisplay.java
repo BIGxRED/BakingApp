@@ -78,9 +78,18 @@ public class StepDisplay extends AppCompatActivity
             mRecipeID = savedInstanceState.getInt(BUNDLE_SIS_KEY_RECIPE_ID);
         }
 
-//        if (findViewById(R.id.step_display_tablet_contents) != null){
-//            mTwoPane = true;
-//        }
+        // All of the previous setup applies to both a handset and a tablet. Additional setup is
+        // required for the tablet.
+        if (findViewById(R.id.step_display_tablet_contents) != null){
+            mTwoPane = true;
+
+            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, 0);
+
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.step_display_tablet_video, watcher)
+                    .commit();
+        }
     }
 
 
@@ -115,7 +124,12 @@ public class StepDisplay extends AppCompatActivity
     public void loadNextStep(int stepIndex) {
 
         if (mTwoPane){
-            // We're gonna do something here, lots of things
+            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.step_display_tablet_video, watcher)
+                    .commit();
         }
         else {
             StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
