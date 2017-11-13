@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.google.android.exoplayer2.util.Util;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
@@ -40,13 +41,19 @@ public class RecipeSelection extends AppCompatActivity {
 
 
         GridLayoutManager recyclerViewManager;
-        if (Utilities.isTablet(this)){
-            recyclerViewManager = new GridLayoutManager(this, 3);
-        }
-        else {
-            recyclerViewManager = new GridLayoutManager(this, 1);
-        }
-        recyclerViewManager.setOrientation(GridLayoutManager.VERTICAL);
+
+        /*
+         If we determine that the device is in landscape, then we will set the layout manager to
+         be horizontal and use 2 rows. Otherwise, we will set it to be a vertical layout and use
+         2 columns.
+          */
+            if (Utilities.isLandscape(this)){
+                recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
+            }
+            else {
+                recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
+            }
+
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
         mAdapter = new RecipeAdapter(this, null);
