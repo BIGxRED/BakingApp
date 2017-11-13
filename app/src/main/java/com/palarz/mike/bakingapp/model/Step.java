@@ -85,6 +85,15 @@ public class Step implements Parcelable {
                 + mLongDescription + "\nURL: " + mURL + "\nThumbnail address: " + mThumbnail;
     }
 
+    // A helper method which checks if two Step objects are exactly the same
+    public static boolean sameStep(Step step1, Step step2){
+        return (step1.getID() == step2.getID())
+                && step1.getShortDescription().equals(step2.getShortDescription())
+                && step1.getLongDescription().equals(step2.getLongDescription())
+                && step1.getURL().equals(step2.getURL())
+                && step1.getThumbnail().equals(step2.getThumbnail());
+    }
+
     /* Methods required for the parcelable interface*/
 
     //A method which specifies if special Objects are being "flattened" into a Parcel, such as an

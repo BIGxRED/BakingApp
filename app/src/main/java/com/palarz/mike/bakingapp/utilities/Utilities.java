@@ -1,6 +1,7 @@
 package com.palarz.mike.bakingapp.utilities;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -44,6 +45,14 @@ public class Utilities {
 
         // Finally, we compare the smaller dimension to 600dp
         return smallestWidth >= TABLET_SMALLEST_WIDTH;
+    }
+
+    /*
+    A helper method which determines if the device is in landscape orientation.
+     */
+    public static boolean isLandscape(Context context){
+        return context.getResources().getConfiguration().orientation ==
+                Configuration.ORIENTATION_LANDSCAPE;
     }
 
 }

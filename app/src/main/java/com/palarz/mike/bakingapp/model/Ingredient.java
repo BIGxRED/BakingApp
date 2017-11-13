@@ -2,6 +2,7 @@ package com.palarz.mike.bakingapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.InflateException;
 
 /**
  * Created by mpala on 10/3/2017.
@@ -136,6 +137,13 @@ public class Ingredient implements Parcelable {
                 mUnit = originalUnit + " of";
                 return mUnit;
         }
+    }
+
+    // A helper method which determine if two Ingredients are exactly the same
+    public static boolean sameIngredients(Ingredient ingredient1, Ingredient ingredient2){
+        return ingredient1.getQuantity() == ingredient2.getQuantity()
+                && ingredient1.getDescription().equals(ingredient2.getDescription())
+                && ingredient1.getMeasure().equals(ingredient2.getMeasure());
     }
 
     //Methods necessary to implement the Parcelable interface

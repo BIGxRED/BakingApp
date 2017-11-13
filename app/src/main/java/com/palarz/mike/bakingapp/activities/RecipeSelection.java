@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.palarz.mike.bakingapp.R;
+import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.palarz.mike.bakingapp.utilities.RecipeFetcher;
 import com.palarz.mike.bakingapp.model.Recipe;
@@ -37,15 +38,15 @@ public class RecipeSelection extends AppCompatActivity {
 
         mRecyclerView.setHasFixedSize(true);
 
-        GridLayoutManager recyclerViewManager;
-//        recyclerViewManager.setOrientation(LinearLayoutManager.VERTICAL);
-        if (Utilities.isTablet(this)){
-            recyclerViewManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
 
+        GridLayoutManager recyclerViewManager;
+        if (Utilities.isTablet(this)){
+            recyclerViewManager = new GridLayoutManager(this, 3);
         }
         else {
-            recyclerViewManager = new GridLayoutManager(this, 1, GridLayoutManager.VERTICAL, false);
+            recyclerViewManager = new GridLayoutManager(this, 1);
         }
+        recyclerViewManager.setOrientation(GridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
         mAdapter = new RecipeAdapter(this, null);
@@ -64,7 +65,7 @@ public class RecipeSelection extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Recipe> fetchedRecipes) {
-            if (fetchedRecipes.size() > 0){
+            if (fetchedRecipes.size() > 0 ){
                 mAdapter.swapRecipes(fetchedRecipes);
             }
         }

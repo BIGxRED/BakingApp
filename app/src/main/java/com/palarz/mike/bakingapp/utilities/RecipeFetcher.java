@@ -123,8 +123,16 @@ public class RecipeFetcher {
             int servings = jsonRecipe.getInt(JSON_KEY_SERVINGS);
             String image = jsonRecipe.getString(JSON_KEY_IMAGE);
             Recipe currentRecipe = new Recipe(recipeID, recipeName, ingredients, steps, servings, image);
-            Timber.d("Current recipe added: \n" + currentRecipe.toString());
-            recipesList.add(currentRecipe);
+
+
+            /*
+             We only want to add the Recipe to our Bakery if it hasn't been added before. Therefore,
+             we ensure this by checking within this if statement.
+              */
+            if (Bakery.get().isNewRecipe(currentRecipe)){
+                Timber.d("Current recipe added: \n" + currentRecipe.toString());
+                recipesList.add(currentRecipe);
+            }
         }
     }
 

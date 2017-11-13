@@ -19,14 +19,13 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by mpala on 9/30/2017.
  */
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-
-    private static final String TAG = RecipeAdapter.class.getSimpleName();
 
     public static final String EXTRA_RECIPE_ID = "com.palarz.mike.bakingapp.recipe_id";
 
@@ -65,6 +64,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         if (mRecipeList == null){
             return 0;
         }
+        Timber.d("Number of items in RecipeAdapter: " + mRecipeList.size());
         return mRecipeList.size();
     }
 
