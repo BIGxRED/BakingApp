@@ -64,20 +64,6 @@ public class Bakery {
         }
     }
 
-//    public boolean newRecipes(List<Recipe> newRecipes){
-//        boolean isNewData = false;
-//
-//        for (Recipe currentRecipe: mRecipes){
-//            for (Recipe newRecipe : newRecipes){
-//                if (Recipe.sameRecipe(currentRecipe, newRecipe)){
-//                    isNewData = true;
-//                    break;
-//                }
-//            }
-//        }
-//        return isNewData;
-//    }
-
     /*
      This is a helper method which ensures that every Recipe that is added to the Bakery is unique.
      This method is useful because every time we use fetchRecipes() within RecipeFetcher, we are

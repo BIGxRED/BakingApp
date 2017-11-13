@@ -1,7 +1,6 @@
 package com.palarz.mike.bakingapp.fragments;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +27,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.model.Step;
 import com.palarz.mike.bakingapp.utilities.Bakery;
+import com.palarz.mike.bakingapp.utilities.Utilities;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -44,9 +44,10 @@ import timber.log.Timber;
 
 public class StepWatcher extends Fragment {
 
-    private static final String STATE_PLAYBACK_POSITION = "playback_position";
-    private static final String STATE_CURRENT_WINDOW = "current_window";
-    private static final String STATE_PLAY_WHEN_READY = "play_when_ready";
+    // Keys used for the Bundle within onSaveInstanceState()
+    private static final String BUNDLE_SIS_KEY_PLAYBACK_POSITION = "playback_position";
+    private static final String BUNDLE_SIS_KEY_CURRENT_WINDOW = "current_window";
+    private static final String BUNDLE_SIS_KEY_PLAY_WHEN_READY = "play_when_ready";
 
     private static final String ARGS_RECIPE_ID = "recipe_id";
     private static final String ARGS_STEP_INDEX = "step_id";
@@ -114,6 +115,8 @@ public class StepWatcher extends Fragment {
         return fragment;
     }
 
+    // We've overriden onAttach() to ensure that the hosting activity has implemented the
+    // StepSwitcher interface.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -152,15 +155,8 @@ public class StepWatcher extends Fragment {
         Bundle receivedBundle = this.getArguments();
         if (receivedBundle != null){
 
-            /*
-            These views only exist if the phone is placed into portrait orientation. Therefore, we
-            only want to set the text on these Views if they exist.
-             */
-
-            if (mShortDescriptionTV != null && mLongDescriptionTV != null){
-                mShortDescriptionTV.setText(mCurrentStep.getShortDescription());
-                mLongDescriptionTV.setText(mCurrentStep.getLongDescription());
-            }
+            mShortDescriptionTV.setText(mCurrentStep.getShortDescription());
+            mLongDescriptionTV.setText(mCurrentStep.getLongDescription());
             mVideoURL = mCurrentStep.getURL();
             mThumbnailURL = mCurrentStep.getThumbnail();
 
@@ -176,9 +172,6 @@ public class StepWatcher extends Fragment {
                 (match_parent for both width and height). All of the other views are GONE by default.
                 However, if we don't have a video URL, then we'd at least want to see the thumbnail
                 and all of the other views.
-
-                This is why we are being so explicit on which views are GONE and VISIBLE under this
-                scenario.
                  */
                 mThumbnailIV.setVisibility(View.VISIBLE);
                 mShortDescriptionTV.setVisibility(View.VISIBLE);
@@ -249,33 +242,16 @@ public class StepWatcher extends Fragment {
             // If we do have a URL for the video, then we'll hide the thumbnail ImageView and show
             // the video instead
             else {
-
-                mThumbnailIV.setVisibility(View.GONE);
-                mPlayerView.setVisibility(View.VISIBLE);
-
-
-                // If the device is in landscape mode, then we hide all of the system UI buttons
-                // in order to have a fullscreen experience
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ){
-                    mShortDescriptionTV.setVisibility(View.GONE);
-                    mLongDescriptionTV.setVisibility(View.GONE);
-                    mNextButton.setVisibility(View.GONE);
-                    mPreviousButton.setVisibility(View.GONE);
+                if (Utilities.isLandscape(getContext()) && !(Utilities.isTablet(getContext()))){
                     hideSystemUI();
-                }
-                else {
-                    mShortDescriptionTV.setVisibility(View.VISIBLE);
-                    mLongDescriptionTV.setVisibility(View.VISIBLE);
-                    mNextButton.setVisibility(View.VISIBLE);
-                    mPreviousButton.setVisibility(View.VISIBLE);
                 }
             }
         }
 
         if (savedInstanceState != null){
-            mPlaybackPosition = savedInstanceState.getLong(STATE_PLAYBACK_POSITION);
-            mCurrentWindow = savedInstanceState.getInt(STATE_CURRENT_WINDOW);
-            mPlayWhenReady = savedInstanceState.getBoolean(STATE_PLAY_WHEN_READY);
+            mPlaybackPosition = savedInstanceState.getLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION);
+            mCurrentWindow = savedInstanceState.getInt(BUNDLE_SIS_KEY_CURRENT_WINDOW);
+            mPlayWhenReady = savedInstanceState.getBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY);
         }
 
         /* Finally, we only want to show the next and previous buttons if we aren't close to the
@@ -300,12 +276,15 @@ public class StepWatcher extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         Timber.d("onSaveInstanceState() has been called. Is mPlayer indeed null?: "
                 + (mPlayer == null));
-        mPlaybackPosition = mPlayer.getCurrentPosition();
-        mCurrentWindow = mPlayer.getCurrentWindowIndex();
-        mPlayWhenReady = mPlayer.getPlayWhenReady();
-        outState.putLong(STATE_PLAYBACK_POSITION, mPlaybackPosition);
-        outState.putInt(STATE_CURRENT_WINDOW, mCurrentWindow);
-        outState.putBoolean(STATE_PLAY_WHEN_READY, mPlayWhenReady);
+        if (mPlayer != null){
+            mPlaybackPosition = mPlayer.getCurrentPosition();
+            mCurrentWindow = mPlayer.getCurrentWindowIndex();
+            mPlayWhenReady = mPlayer.getPlayWhenReady();
+            outState.putLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION, mPlaybackPosition);
+            outState.putInt(BUNDLE_SIS_KEY_CURRENT_WINDOW, mCurrentWindow);
+            outState.putBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY, mPlayWhenReady);
+        }
+
 
         super.onSaveInstanceState(outState);
     }

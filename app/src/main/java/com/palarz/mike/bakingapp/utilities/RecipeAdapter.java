@@ -64,7 +64,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         if (mRecipeList == null){
             return 0;
         }
-        Timber.d("Number of items in RecipeAdapter: " + mRecipeList.size());
         return mRecipeList.size();
     }
 

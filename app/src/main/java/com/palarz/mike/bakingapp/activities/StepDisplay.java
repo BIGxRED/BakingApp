@@ -24,6 +24,9 @@ import static com.palarz.mike.bakingapp.utilities.StepAdapter.BUNDLE_KEY_STEP_AR
 public class StepDisplay extends AppCompatActivity
         implements FragmentManager.OnBackStackChangedListener, StepAdapter.StepLoader, StepWatcher.StepSwitcher {
 
+    // A key that is used for the Bundle created within onSaveInstanceState()
+    private static final String BUNDLE_SIS_KEY_RECIPE_ID = "step_display_recipe_id";
+
     private boolean mTwoPane;
     private int mRecipeID;
 
@@ -68,8 +71,28 @@ public class StepDisplay extends AppCompatActivity
                         .replace(R.id.step_display_list_of_steps, stepSelection)
                         .commit();
             }
-
         }
+        else {
+            // Otherwise, if savedInstanceState does exist, then we extract mRecipeID from the
+            // Bundle so that we have it on hand.
+            mRecipeID = savedInstanceState.getInt(BUNDLE_SIS_KEY_RECIPE_ID);
+        }
+
+//        if (findViewById(R.id.step_display_tablet_contents) != null){
+//            mTwoPane = true;
+//        }
+    }
+
+
+    /*
+    We ensure that mRecipeID is saved so that it can retrieved after an orientation change. This is
+    necessary since certain parts of StepDisplay depend on mRecipeID, such as in loadNextStep() for
+    the StepAdapter.StepLoader interface.
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(BUNDLE_SIS_KEY_RECIPE_ID, mRecipeID);
     }
 
     @Override
@@ -90,7 +113,6 @@ public class StepDisplay extends AppCompatActivity
 
     @Override
     public void loadNextStep(int stepIndex) {
-        Timber.d("loadNextStep() has been called");
 
         if (mTwoPane){
             // We're gonna do something here, lots of things
