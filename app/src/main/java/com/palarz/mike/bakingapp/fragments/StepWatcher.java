@@ -381,4 +381,12 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    @OnClick(R.id.step_watcher_previous_button)
+    public void displayPreviousStep(){
+        if (mCurrentStepIndex > 0){
+            mCurrentStepIndex--;
+            mCallback.switchStep(mCurrentStepIndex);
+        }
+    }
+
 }

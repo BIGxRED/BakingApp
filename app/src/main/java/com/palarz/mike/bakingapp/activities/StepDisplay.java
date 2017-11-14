@@ -105,7 +105,7 @@ public class StepDisplay extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0){
-//            fragmentManager.popBackStack();
+            fragmentManager.popBackStack();
 
             // Tutor's solution
 //            fragmentManager.popBackStack(StepWatcher.class.getSimpleName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -148,19 +148,19 @@ public class StepDisplay extends AppCompatActivity
 
     @Override
     public void switchStep(int stepIndex) {
-//        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
-//
-//        FragmentManager manager = getSupportFragmentManager();
-//        manager.beginTransaction()
-//                .replace(R.id.step_display_list_of_steps, watcher)
-//                .commit();
-
-        // Tutor's solution
         StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.step_display_list_of_steps, watcher)
-                .addToBackStack(StepWatcher.class.getSimpleName())
                 .commit();
+
+        // Tutor's solution
+//        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+//        FragmentManager manager = getSupportFragmentManager();
+//        manager.beginTransaction()
+//                .replace(R.id.step_display_list_of_steps, watcher)
+//                .addToBackStack(StepWatcher.class.getSimpleName())
+//                .commit();
     }
 }
