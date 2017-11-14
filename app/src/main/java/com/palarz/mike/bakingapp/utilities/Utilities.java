@@ -2,8 +2,7 @@ package com.palarz.mike.bakingapp.utilities;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
+import com.palarz.mike.bakingapp.R;
 
 /*
 This is a helper class that includes methods that are used throughout the app.
@@ -19,32 +18,8 @@ public class Utilities {
     system UI or not when in landscape orientation).
      */
     public static boolean isTablet(Context context){
-        // First we create a DisplayMetrics object
-        DisplayMetrics metrics = new DisplayMetrics();
 
-        // We then obtain a reference to the current WindowManager and reset metrics to the current
-        // display metrics
-        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        manager.getDefaultDisplay().getMetrics(metrics);
-
-        // We then obtain the absolute number of pixels for both the width and height; however,
-        // these are the absolute values, which are dependent on both the size and type of screen.
-        int widthPixels = metrics.widthPixels;
-        int heightPixels = metrics.heightPixels;
-
-        // In order to convert the height and width into pixels, we can use the scale factor from
-        // our DisplayMetrics object.
-        float densityScaleFactor = metrics.density;
-
-        // Therefore, we convert the width and height into dips...
-        float widthDips = widthPixels / densityScaleFactor;
-        float heightDips = heightPixels / densityScaleFactor;
-
-        // ...and determine which of the dimensions is smaller.
-        float smallestWidth = Math.min(widthDips, heightDips);
-
-        // Finally, we compare the smaller dimension to 600dp
-        return smallestWidth >= TABLET_SMALLEST_WIDTH;
+        return context.getResources().getBoolean(R.bool.isTablet);
     }
 
     /*
