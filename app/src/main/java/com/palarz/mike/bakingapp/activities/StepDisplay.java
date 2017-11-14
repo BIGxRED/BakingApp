@@ -3,7 +3,6 @@ package com.palarz.mike.bakingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -14,8 +13,6 @@ import com.palarz.mike.bakingapp.utilities.StepAdapter;
 
 import timber.log.Timber;
 
-import static com.palarz.mike.bakingapp.utilities.StepAdapter.BUNDLE_KEY_ALL_STEPS;
-import static com.palarz.mike.bakingapp.utilities.StepAdapter.BUNDLE_KEY_STEP_ARRAY_INDEX;
 
 /**
  * Created by mpala on 10/19/2017.
@@ -68,7 +65,7 @@ public class StepDisplay extends AppCompatActivity
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.step_display_list_of_steps, stepSelection)
+                        .replace(R.id.step_display_list_of_steps, stepSelection, StepSelection.class.getSimpleName())
                         .commit();
             }
         }
@@ -108,8 +105,12 @@ public class StepDisplay extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0){
-            fragmentManager.popBackStack();
-            Timber.d("onBackPressed() has been called\n");
+//            fragmentManager.popBackStack();
+
+            // Tutor's solution
+//            fragmentManager.popBackStack(StepWatcher.class.getSimpleName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//            Timber.d("onBackPressed() has been called\n");
+
 //            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
 //                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
 //            }
@@ -136,20 +137,30 @@ public class StepDisplay extends AppCompatActivity
 
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction()
-                    .replace(R.id.step_display_list_of_steps, watcher)
+                    .replace(R.id.step_display_list_of_steps, watcher, StepWatcher.class.getSimpleName())
                     .addToBackStack("Remove StepSelection, add StepWatcher")
                     .commit();
+            // Tutor's solutiom
+//            switchStep(stepIndex);
 
         }
     }
 
     @Override
     public void switchStep(int stepIndex) {
-        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+//        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+//
+//        FragmentManager manager = getSupportFragmentManager();
+//        manager.beginTransaction()
+//                .replace(R.id.step_display_list_of_steps, watcher)
+//                .commit();
 
+        // Tutor's solution
+        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
                 .replace(R.id.step_display_list_of_steps, watcher)
+                .addToBackStack(StepWatcher.class.getSimpleName())
                 .commit();
     }
 }
