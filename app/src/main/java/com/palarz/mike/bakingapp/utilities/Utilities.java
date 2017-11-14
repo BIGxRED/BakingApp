@@ -9,7 +9,6 @@ This is a helper class that includes methods that are used throughout the app.
  */
 public class Utilities {
 
-    // Value that I'm using for the smallest width of a tablet
     public static final int TABLET_SMALLEST_WIDTH = 600;
 
     /*
