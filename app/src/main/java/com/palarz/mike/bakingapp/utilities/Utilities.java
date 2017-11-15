@@ -9,8 +9,6 @@ This is a helper class that includes methods that are used throughout the app.
  */
 public class Utilities {
 
-    public static final int TABLET_SMALLEST_WIDTH = 600;
-
     /*
     This is a helper method used to to determine if the display is a tablet. This method is useful
     in both RecipeSelection (to change the number of columns) and StepWatcher (whether to hide the

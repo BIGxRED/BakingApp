@@ -105,10 +105,12 @@ public class StepDisplay extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0){
+            // My original solution
             fragmentManager.popBackStack();
 
             // Tutor's solution
-//            fragmentManager.popBackStack(StepWatcher.class.getSimpleName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            fragmentManager.popBackStack(StepWatcher.class.getSimpleName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
 //            Timber.d("onBackPressed() has been called\n");
 
 //            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
@@ -133,34 +135,36 @@ public class StepDisplay extends AppCompatActivity
                     .commit();
         }
         else {
-            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+            // My original solution
+//            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+//            FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction()
+//                    .replace(R.id.step_display_list_of_steps, watcher, StepWatcher.class.getSimpleName())
+//                    .addToBackStack("Remove StepSelection, add StepWatcher")
+//                    .commit();
 
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.step_display_list_of_steps, watcher, StepWatcher.class.getSimpleName())
-                    .addToBackStack("Remove StepSelection, add StepWatcher")
-                    .commit();
             // Tutor's solutiom
-//            switchStep(stepIndex);
+            switchStep(stepIndex);
 
         }
     }
 
     @Override
     public void switchStep(int stepIndex) {
-        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
-
-        FragmentManager manager = getSupportFragmentManager();
-        manager.beginTransaction()
-                .replace(R.id.step_display_list_of_steps, watcher)
-                .commit();
-
-        // Tutor's solution
+        // My original solution
 //        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+//
 //        FragmentManager manager = getSupportFragmentManager();
 //        manager.beginTransaction()
 //                .replace(R.id.step_display_list_of_steps, watcher)
-//                .addToBackStack(StepWatcher.class.getSimpleName())
 //                .commit();
+
+        // Tutor's solution
+        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+        FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction()
+                .replace(R.id.step_display_list_of_steps, watcher)
+                .addToBackStack(StepWatcher.class.getSimpleName())
+                .commit();
     }
 }
