@@ -67,7 +67,7 @@ public class RecipeSelection extends AppCompatActivity {
 
         @Override
         protected List<Recipe> doInBackground(Void... voids) {
-            return new RecipeFetcher().fetchRecipes();
+            return new RecipeFetcher().fetchRecipes(getApplicationContext());
         }
 
         @Override

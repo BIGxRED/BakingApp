@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="@android:color/white">
+
+    <ListView
+        android:id="@+id/app_widget_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
 
     <TextView
-        android:id="@+id/app_widget_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello world!"
-        android:textSize="16sp"/>
+        android:id="@+id/app_widget_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/app_widget_empty_view_text"
+        android:textSize="@dimen/app_widget_empty_view_text_size"/>
 
-</LinearLayout>
+
+</FrameLayout>

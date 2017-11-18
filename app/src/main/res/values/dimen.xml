@@ -29,4 +29,13 @@
     <dimen name="step_watcher_player_height">320dp</dimen>
     <dimen name="step_watcher_thumbnail_height_landscape">240dp</dimen>
 
+    <!--Dimensions necessary for the app widget-->
+    <dimen name="app_widget_provider_minimum_width">80dp</dimen>
+    <dimen name="app_widget_provider_minimum_height">100dp</dimen>
+    <dimen name="app_widget_provider_minimum_resize_width">40dp</dimen>
+    <dimen name="app_widget_provider_minimum_resize_height">80dp</dimen>
+    <dimen name="app_widget_empty_view_text_size">16sp</dimen>
+    <dimen name="app_widget_list_item_recipe_name_text_size">14sp</dimen>
+    <dimen name="app_widget_list_item_margin">8dp</dimen>
+    <dimen name="app_widget_list_item_padding">16dp</dimen>
 </resources>

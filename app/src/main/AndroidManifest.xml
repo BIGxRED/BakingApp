@@ -35,6 +35,9 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_provider"/>
         </receiver>
-    </application>
 
+        <service android:name=".widget.GroceryListRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+    </application>
 </manifest>

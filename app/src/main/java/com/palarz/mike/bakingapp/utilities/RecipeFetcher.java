@@ -1,12 +1,16 @@
 package com.palarz.mike.bakingapp.utilities;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
+import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.model.Ingredient;
 import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.model.Step;
+import com.palarz.mike.bakingapp.widget.GroceryListAppWidgetProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,7 +89,7 @@ public class RecipeFetcher {
         }
     }
 
-    private void parseRecipes(String httpResponse, List recipesList) throws JSONException {
+    private void parseRecipes(Context context, String httpResponse, List recipesList) throws JSONException {
         JSONArray jsonResults = new JSONArray(httpResponse);
 
         for (int i = 0; i < jsonResults.length(); i++){
@@ -134,13 +138,19 @@ public class RecipeFetcher {
                 recipesList.add(currentRecipe);
             }
         }
+
+        // TODO: I'm a bit weary of this... Keep on eye on this part
+        // After all of this is complete, we ensure that our widget also contains the latest data
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(context, GroceryListAppWidgetProvider.class));
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.app_widget_list_view);
     }
 
-    public List<Recipe> fetchRecipes(){
+    public List<Recipe> fetchRecipes(Context context){
         List<Recipe> recipes = Bakery.get().getRecipes();
         try {
             String httpResponse = getHTTPResponse(buildURL());
-            parseRecipes(httpResponse, recipes);
+            parseRecipes(context, httpResponse, recipes);
         }
         catch(IOException ioe){
             ioe.printStackTrace();

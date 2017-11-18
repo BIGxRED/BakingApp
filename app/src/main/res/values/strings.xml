@@ -1,14 +1,25 @@
 <resources>
     <string name="app_name">BakingApp</string>
+
+    <!--Default recipe name for RecipeSelection-->
     <string name="default_recipe_name">Unknown Recipe</string>
+
+    <!--Strings needed for RecipeDetails-->
     <string name="recipe_details_name_testing">Banana Cream Pie</string>
     <string name="recipe_details_ingredients_testing">Step 1: Mix eggs\nStep 2: Add flour</string>
     <string name="recipe_details_ingredients_heading">Ingredients</string>
     <string name="recipe_details_start_cooking_button_text">Let\'s start cooking!</string>
+
+    <!--String used for testing for the StepAdapter ViewHolder-->
     <string name="Step_list_item_text_testing">Step 1: Mix eggs</string>
+
+    <!--Strings needed for the StepWatcher class-->
     <string name="step_watcher_short_description_testing">Cut the bananas</string>
     <string name="step_watcher_long_description_testing">Peel the banananes and cut them into quarter-inch size pieces.</string>
-    <string name="step_watcher_player_uri_testing">https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4</string>
     <string name="step_watcher_previous_button_text">Previous</string>
     <string name="step_watcher_next_button_text">Next</string>
+
+    <!--Strings needed for the widget layout-->
+    <string name="app_widget_empty_view_text">No recipes available</string>
+
 </resources>
