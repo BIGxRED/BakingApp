@@ -73,6 +73,8 @@ class GroceryListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         */
         Bundle extras = new Bundle();
         extras.putInt(RecipeAdapter.EXTRA_RECIPE_ID, currentRecipe.getID());
+        extras.putString(GroceryListAppWidgetProvider.GROCERY_LIST_CONTENTS, currentRecipe.printIngredients());
+        extras.putInt(RecipeAdapter.EXTRA_RECIPE_ID, currentRecipe.getID());
         /*
         We then create an Intent that contains the extras and set the fill-in Intent to the
         individual list item of the ListView.

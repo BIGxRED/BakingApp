@@ -3,6 +3,7 @@ package com.palarz.mike.bakingapp.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -11,12 +12,44 @@ import android.widget.RemoteViews;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.activities.RecipeDetails;
 import com.palarz.mike.bakingapp.activities.RecipeSelection;
+import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
+
+import timber.log.Timber;
 
 /**
  * Created by mpala on 11/15/2017.
  */
 
 public class GroceryListAppWidgetProvider extends AppWidgetProvider {
+
+    public static final String GROCERY_LIST_ACTION = "com.palarz.mike.bakingapp.GROCERY_LIST_ACTION";
+    public static final String GROCERY_LIST_CONTENTS = "com.palarz.mike.bakingapp.GROCERY_LIST_CONTENTS";
+
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        if (intent.getAction().equals(GROCERY_LIST_ACTION)){
+            int appWidgetID = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+            String groceries = intent.getStringExtra(GROCERY_LIST_CONTENTS);
+            int recipeID = intent.getIntExtra(RecipeAdapter.EXTRA_RECIPE_ID, -1);
+
+            RemoteViews updatedView = new RemoteViews(context.getPackageName(), R.layout.app_widget);
+            updatedView.setTextViewText(R.id.app_widget_groceries_list, groceries);
+
+            Intent onClickIntent = new Intent(context, RecipeDetails.class);
+            onClickIntent.putExtra(RecipeAdapter.EXTRA_RECIPE_ID, recipeID);
+
+            PendingIntent onClickPendingIntent =
+                    PendingIntent.getActivity(context, 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            updatedView.setOnClickPendingIntent(R.id.app_widget_groceries_list, onClickPendingIntent);
+
+            manager.updateAppWidget(appWidgetID, updatedView);
+        }
+
+        super.onReceive(context, intent);
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -55,14 +88,15 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
             template for the entire ListView. Then, a fill-in Intent is created for each item
             within the ListView in the GroceryListViewsService.
              */
-            Intent intentTemplate = new Intent(context, RecipeDetails.class);
-            PendingIntent pendingIntentTemplate = PendingIntent.getActivity(
+            Intent intentTemplate = new Intent(context, GroceryListAppWidgetProvider.class);
+            intentTemplate.setAction(GROCERY_LIST_ACTION);
+            intentTemplate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            PendingIntent pendingIntentTemplate = PendingIntent.getBroadcast(
                     context, 0, intentTemplate, PendingIntent.FLAG_UPDATE_CURRENT);
             remoteViews.setPendingIntentTemplate(R.id.app_widget_list_view, pendingIntentTemplate);
 
             // Finally, we tell the AppWidgetManager to update the current widget within the array
             appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);
-
         }
     }
 }

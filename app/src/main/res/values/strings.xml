@@ -21,5 +21,6 @@
 
     <!--Strings needed for the widget layout-->
     <string name="app_widget_empty_view_text">No recipes available</string>
+    <string name="app_widget_groceries_list_default_contents">Please click on a recipe to load your groceries list.</string>
 
 </resources>

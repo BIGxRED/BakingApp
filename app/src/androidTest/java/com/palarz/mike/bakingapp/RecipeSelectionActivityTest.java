@@ -129,7 +129,7 @@ public class RecipeSelectionActivityTest {
         // We then ensure that the correct class was launched
         intended(hasComponent(RecipeDetails.class.getName()));
         // We also ensure that the Intent had the right Extra key value
-        intended(hasExtraWithKey(RecipeAdapter.EXTRA_RECIPE));
+        intended(hasExtraWithKey(RecipeAdapter.EXTRA_RECIPE_ID));
     }
 
 }
