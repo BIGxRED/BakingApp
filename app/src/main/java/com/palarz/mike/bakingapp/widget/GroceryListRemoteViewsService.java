@@ -1,6 +1,9 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity
+ */
+
 package com.palarz.mike.bakingapp.widget;
 
-import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +17,8 @@ import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 
 import java.util.List;
 
-/**
- * Created by mpala on 11/16/2017.
- */
-
 public class GroceryListRemoteViewsService extends RemoteViewsService {
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new GroceryListRemoteViewsFactory(this.getApplicationContext());
@@ -62,19 +62,21 @@ class GroceryListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
             return null;
         }
 
-        // Otherwise, we will setup the RemoteView for the currentRecipe
+        // Otherwise, we will setup the RemoteView for the currentRecipe...
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.app_widget_list_item);
+
+        //...and set the recipe name for the current list item.
         remoteViews.setTextViewText(R.id.app_widget_list_item_recipe_name, currentRecipe.getName());
 
         /*
-        In order to allow for each recipe to launch the appropriate instance of RecipeDetails,
-        we must create a fill-in Intent. To do so, we first create a Bundle which contains whatever
-        data is needed to launch RecipeDetails.
+        In order for the grocery list TextView to be updated each time a recipe is clicked, we
+        must create a fill-in Intent. To do so, we first create a Bundle which contains whatever
+        data is needed for this Intent.
         */
         Bundle extras = new Bundle();
         extras.putInt(RecipeAdapter.EXTRA_RECIPE_ID, currentRecipe.getID());
         extras.putString(GroceryListAppWidgetProvider.GROCERY_LIST_CONTENTS, currentRecipe.printIngredients());
-        extras.putInt(RecipeAdapter.EXTRA_RECIPE_ID, currentRecipe.getID());
+
         /*
         We then create an Intent that contains the extras and set the fill-in Intent to the
         individual list item of the ListView.
