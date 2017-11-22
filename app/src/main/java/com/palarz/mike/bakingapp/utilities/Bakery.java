@@ -87,4 +87,22 @@ public class Bakery {
         return true;
     }
 
+    /*
+    This is a helper method which is useful for adding in the new Recipes once we have finished
+    processing the HTTP response of the JSON data.
+     */
+    public void addRecipes(List<Recipe> newRecipes){
+        // If the size of the list is 0 or it is null, we won't do anything
+        if (newRecipes.size() == 0 || newRecipes == null){
+            return;
+        }
+
+        // Otherwise, we only add the Recipes to the Bakery if they're new
+        for (Recipe currentRecipe : newRecipes){
+            if (isNewRecipe(currentRecipe)){
+                mRecipes.add(currentRecipe);
+            }
+        }
+    }
+
 }

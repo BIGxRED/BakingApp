@@ -3,6 +3,8 @@ package com.palarz.mike.bakingapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by mpala on 9/30/2017.
  */
@@ -16,11 +18,22 @@ public class Recipe implements Parcelable {
     public static final String RECIPE_YELLOW_CAKE = "Yellow Cake";
     public static final String RECIPE_CHEESECAKE = "Cheesecake";
 
+    @SerializedName("id")
     int mID;
+
+    @SerializedName("name")
     String mName;
+
+    @SerializedName("ingredients")
     Ingredient[] mIngredients;
+
+    @SerializedName("steps")
     Step[] mSteps;
+
+    @SerializedName("servings")
     int mServings;
+
+    @SerializedName("image")
     String mImage;
 
     public Recipe(){

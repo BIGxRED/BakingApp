@@ -4,14 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.InflateException;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by mpala on 10/3/2017.
  */
 
 public class Ingredient implements Parcelable {
 
+    @SerializedName("quantity")
     double mQuantity;
+
+    @SerializedName("measure")
     String mUnit;
+
+    @SerializedName("ingredient")
     String mDescription;
 
     public Ingredient(){

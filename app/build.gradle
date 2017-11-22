@@ -48,6 +48,12 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    //Dependency for Timber
+    // Dependency for Timber
     compile 'com.jakewharton.timber:timber:4.6.0'
+
+    // Dependencies for Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+
 }

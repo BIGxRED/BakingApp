@@ -1,5 +1,8 @@
 /*
-The following code is the property and sole work of Mike Palarz, a student at Udacity
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+
+This is legacy code that I used at one point but no longer use since I've started using the
+Retrofit library.
  */
 
 package com.palarz.mike.bakingapp.utilities;
