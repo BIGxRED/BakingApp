@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity
+ */
+
 package com.palarz.mike.bakingapp.utilities;
 
 import android.appwidget.AppWidgetManager;
@@ -27,13 +31,10 @@ import java.util.Scanner;
 
 import timber.log.Timber;
 
-/**
- * Created by mpala on 10/4/2017.
- */
-
 public class RecipeFetcher {
 
     private static final String TAG = RecipeFetcher.class.getSimpleName();
+
     private static final String RECIPE_BASE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
     private static final String JSON_KEY_ID = "id";
     private static final String JSON_KEY_NAME = "name";
@@ -52,7 +53,6 @@ public class RecipeFetcher {
 
 
     public static URL buildURL(){
-        //A Uri is first built according to TheMovieDB API's documentation
         Uri builtUri = Uri.parse(RECIPE_BASE_URL);
         URL url = null;
 
@@ -139,10 +139,10 @@ public class RecipeFetcher {
             }
         }
 
-        // TODO: I'm a bit weary of this... Keep on eye on this part
         // After all of this is complete, we ensure that our widget also contains the latest data
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(context, GroceryListAppWidgetProvider.class));
+        int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(context,
+                GroceryListAppWidgetProvider.class));
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.app_widget_list_view);
     }
 
