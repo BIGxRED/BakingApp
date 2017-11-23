@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.activities;
 
 import android.appwidget.AppWidgetManager;
@@ -55,7 +59,7 @@ public class RecipeSelection extends AppCompatActivity {
          2 columns.
           */
             if (Utilities.isLandscape(this)){
-                recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
+                recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
             }
             else {
                 recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);

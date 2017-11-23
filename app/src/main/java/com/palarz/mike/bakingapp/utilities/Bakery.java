@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.utilities;
 
 import com.palarz.mike.bakingapp.model.Recipe;
@@ -7,10 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
-
-/**
- * Created by mpala on 11/11/2017.
- */
 
 public class Bakery {
 

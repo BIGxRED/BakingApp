@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="activity_horizontal_margin">8dp</dimen>
-    <dimen name="activity_vertical_margin">8dp</dimen>
 
-    <dimen name="recipe_list_item_image_width">1600dp</dimen>
+    <dimen name="recipe_list_item_card_corner_radius">6dp</dimen>
+    <dimen name="recipe_list_item_layout_width">160dp</dimen>
+    <dimen name="recipe_list_item_image_width">120dp</dimen>
     <dimen name="recipe_list_item_image_height">100dp</dimen>
+    <dimen name="recipe_list_item_layout_margin">4dp</dimen>
     <dimen name="recipe_list_item_image_margin">8dp</dimen>
     <dimen name="recipe_list_item_name_text_size">22sp</dimen>
 
@@ -15,6 +16,7 @@
     <dimen name="recipe_details_ingredients_text_size">14sp</dimen>
     <dimen name="recipe_details_ingredients_width">320dp</dimen>
     <dimen name="recipe_details_ingredients_height">240dp</dimen>
+    <dimen name="recipe_details_ingredients_height_landscape">160dp</dimen>
     <dimen name="recipe_details_ingredients_heading_text_size">18sp</dimen>
     <dimen name="recipe_details_ingredients_heading_width">320dp</dimen>
 

@@ -38,10 +38,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-/**
- * Created by mpala on 10/20/2017.
- */
-
 public class StepWatcher extends Fragment {
 
     // Keys used for the Bundle within onSaveInstanceState()
@@ -142,6 +138,8 @@ public class StepWatcher extends Fragment {
         mCurrentStepIndex = arguments.getInt(ARGS_STEP_INDEX);
         mSteps = Bakery.get().getRecipe(recipeID).getSteps();
         mCurrentStep = Bakery.get().getStep(recipeID, mCurrentStepIndex);
+
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -325,7 +323,6 @@ public class StepWatcher extends Fragment {
         }
     }
 
-    // TODO: Do we need to make another function, such as showSystemUI()?
     private void hideSystemUI() {
         mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN

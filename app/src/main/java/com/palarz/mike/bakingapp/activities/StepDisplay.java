@@ -10,35 +10,21 @@ import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
 import com.palarz.mike.bakingapp.fragments.StepWatcher;
 import com.palarz.mike.bakingapp.utilities.StepAdapter;
+import com.palarz.mike.bakingapp.utilities.Utilities;
 
 import timber.log.Timber;
 
-
-/**
- * Created by mpala on 10/19/2017.
- */
-
 public class StepDisplay extends AppCompatActivity
-        implements FragmentManager.OnBackStackChangedListener, StepAdapter.StepLoader, StepWatcher.StepSwitcher {
+        implements StepAdapter.StepLoader, StepWatcher.StepSwitcher {
 
     // A key that is used for the Bundle created within onSaveInstanceState()
     private static final String BUNDLE_SIS_KEY_RECIPE_ID = "step_display_recipe_id";
 
+    private static final String FRAGMENT_TAG = "fragmentTAG";
+
+    StepSelection mFragment;
     private boolean mTwoPane;
     private int mRecipeID;
-
-    // TODO: Perhaps look into reusing that SingleFragmentActivity class from Big Nerd Ranch?
-
-    @Override
-    public void onBackStackChanged() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Timber.d("Contents of backstack in onBackStackChanged():\n");
-        for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
-            Timber.d("Index: " + i + "; fragment transaction name: "
-                    + fragmentManager.getBackStackEntryAt(i).getName());
-        }
-        Timber.d("\n");
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,8 +39,6 @@ public class StepDisplay extends AppCompatActivity
         * the screen would be rotated.
         */
 
-        getSupportFragmentManager().addOnBackStackChangedListener(this);
-
         if (savedInstanceState == null) {
 
             Intent receivedIntent = getIntent();
@@ -67,13 +51,24 @@ public class StepDisplay extends AppCompatActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.step_display_list_of_steps, stepSelection, StepSelection.class.getSimpleName())
                         .commit();
+
+//                mFragment = StepSelection.newInstance(mRecipeID);
             }
         }
         else {
             // Otherwise, if savedInstanceState does exist, then we extract mRecipeID from the
             // Bundle so that we have it on hand.
             mRecipeID = savedInstanceState.getInt(BUNDLE_SIS_KEY_RECIPE_ID);
+
+//            mFragment = (StepSelection) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
         }
+
+//        if (!mFragment.isInLayout()){
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction()
+//                    .replace(R.id.step_display_list_of_steps, mFragment, FRAGMENT_TAG)
+//                    .commit();
+//        }
 
         // All of the previous setup applies to both a handset and a tablet. Additional setup is
         // required for the tablet.
@@ -105,18 +100,7 @@ public class StepDisplay extends AppCompatActivity
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0){
-            // My original solution
-            fragmentManager.popBackStack();
-
-            // Tutor's solution
             fragmentManager.popBackStack(StepWatcher.class.getSimpleName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-
-//            Timber.d("onBackPressed() has been called\n");
-
-//            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++){
-//                Timber.d("Index: " + i + "; backstack entry ID: " + fragmentManager.getBackStackEntryAt(i));
-//            }
-//            Timber.d("\n");
         }
         else {
             super.onBackPressed();
@@ -127,23 +111,9 @@ public class StepDisplay extends AppCompatActivity
     public void loadNextStep(int stepIndex) {
 
         if (mTwoPane){
-            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
-
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction()
-                    .replace(R.id.step_display_tablet_video, watcher)
-                    .commit();
+            loadTabletVideo(stepIndex);
         }
         else {
-            // My original solution
-//            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
-//            FragmentManager manager = getSupportFragmentManager();
-//            manager.beginTransaction()
-//                    .replace(R.id.step_display_list_of_steps, watcher, StepWatcher.class.getSimpleName())
-//                    .addToBackStack("Remove StepSelection, add StepWatcher")
-//                    .commit();
-
-            // Tutor's solutiom
             switchStep(stepIndex);
 
         }
@@ -151,20 +121,25 @@ public class StepDisplay extends AppCompatActivity
 
     @Override
     public void switchStep(int stepIndex) {
-        // My original solution
-//        StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
-//
-//        FragmentManager manager = getSupportFragmentManager();
-//        manager.beginTransaction()
-//                .replace(R.id.step_display_list_of_steps, watcher)
-//                .commit();
+        if (mTwoPane){
+            loadTabletVideo(stepIndex);
+        }
+        else {
+            StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction()
+                    .replace(R.id.step_display_list_of_steps, watcher, FRAGMENT_TAG)
+                    .addToBackStack(StepWatcher.class.getSimpleName())
+                    .commit();
+        }
+    }
 
-        // Tutor's solution
+    private void loadTabletVideo(int stepIndex){
         StepWatcher watcher = StepWatcher.newInstance(mRecipeID, stepIndex);
+
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
-                .replace(R.id.step_display_list_of_steps, watcher)
-                .addToBackStack(StepWatcher.class.getSimpleName())
+                .replace(R.id.step_display_tablet_video, watcher)
                 .commit();
     }
 }
