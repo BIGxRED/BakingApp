@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.model;
 
 import android.os.Parcel;
@@ -5,11 +9,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by mpala on 9/30/2017.
- */
-
-public class Recipe implements Parcelable {
+public class Recipe{
 
     // Strings of recipe names that are primarily used for the RecipeAdapter when it tries to match
     // a recipe to a drawable image
@@ -62,16 +62,6 @@ public class Recipe implements Parcelable {
 
         this.mServings = servings;
         this.mImage = image;
-    }
-
-    // An overloaded constructor needed to implement Parcelable
-    public Recipe(Parcel in, ClassLoader loader){
-        this.mID = in.readInt();
-        this.mName = in.readString();
-        this.mIngredients = in.createTypedArray(Ingredient.CREATOR);
-        this.mSteps = in.createTypedArray(Step.CREATOR);
-        this.mServings = in.readInt();
-        this.mImage = in.readString();
     }
 
     public int getID() {
@@ -221,40 +211,5 @@ public class Recipe implements Parcelable {
                 && sameIngredients;
 
     }
-
-    //Methods necessary to implement the Parcelable interface
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int flags) {
-        out.writeInt(mID);
-        out.writeString(mName);
-        out.writeTypedArray(mIngredients,flags);
-        out.writeTypedArray(mSteps, flags);
-        out.writeInt(mServings);
-        out.writeString(mImage);
-    }
-
-    public static final Parcelable.ClassLoaderCreator<Recipe> CREATOR =
-            new Parcelable.ClassLoaderCreator<Recipe>(){
-        @Override
-        public Recipe createFromParcel(Parcel source, ClassLoader loader) {
-            return new Recipe(source, loader);
-        }
-
-        @Override
-        public Recipe createFromParcel(Parcel source) {
-            return createFromParcel(source, null);
-        }
-
-        @Override
-        public Recipe[] newArray(int size) {
-            return new Recipe[size];
-        }
-    };
 
 }

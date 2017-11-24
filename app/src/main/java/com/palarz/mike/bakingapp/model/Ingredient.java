@@ -10,11 +10,8 @@ import android.view.InflateException;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by mpala on 10/3/2017.
- */
 
-public class Ingredient implements Parcelable {
+public class Ingredient{
 
     @SerializedName("quantity")
     double mQuantity;
@@ -35,12 +32,6 @@ public class Ingredient implements Parcelable {
         this.mDescription = description;
         this.mQuantity = quantity;
         this.mUnit = formatUnit(unit);
-    }
-
-    public Ingredient(Parcel in){
-        this.mDescription = in.readString();
-        this.mUnit = in.readString();
-        this.mQuantity = in.readDouble();
     }
 
     public double getQuantity() {
@@ -156,31 +147,5 @@ public class Ingredient implements Parcelable {
                 && ingredient1.getDescription().equals(ingredient2.getDescription())
                 && ingredient1.getMeasure().equals(ingredient2.getMeasure());
     }
-
-    //Methods necessary to implement the Parcelable interface.
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel out, int i) {
-        out.writeString(mDescription);
-        out.writeString(mUnit);
-        out.writeDouble(mQuantity);
-    }
-
-    public static final Parcelable.Creator<Ingredient> CREATOR = new Parcelable.Creator<Ingredient>(){
-        @Override
-        public Ingredient createFromParcel(Parcel parcel) {
-            return new Ingredient(parcel);
-        }
-
-        @Override
-        public Ingredient[] newArray(int size) {
-            return new Ingredient[size];
-        }
-    };
 
 }
