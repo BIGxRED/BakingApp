@@ -290,16 +290,16 @@ public class StepWatcher extends Fragment {
 
         /* Finally, we only want to show the next and previous buttons if we aren't close to the
         end of mSteps. For example, if we're already on the last Step, then mNextButton should
-        be GONE.
+        be INVISIBLE.
           */
         if (mSteps != null){
-            // If we're at the last index of mSteps, then mNextButton is GONE
+            // If we're at the last index of mSteps, then mNextButton is INVISIBLE
             if (mCurrentStepIndex == (mSteps.length - 1)){
-                mNextButton.setVisibility(View.GONE);
+                mNextButton.setVisibility(View.INVISIBLE);
             }
-            // Likewise, if we're at the very beginning of mSteps, then mPreviousButton is GONE
+            // Likewise, if we're at the very beginning of mSteps, then mPreviousButton is INVISIBLE
             else if (mCurrentStepIndex == (0)){
-                mPreviousButton.setVisibility(View.GONE);
+                mPreviousButton.setVisibility(View.INVISIBLE);
             }
         }
 

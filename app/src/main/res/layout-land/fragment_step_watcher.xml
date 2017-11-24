@@ -29,17 +29,26 @@
         android:layout_centerHorizontal="true"
         android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/step_watcher_long_description"
-        android:layout_width="@dimen/step_watcher_description_width"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/step_watcher_short_description"
-        android:layout_centerInParent="true"
-        tools:text="@string/step_watcher_long_description_testing"
-        android:textSize="@dimen/step_watcher_long_description_text_size"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/step_watcher_long_description_height"
         android:layout_marginTop="@dimen/step_watcher_margin_top"
-        android:visibility="gone"
-        />
+        android:layout_centerInParent="true"
+        android:layout_below="@id/step_watcher_short_description"
+        android:layout_toRightOf="@id/step_watcher_previous_button"
+        android:layout_toLeftOf="@id/step_watcher_next_button">
+
+        <TextView
+            android:id="@+id/step_watcher_long_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            tools:text="@string/step_watcher_long_description_testing"
+            android:textSize="@dimen/step_watcher_long_description_text_size"
+            android:visibility="gone"
+            />
+
+    </ScrollView>
 
     <Button
         android:id="@+id/step_watcher_previous_button"

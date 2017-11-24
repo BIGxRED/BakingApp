@@ -34,12 +34,15 @@
         android:layout_below="@id/step_watcher_video_and_thumbnail_container"
         android:layout_centerHorizontal="true" />
 
+
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/step_watcher_long_description_height"
-        android:padding="@dimen/step_watcher_long_description_padding"
+        android:layout_marginTop="@dimen/step_watcher_margin_top"
+        android:layout_centerInParent="true"
         android:layout_below="@id/step_watcher_short_description"
-        android:layout_above="@+id/step_watcher_previous_button">
+        android:layout_toRightOf="@id/step_watcher_previous_button"
+        android:layout_toLeftOf="@id/step_watcher_next_button">
 
         <TextView
             android:id="@+id/step_watcher_long_description"
@@ -48,7 +51,6 @@
             android:layout_centerInParent="true"
             tools:text="@string/step_watcher_long_description_testing"
             android:textSize="@dimen/step_watcher_long_description_text_size"
-            android:layout_marginTop="@dimen/step_watcher_margin_top"
             />
 
     </ScrollView>
