@@ -20,13 +20,7 @@ import com.palarz.mike.bakingapp.utilities.StepAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by mpala on 10/19/2017.
- */
-
 public class StepSelection extends Fragment {
-
-    // TODO: Maybe turn this into a ListFragment instead of a simple Fragment?
 
     private static final String ARGS_RECIPE_ID = "recipe_id";
 

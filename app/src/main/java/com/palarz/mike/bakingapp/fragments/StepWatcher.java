@@ -66,34 +66,6 @@ public class StepWatcher extends Fragment {
     Step mCurrentStep;
     private StepSwitcher mCallback;
 
-
-    public static final int [] STEP_IMAGES = {
-            R.drawable.step1,
-            R.drawable.step2,
-            R.drawable.step3,
-            R.drawable.step4,
-            R.drawable.step5,
-            R.drawable.step6,
-            R.drawable.step7,
-            R.drawable.step8,
-            R.drawable.step9,
-            R.drawable.step10,
-            R.drawable.step11,
-            R.drawable.step12,
-            R.drawable.step13,
-            R.drawable.step14,
-            R.drawable.step15,
-            R.drawable.step16,
-            R.drawable.step17,
-            R.drawable.step18,
-            R.drawable.step19,
-            R.drawable.step20,
-            R.drawable.step21,
-            R.drawable.step22,
-            R.drawable.step23,
-            R.drawable.step24
-    };
-
     public interface StepSwitcher{
         void switchStep(int stepIndex);
     }
@@ -138,8 +110,6 @@ public class StepWatcher extends Fragment {
         mCurrentStepIndex = arguments.getInt(ARGS_STEP_INDEX);
         mSteps = Bakery.get().getRecipe(recipeID).getSteps();
         mCurrentStep = Bakery.get().getStep(recipeID, mCurrentStepIndex);
-
-        setRetainInstance(true);
     }
 
     @Nullable
@@ -181,7 +151,7 @@ public class StepWatcher extends Fragment {
                 // provided. In that case, we'll still show an image, but it will be a random image
                 // from our drawables
                 if (mThumbnailURL.isEmpty()){
-                    int newThumbnail = getRandomImageResource();
+                    int newThumbnail = Utilities.getRandomStepImageResource();
                     mCurrentStep.setThumbnail(Integer.toString(newThumbnail));
 
                     mThumbnailIV.setImageResource(newThumbnail);
@@ -222,7 +192,7 @@ public class StepWatcher extends Fragment {
                                      */
                                     @Override
                                     public void onError() {
-                                        int newThumbnail = getRandomImageResource();
+                                        int newThumbnail = Utilities.getRandomStepImageResource();
                                         mCurrentStep.setThumbnail(Integer.toString(newThumbnail));
                                         mThumbnailIV.setImageResource(newThumbnail);
                                     }
@@ -272,13 +242,13 @@ public class StepWatcher extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        mPlaybackPosition = mPlayer.getCurrentPosition();
-        mCurrentWindow = mPlayer.getCurrentWindowIndex();
-        mPlayWhenReady = mPlayer.getPlayWhenReady();
-        outState.putLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION, mPlaybackPosition);
-        outState.putInt(BUNDLE_SIS_KEY_CURRENT_WINDOW, mCurrentWindow);
-        outState.putBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY, mPlayWhenReady);
 
+            mPlaybackPosition = mPlayer.getCurrentPosition();
+            mCurrentWindow = mPlayer.getCurrentWindowIndex();
+            mPlayWhenReady = mPlayer.getPlayWhenReady();
+            outState.putLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION, mPlaybackPosition);
+            outState.putInt(BUNDLE_SIS_KEY_CURRENT_WINDOW, mCurrentWindow);
+            outState.putBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY, mPlayWhenReady);
 
         super.onSaveInstanceState(outState);
     }
@@ -362,12 +332,6 @@ public class StepWatcher extends Fragment {
         if (Util.SDK_INT > 23){
             releasePlayer();
         }
-    }
-
-    public int getRandomImageResource(){
-        int randomIndex = new Random().nextInt(STEP_IMAGES.length );
-
-        return STEP_IMAGES[randomIndex];
     }
 
     @OnClick(R.id.step_watcher_next_button)

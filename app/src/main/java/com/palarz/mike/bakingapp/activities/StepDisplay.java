@@ -22,7 +22,6 @@ public class StepDisplay extends AppCompatActivity
 
     private static final String FRAGMENT_TAG = "fragmentTAG";
 
-    StepSelection mFragment;
     private boolean mTwoPane;
     private int mRecipeID;
 
@@ -52,7 +51,6 @@ public class StepDisplay extends AppCompatActivity
                         .replace(R.id.step_display_list_of_steps, stepSelection, StepSelection.class.getSimpleName())
                         .commit();
 
-//                mFragment = StepSelection.newInstance(mRecipeID);
             }
         }
         else {
@@ -60,15 +58,8 @@ public class StepDisplay extends AppCompatActivity
             // Bundle so that we have it on hand.
             mRecipeID = savedInstanceState.getInt(BUNDLE_SIS_KEY_RECIPE_ID);
 
-//            mFragment = (StepSelection) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
         }
 
-//        if (!mFragment.isInLayout()){
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction()
-//                    .replace(R.id.step_display_list_of_steps, mFragment, FRAGMENT_TAG)
-//                    .commit();
-//        }
 
         // All of the previous setup applies to both a handset and a tablet. Additional setup is
         // required for the tablet.
@@ -93,6 +84,7 @@ public class StepDisplay extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
         outState.putInt(BUNDLE_SIS_KEY_RECIPE_ID, mRecipeID);
     }
 

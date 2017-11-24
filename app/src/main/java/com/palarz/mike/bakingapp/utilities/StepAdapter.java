@@ -24,10 +24,6 @@ import timber.log.Timber;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
 
-    public static final String BUNDLE_KEY_ALL_STEPS = "com.palarz.mike.bakingapp.utilities.all_steps";
-    public static final String BUNDLE_KEY_STEP_ARRAY_INDEX =
-            "com.palarz.mike.bakingapp.utilities.step_array_index";
-
     Context mContext;
     Step[] mSteps;
     StepLoader mCallback;
