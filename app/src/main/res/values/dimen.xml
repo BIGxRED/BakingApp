@@ -3,7 +3,7 @@
 
     <dimen name="recipe_list_item_card_corner_radius">6dp</dimen>
     <dimen name="recipe_list_item_layout_width">160dp</dimen>
-    <dimen name="recipe_list_item_image_width">120dp</dimen>
+    <dimen name="recipe_list_item_image_width">160dp</dimen>
     <dimen name="recipe_list_item_image_height">100dp</dimen>
     <dimen name="recipe_list_item_layout_margin">4dp</dimen>
     <dimen name="recipe_list_item_image_margin">8dp</dimen>

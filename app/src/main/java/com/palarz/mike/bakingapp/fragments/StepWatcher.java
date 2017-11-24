@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.fragments;
 
 import android.content.Context;
@@ -38,6 +42,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
+/*
+Primary purpose: This fragment is responsible for showing the details for a given step of a
+recipe. It plays the video of the step (if it is available) as well as a text description of the
+current step.
+ */
 public class StepWatcher extends Fragment {
 
     // Keys used for the Bundle within onSaveInstanceState()
@@ -45,15 +54,19 @@ public class StepWatcher extends Fragment {
     private static final String BUNDLE_SIS_KEY_CURRENT_WINDOW = "current_window";
     private static final String BUNDLE_SIS_KEY_PLAY_WHEN_READY = "play_when_ready";
 
+    // Keys used for the Bundle within StepWatcher.newInstance()
     private static final String ARGS_RECIPE_ID = "recipe_id";
     private static final String ARGS_STEP_INDEX = "step_id";
 
+    // Views within the StepWatcher layout. We use data binding through the Butterknife library
+    // to make our lives easier.
     @BindView(R.id.step_watcher_short_description) TextView mShortDescriptionTV;
     @BindView(R.id.step_watcher_long_description) TextView mLongDescriptionTV;
     @BindView(R.id.step_watcher_previous_button) Button mPreviousButton;
     @BindView(R.id.step_watcher_next_button) Button mNextButton;
     @BindView(R.id.step_watcher_thumbnail) ImageView mThumbnailIV;
     @BindView(R.id.step_watcher_player_view) SimpleExoPlayerView mPlayerView;
+
     SimpleExoPlayer mPlayer;
 
     boolean mPlayWhenReady;
@@ -64,6 +77,14 @@ public class StepWatcher extends Fragment {
     Step[] mSteps;
     int mCurrentStepIndex;
     Step mCurrentStep;
+
+    /*
+    This interface is responsible for handling the click events of the next and previous buttons
+    within StepWatcher. The StepDisplay activity has implemented this interface since each time
+    either of the buttons are clicked, a FragmentTransaction occurs. Specifically, the current
+    StepWatcher fragment is replaced by a new StepWatcher, which corresponds to the next or
+    previous step.
+     */
     private StepSwitcher mCallback;
 
     public interface StepSwitcher{
@@ -73,6 +94,10 @@ public class StepWatcher extends Fragment {
     public StepWatcher(){
     }
 
+    /*
+    A helper method for properly creating a StepWatcher fragment. The bundle that is attached
+    to the StepWatcher is used later on in onCreate().
+     */
     public static StepWatcher newInstance(int recipeID, int stepIndex){
         Bundle arguments = new Bundle();
         arguments.putInt(ARGS_RECIPE_ID, recipeID);
@@ -101,6 +126,10 @@ public class StepWatcher extends Fragment {
 
     }
 
+    /*
+    We obtain the Bundle that was set as the arguments to the fragment within
+    StepWatcher.newInstance() and obtain a reference to the necessary variables.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,31 +168,50 @@ public class StepWatcher extends Fragment {
                 (match_parent for both width and height). All of the other views are GONE by default.
                 However, if we don't have a video URL, then we'd at least want to see the thumbnail
                 and all of the other views.
+
+                This is slightly redundant since these views will actually be visible in the
+                portrait layout, regardless if the video URL is empty or not. However, instead of
+                checking if the device is/is not in landscape, we simply set the view visibility
+                correctly for both orientations.
                  */
                 mThumbnailIV.setVisibility(View.VISIBLE);
                 mShortDescriptionTV.setVisibility(View.VISIBLE);
                 mLongDescriptionTV.setVisibility(View.VISIBLE);
                 mNextButton.setVisibility(View.VISIBLE);
                 mPreviousButton.setVisibility(View.VISIBLE);
-                mPlayerView.setVisibility(View.GONE);
 
-                // There is the case where both the video and thumbnail URLs weren't
-                // provided. In that case, we'll still show an image, but it will be a random image
-                // from our drawables
+                /*
+                There is the case where both the video and thumbnail URLs weren't provided. In that
+                case, we'll still show an image, but it will be a random image from our drawables.
+                 */
                 if (mThumbnailURL.isEmpty()){
                     int newThumbnail = Utilities.getRandomStepImageResource();
+
+                    /*
+                    Code Section A
+
+                    We set the drawable ID as the new thumbnail property of the current Step so
+                    that the same image is shown each time the user refers back to this step. This
+                    becomes a slight problem in Code Section B.
+                     */
                     mCurrentStep.setThumbnail(Integer.toString(newThumbnail));
 
                     mThumbnailIV.setImageResource(newThumbnail);
 
                 }
-                /* Otherwise, if the thumbnail was not empty, we will either load it from our drawables,
-                assuming that it was previously empty and a random drawable was already used, or
-                we will download and display it.
+                /*
+                Code Section B
+
+                Otherwise, if the thumbnail was not empty, we will either load it from our
+                drawables, assuming that it was previously empty and a random drawable was already
+                used (from Code Section A), or we will download and display it.
                   */
                 else {
                     try {
-                        // First we try to see if the thumbnail String is actually a drawable
+                        /*
+                        First we try to see if the thumbnail String is actually a drawable. The
+                        reason it may be a drawable ID is due to Code Section A.
+                         */
                         mThumbnailIV.setImageResource(Integer.valueOf(mCurrentStep.getThumbnail()));
                     }
                     catch (NumberFormatException nfe) {
@@ -173,10 +221,6 @@ public class StepWatcher extends Fragment {
                                 .load(mThumbnailURL)
                                 .placeholder(R.drawable.hourglass)
                                 .into(mThumbnailIV, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-
-                                    }
                                     /*
                                     Here we've created a Callback which allows us to control what
                                     happens in certain situations. We are only interested in the
@@ -190,32 +234,54 @@ public class StepWatcher extends Fragment {
                                     Step so that the same image is loaded the next time the Step
                                     is shown.
                                      */
+
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
                                     @Override
                                     public void onError() {
                                         int newThumbnail = Utilities.getRandomStepImageResource();
+                                        /*
+                                        We do the same thing as was done in Code Section A. We set
+                                        the drawable ID as the new thumbnail property of the current
+                                        Step so that the same image is shown each time the user
+                                        refers back to this step. This becomes a slight problem in
+                                        Code Section B.
+                                         */
                                         mCurrentStep.setThumbnail(Integer.toString(newThumbnail));
                                         mThumbnailIV.setImageResource(newThumbnail);
                                     }
                                 });
                     }
-                    // If all else fails, then we will display a Toast message.
+                    // If all else fails, then we will display a Toast message. This should
+                    // hopefully never happen...
                     catch (Exception e){
-                        Toast.makeText(getContext(), "Could not load image resource", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Could not load image resource",
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
 
             }
 
-            // If we do have a URL for the video, then we'll hide the system UI to provide a
-            // fullscreen experience.
+            /*
+            If we do have a URL for the video, then we'll hide the system UI if the device is in
+              landscape orientation and it is not a tablet. If the device is a tablet, then
+              hiding the system UI is undesirable since we are using a different layout for that
+              case (it is a master-detail layout) and hiding the system UI will provide a poor UE.
+             */
             else {
                 if (Utilities.isLandscape(getContext()) && !(Utilities.isTablet(getContext()))){
-                    boolean test = Utilities.isTablet(getActivity());
                     hideSystemUI();
                 }
             }
         }
 
+        /*
+        If this fragment is being re-created, then we obtain the proper values of the playback
+        position, window, and mPlayWhenReady so that the video continues to play from the correct
+        position on orientation changes.
+         */
         if (savedInstanceState != null){
             mPlaybackPosition = savedInstanceState.getLong(BUNDLE_SIS_KEY_PLAYBACK_POSITION);
             mCurrentWindow = savedInstanceState.getInt(BUNDLE_SIS_KEY_CURRENT_WINDOW);
@@ -240,6 +306,10 @@ public class StepWatcher extends Fragment {
         return rootView;
     }
 
+    /*
+    We store the necessary variables for playback so that the video continues from the correct
+    position on orientation changes.
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
@@ -253,6 +323,9 @@ public class StepWatcher extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    /*
+    Helper method for properly initializing our ExoPlayer.
+     */
     private void initializePlayer(){
         mPlayer = ExoPlayerFactory.newSimpleInstance(
                 new DefaultRenderersFactory(getContext()),
@@ -263,6 +336,7 @@ public class StepWatcher extends Fragment {
         mPlayerView.setPlayer(mPlayer);
         mPlayer.setPlayWhenReady(mPlayWhenReady);
         mPlayer.seekTo(mCurrentWindow, mPlaybackPosition);
+
 
         if (!(mVideoURL.isEmpty())) {
             mPlayerView.setVisibility(View.VISIBLE);
@@ -275,6 +349,9 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    /*
+    Helper method for creating the media source that the ExoPlayer uses to plat the video.
+    */
     private MediaSource buildMediaSource(Uri uri){
         return new ExtractorMediaSource(uri,
                 new DefaultHttpDataSourceFactory("ua"),
@@ -283,6 +360,9 @@ public class StepWatcher extends Fragment {
                 null);
     }
 
+    /*
+    Helper method for properly releasing the video when it is no longer needed.
+    */
     private void releasePlayer(){
         if (mPlayer != null){
             mPlaybackPosition = mPlayer.getCurrentPosition();
@@ -302,6 +382,11 @@ public class StepWatcher extends Fragment {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
     }
 
+    /*
+    Starting with API 24, multiple windows are supported within Android. Therefore, it is possible
+    that our app can be visible but not active within a split window. In that case, we initialize
+    our ExoPlayer in onStart().
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -310,6 +395,9 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    /*
+    Prior to API 24, we can initialize our ExiPlayer in onResume().
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -318,6 +406,9 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    /*
+    Prior to API 24, we can release our ExiPlayer in onPause().
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -326,6 +417,10 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    /*
+    Again, due to the multiple window feature in API 24 and beyond, we release the ExoPlayer in
+    onStop().
+     */
     @Override
     public void onStop() {
         super.onStop();
@@ -334,6 +429,11 @@ public class StepWatcher extends Fragment {
         }
     }
 
+    /*
+    These are the click handlers for the next and previous buttons. Within either method, we first
+    setup mCurrentStepIndex accordingly. Then, we call switchStep(), which is actually
+    implemented within the StepDisplay activity.
+     */
     @OnClick(R.id.step_watcher_next_button)
     public void displayNextStep(){
         if (mCurrentStepIndex < (mSteps.length - 1)){

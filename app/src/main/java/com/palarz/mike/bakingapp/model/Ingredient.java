@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.model;
 
 import android.os.Parcel;
@@ -153,7 +157,7 @@ public class Ingredient implements Parcelable {
                 && ingredient1.getMeasure().equals(ingredient2.getMeasure());
     }
 
-    //Methods necessary to implement the Parcelable interface
+    //Methods necessary to implement the Parcelable interface.
 
     @Override
     public int describeContents() {

@@ -18,7 +18,6 @@ import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.utilities.RecipesClient;
-import com.palarz.mike.bakingapp.utilities.Utilities;
 import com.palarz.mike.bakingapp.widget.GroceryListAppWidgetProvider;
 
 import java.util.List;
@@ -30,10 +29,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import timber.log.Timber;
 
+
+/*
+Primary purpose: This class allows the user to select a recipe from a grid of recipes. It is the
+main activity of this app.
+ */
 public class RecipeSelection extends AppCompatActivity {
 
+    // View that is bound using Butterknife
     @BindView(R.id.recycler_view) RecyclerView mRecyclerView;
     RecipeAdapter mAdapter;
 
@@ -46,20 +50,8 @@ public class RecipeSelection extends AppCompatActivity {
 
         mRecyclerView.setHasFixedSize(true);
 
-
-        GridLayoutManager recyclerViewManager;
-
-        /*
-         If we determine that the device is in landscape, then we will set the layout manager to
-         be horizontal and use 2 rows. Otherwise, we will set it to be a vertical layout and use
-         2 columns.
-          */
-            if (Utilities.isLandscape(this)){
-                recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-            }
-            else {
-                recyclerViewManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
-            }
+        GridLayoutManager recyclerViewManager =
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
 
         mRecyclerView.setLayoutManager(recyclerViewManager);
 
@@ -77,12 +69,14 @@ public class RecipeSelection extends AppCompatActivity {
         Call<List<Recipe>> call = client.getAllRecipes();
 
         call.enqueue(new Callback<List<Recipe>>() {
+            // If we were successful in obtaining a response to our HTTP request...
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                Timber.d("The original HTTP request: " + call.request());
-
+                // ...we extract the recipes from the response...
                 List<Recipe> recipes = response.body();
 
+                // ...and then add all of the recipes to our bakery as well as our adapter for this
+                // activity.
                 Bakery.get().addRecipes(recipes);
                 mAdapter.swapRecipes(Bakery.get().getRecipes());
 
@@ -93,6 +87,7 @@ public class RecipeSelection extends AppCompatActivity {
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.app_widget_list_view);
             }
 
+            // If we failed to obtain an HTTP response, we at least notify the user.
             @Override
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
                 Toast.makeText(RecipeSelection.this, "Something went wrong :(", Toast.LENGTH_LONG).show();

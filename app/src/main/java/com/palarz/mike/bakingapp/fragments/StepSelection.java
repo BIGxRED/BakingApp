@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.fragments;
 
 import android.content.Context;
@@ -20,6 +24,11 @@ import com.palarz.mike.bakingapp.utilities.StepAdapter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/*
+Primary purpose: This fragment is responsible for showing the user a list of steps for baking a
+particular recipe. It is always displayed within the StepDisplay activity for both handheld and
+tablet devices.
+ */
 public class StepSelection extends Fragment {
 
     private static final String ARGS_RECIPE_ID = "recipe_id";
@@ -28,11 +37,18 @@ public class StepSelection extends Fragment {
 
     StepAdapter mAdapter;
     Step[] mSteps;
+
+    // This callback is used in order for us to be able to handle the click events of the
+    // ViewHolders within the RecyclerView.
     StepAdapter.StepLoader mAdapterCallback;
 
     public StepSelection(){
     }
 
+    /*
+    A helper method for properly creating a StepSelection fragment. The bundle that is attached
+    to the StepSelection is used later on in onCreate().
+     */
     public static StepSelection newInstance(int recipeID){
         Bundle arguments = new Bundle();
         arguments.putInt(ARGS_RECIPE_ID, recipeID);
@@ -42,6 +58,10 @@ public class StepSelection extends Fragment {
         return fragment;
     }
 
+    /*
+    We override this method to ensure that the hosting activity has implemented the
+    StepAdapter.StepLoader interface.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -58,6 +78,10 @@ public class StepSelection extends Fragment {
 
     }
 
+    /*
+    We obtain the Bundle that was set as the arguments to the fragment within
+    StepSelection.newInstance() and obtain a reference to the steps.
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,8 +104,6 @@ public class StepSelection extends Fragment {
 
         mAdapter = new StepAdapter(getContext(), mSteps, mAdapterCallback);
         mRecyclerView.setAdapter(mAdapter);
-
-
 
         return rootView;
     }

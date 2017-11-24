@@ -24,8 +24,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /*
-An activity which displays additional information about the recipe that was selected in
-RecipeSelection.
+Primary purpose: An activity which displays additional information about the recipe that was
+selected in RecipeSelection.
  */
 public class RecipeDetails extends AppCompatActivity {
 
@@ -56,7 +56,7 @@ public class RecipeDetails extends AppCompatActivity {
             if (receivedIntent.hasExtra(RecipeAdapter.EXTRA_RECIPE_ID)){
                 mRecipeID = receivedIntent.getIntExtra(RecipeAdapter.EXTRA_RECIPE_ID, 0);
 
-                // ...We obtain the recipe from the Bakery and set up the views accordingly.
+                // ...we obtain the recipe from the Bakery and set up the views accordingly.
                 mClickedRecipe = Bakery.get().getRecipe(mRecipeID);
 
                 mNameTV.setText(mClickedRecipe.getName());
@@ -68,15 +68,22 @@ public class RecipeDetails extends AppCompatActivity {
                 for this and either load the drawable or download the image and display it.
                  */
                 try{
+                   // We first assume that the image property of the recipe is already a drawable ID.
                     mImageIV.setImageResource(Integer.valueOf(recipeImage));
                 }
                 catch (NumberFormatException nfe){
+                    // If it is not a drawable ID, then we assume that we have a URL for the image
                     Picasso.with(this)
                             .load(recipeImage)
                             .placeholder(R.drawable.hourglass)
                             .into(mImageIV);
                 }
                 catch (Exception e){
+                    /*
+                    If all else fails, we notify the user that the image could not be found. With
+                    the way tha this app has been designed, this should never actually happen.
+                     */
+
                     Toast.makeText(this, "Could not load image recourse", Toast.LENGTH_SHORT).show();
                     finish();
                 }
