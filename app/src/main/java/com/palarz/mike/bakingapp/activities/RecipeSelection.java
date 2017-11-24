@@ -6,20 +6,16 @@ package com.palarz.mike.bakingapp.activities;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import com.google.android.exoplayer2.util.Util;
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
-import com.palarz.mike.bakingapp.utilities.RecipeFetcher;
 import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.utilities.RecipesClient;
 import com.palarz.mike.bakingapp.utilities.Utilities;
@@ -103,25 +99,6 @@ public class RecipeSelection extends AppCompatActivity {
             }
         });
 
-    }
-
-    /*
-    This is legacy code that I used at one point but no longer use since I've started using the
-    Retrofit library.
-     */
-    private class FetchRecipesTask extends AsyncTask<Void, Void, List<Recipe>>{
-
-        @Override
-        protected List<Recipe> doInBackground(Void... voids) {
-            return new RecipeFetcher().fetchRecipes(getApplicationContext());
-        }
-
-        @Override
-        protected void onPostExecute(List<Recipe> fetchedRecipes) {
-            if (fetchedRecipes.size() > 0 ){
-                mAdapter.swapRecipes(fetchedRecipes);
-            }
-        }
     }
 
 }
