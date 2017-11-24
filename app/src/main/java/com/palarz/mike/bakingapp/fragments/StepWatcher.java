@@ -313,6 +313,16 @@ public class StepWatcher extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
 
+        /*
+        There is a special case where if the next/previous buttons are clicked (hence, there are
+        fragments in the backstack) and the device is rotated, then onSaveInstanceState() is called
+        for every entry within the backstack. However, the previous entries will have a null
+        mPlayer since releasePlayer() was called within either onPause() or onResume(). We only
+        care about the current instance of StepWatcher that is not null since
+        that pertains to the fragment that hasn't been added to the backstack yet. Therefore, the
+        following if() is necessary to avoid checking the previous fragments in the backstack.
+         */
+        if (mPlayer != null) {
             mPlaybackPosition = mPlayer.getCurrentPosition();
             mCurrentWindow = mPlayer.getCurrentWindowIndex();
             mPlayWhenReady = mPlayer.getPlayWhenReady();
@@ -320,7 +330,8 @@ public class StepWatcher extends Fragment {
             outState.putInt(BUNDLE_SIS_KEY_CURRENT_WINDOW, mCurrentWindow);
             outState.putBoolean(BUNDLE_SIS_KEY_PLAY_WHEN_READY, mPlayWhenReady);
 
-        super.onSaveInstanceState(outState);
+            super.onSaveInstanceState(outState);
+        }
     }
 
     /*
@@ -396,7 +407,7 @@ public class StepWatcher extends Fragment {
     }
 
     /*
-    Prior to API 24, we can initialize our ExiPlayer in onResume().
+    Prior to API 24, we can initialize our ExoPlayer in onResume().
      */
     @Override
     public void onResume() {
@@ -407,7 +418,7 @@ public class StepWatcher extends Fragment {
     }
 
     /*
-    Prior to API 24, we can release our ExiPlayer in onPause().
+    Prior to API 24, we can release our ExoPlayer in onPause().
      */
     @Override
     public void onPause() {
