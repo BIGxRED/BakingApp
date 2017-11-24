@@ -1,5 +1,5 @@
 /*
-The following code is the property and sole work of Mike Palarz, a student at Udacity
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
  */
 
 package com.palarz.mike.bakingapp.widget;

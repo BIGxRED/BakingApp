@@ -1,7 +1,8 @@
-package com.palarz.mike.bakingapp.model;
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
 
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.palarz.mike.bakingapp.model;
 
 import com.google.gson.annotations.SerializedName;
 

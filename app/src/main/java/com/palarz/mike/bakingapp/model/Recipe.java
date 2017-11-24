@@ -4,9 +4,6 @@ The following code is the property and sole work of Mike Palarz, a student at Ud
 
 package com.palarz.mike.bakingapp.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.SerializedName;
 
 public class Recipe{
@@ -91,6 +88,10 @@ public class Recipe{
         }
     }
 
+    /*
+    A helper method which prints the ingredients in a readable format. This is primarily used
+    for displaying the ingredients nicely within RecipeDetails.
+     */
     public String printIngredients(){
         String recipeIngredients = "";
         for (int j = 0; j < this.getIngredients().length; j++){
@@ -187,7 +188,7 @@ public class Recipe{
     }
 
     /*
-    A helper method which ensures that two Recipes are exactly the same.
+    A helper method which checks if two Recipes are exactly the same.
      */
     public static boolean sameRecipe(Recipe recipe1, Recipe recipe2){
         boolean sameSteps = sameSteps(recipe1.getSteps(), recipe2.getSteps());

@@ -12,8 +12,16 @@ import java.util.List;
 
 import timber.log.Timber;
 
+
+/*
+Primary purpose: This class is a singleton of a List<Recipe>. This approach was taken because I was
+initially using Parcelable throughout my app, which made for some very messy looking code when
+passing a Recipe or Step reference from one activity/fragment onto another.
+ */
 public class Bakery {
 
+    // We purposely make sBakery a private static variable so that this is the only class that
+    // is able to access it.
     private static Bakery sBakery;
     private List<Recipe> mRecipes;
 
@@ -32,6 +40,9 @@ public class Bakery {
         return mRecipes;
     }
 
+    /*
+    A helper method which returns a recipe if the ID is provided.
+     */
     public Recipe getRecipe(int ID){
         for (Recipe recipe : mRecipes){
             if (recipe.getID() == ID){
@@ -41,6 +52,9 @@ public class Bakery {
         return null;
     }
 
+    /*
+    A helper method which returns a step if the step and recipe ID are provided.
+     */
     public Step getStep(int recipeID, int stepIndex){
         Recipe currentRecipe = getRecipe(recipeID);
 
@@ -66,14 +80,9 @@ public class Bakery {
 
     /*
      This is a helper method which ensures that every Recipe that is added to the Bakery is unique.
-     This method is useful because every time we use fetchRecipes() within RecipeFetcher, we are
-     adding Recipes to the Bakery. However, we want to avoid adding redundant Recipes to the Bakery.
-
-     ***** Additional Explanation *****
-     We are using fetchRecipes() within an ASyncTask in RecipeSelection, where the ASyncTask is
-     re-launched every time onCreate() is called (such as when the screen is rotated). If we don't
-     check if we have unique Recipes, then redundant Recipes would be added to the Bakery each
-     time onCreate() is called.
+     This method is useful because every time we obtain an HTTP response within RecipeSelection, we
+     are adding Recipes to the Bakery. However, we want to avoid adding redundant Recipes. This
+     method allows us to check if the same recipes have been obtained from the HTTP response.
       */
     public boolean isNewRecipe(Recipe newRecipe){
         for (Recipe currentRecipe : mRecipes){

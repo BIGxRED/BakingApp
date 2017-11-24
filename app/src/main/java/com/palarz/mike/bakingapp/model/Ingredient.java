@@ -4,10 +4,6 @@ The following code is the property and sole work of Mike Palarz, a student at Ud
 
 package com.palarz.mike.bakingapp.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.view.InflateException;
-
 import com.google.gson.annotations.SerializedName;
 
 

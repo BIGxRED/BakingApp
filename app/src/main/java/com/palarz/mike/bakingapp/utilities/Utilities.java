@@ -1,3 +1,7 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.utilities;
 
 import android.content.Context;
@@ -12,6 +16,10 @@ This is a helper class that includes methods that are used throughout the app.
  */
 public class Utilities {
 
+    /*
+    An array of drawable IDs that are used only when the recipe image could not be downloaded. This
+    array is used within getImageResource().
+     */
     public static final int[] RECIPE_IMAGES = {
             R.drawable.brownies,
             R.drawable.cheesecake,
@@ -27,6 +35,10 @@ public class Utilities {
             R.drawable.random_recipe8
     };
 
+    /*
+    A set of static ints that are only used if the recipe is one that we already know of (is
+    contained in the current form of the JSON response).
+     */
     public static final int INDEX_BROWNIES = 0;
     public static final int INDEX_CHEESECAKE = 1;
     public static final int INDEX_NUTELLA = 2;
@@ -34,6 +46,10 @@ public class Utilities {
     public static final int INDEX_RANDOM_BEGINNING = 4;
     public static final int IMAGE_RESOURCES_LENGTH = RECIPE_IMAGES.length;
 
+    /*
+    An array of drawable IDs that are used only when the step image could not be downloaded. This
+    array is used within getStepImageResource().
+     */
     public static final int [] STEP_IMAGES = {
             R.drawable.step1,
             R.drawable.step2,
@@ -98,6 +114,11 @@ public class Utilities {
         return RECIPE_IMAGES[randomIndex];
     }
 
+    /*
+    This is a helper method for obtaining a drawable ID when the recipe does not contain a URL for
+    the image. If the recipe is one of the four that is currently within the JSON response, then
+    we use an image that suits that particular recipe.
+     */
     public static int getImageResource(Recipe recipe){
         String recipeName = recipe.getName();
 
@@ -115,6 +136,10 @@ public class Utilities {
         }
     }
 
+    /*
+    A helper method for obtaining a random drawable ID for a step if the step does not contain a
+    suitable URL for the image.
+     */
     public static int getRandomStepImageResource(){
         int randomIndex = new Random().nextInt(STEP_IMAGES.length);
 

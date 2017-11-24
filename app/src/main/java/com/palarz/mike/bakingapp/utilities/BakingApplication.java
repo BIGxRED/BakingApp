@@ -1,15 +1,15 @@
+/*
+The following code is the property and sole work of Mike Palarz, a student at Udacity.
+ */
+
 package com.palarz.mike.bakingapp.utilities;
 
 import android.app.Application;
 
 import timber.log.Timber;
 
-/**
- * Created by mpala on 11/9/2017.
- */
-
-/* This class was created so that the Timber.DebugTree was created the moment the app was started.
-* This ensured that we'd only be using one instance of the DebugTree and there wouldn't be
+/* This class was created so that the Timber.DebugTree is created the moment the app is started.
+* This ensures that we're only using one instance of the DebugTree and there wouldn't be
 * multiple lines of the same activity within LogCat. In other words, this class was only created for
 * debugging purposes.
 */
