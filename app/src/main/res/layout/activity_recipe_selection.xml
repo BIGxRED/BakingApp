@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--The following code is the property and sole work of Mike Palarz, a student at Udacity.-->
-<LinearLayout
+
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/step_selection_coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".activities.RecipeSelection">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="8dp"
+        tools:context=".activities.RecipeSelection">
 
-</LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/step_selection_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+

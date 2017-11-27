@@ -48,7 +48,7 @@ public class RecipeSelectionActivityTest {
     @Test
     public void clickRecipe_CheckDetails(){
         // Clicks on the first recipe
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         // Verifies that the correct name is shown
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_NUTELLA)));
     }
@@ -61,7 +61,7 @@ public class RecipeSelectionActivityTest {
     @Test
     public void clickRecipe_GetToIntroVideo(){
         // Click on the first recipe in the list
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         // Within RecipeDetails, click on the 'Let's start cooking!' button
         onView(withId(R.id.recipe_details_start_cooking_button)).perform(click());
         // Click on the first step of the recipe
@@ -82,31 +82,31 @@ public class RecipeSelectionActivityTest {
         // First we check to see if every single recipe has the right title. These tests were
         // partly done so that I can play around with asserting the contents of the RecyclerView's
         // ViewHolder.
-        onView(withId(R.id.recycler_view))
+        onView(withId(R.id.step_selection_recycler_view))
                 .check(matches(atPosition(0,
                         hasDescendant(allOf(withId(R.id.recipe_list_item_name),withText(RECIPE_NAME_NUTELLA))))));
-        onView(withId(R.id.recycler_view))
+        onView(withId(R.id.step_selection_recycler_view))
                 .check(matches(atPosition(1,
                         hasDescendant(allOf(withId(R.id.recipe_list_item_name),withText(RECIPE_NAME_BROWNIES))))));
-        onView(withId(R.id.recycler_view))
+        onView(withId(R.id.step_selection_recycler_view))
                 .check(matches(atPosition(2,
                         hasDescendant(allOf(withId(R.id.recipe_list_item_name),withText(RECIPE_NAME_YELLOW_CAKE))))));
-        onView(withId(R.id.recycler_view))
+        onView(withId(R.id.step_selection_recycler_view))
                 .check(matches(atPosition(3,
                         hasDescendant(allOf(withId(R.id.recipe_list_item_name),withText(RECIPE_NAME_CHEESECAKE))))));
 
         // Then, we click on every recipe and ensure that the correct recipe name is shown in
         // RecipeDetails
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_NUTELLA)));
         pressBack();
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(1, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(1, click()));
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_BROWNIES)));
         pressBack();
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(2, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(2, click()));
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_YELLOW_CAKE)));
         pressBack();
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(3, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(3, click()));
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_CHEESECAKE)));
     }
 
@@ -117,7 +117,7 @@ public class RecipeSelectionActivityTest {
     @Test
     public void clickFirstRecipe_CheckIntent(){
         // The first recipe in the RecyclerView is clicked on.
-        onView(withId(R.id.recycler_view)).perform(actionOnItemAtPosition(0, click()));
+        onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         // We then ensure that the correct class was launched
         intended(hasComponent(RecipeDetails.class.getName()));
         // We also ensure that the Intent had the right Extra key value

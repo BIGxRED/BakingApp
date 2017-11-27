@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.text.TextUtilsCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -158,7 +160,7 @@ public class StepWatcher extends Fragment {
 
             // If we weren't provided a URL for the video, then let's at least load an image to be
             // shown in the Step
-            if (mVideoURL.isEmpty()){
+            if (TextUtils.isEmpty(mVideoURL)){
 
                 /*
                 We need to be explicit as to which Views are VISIBLE and which are GONE for this app.

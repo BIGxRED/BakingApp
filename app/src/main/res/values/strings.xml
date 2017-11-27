@@ -6,6 +6,11 @@
     <!--Default recipe name for RecipeSelection-->
     <string name="default_recipe_name">Unknown Recipe</string>
 
+    <!--Strings needed for RecipeSelection-->
+    <string name="recipe_selection_internet_available">Internet connection has been established.</string>
+    <string name="recipe_selection_no_internet">Internet connection not available, please check your settings.</string>
+    <string name="recipe_selection_recipe_data_error">Unable to obtain recipe data.</string>
+
     <!--Strings needed for RecipeDetails-->
     <string name="recipe_details_name_testing">Banana Cream Pie</string>
     <string name="recipe_details_ingredients_testing">Step 1: Mix eggs\nStep 2: Add flour</string>
