@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.TextView;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.model.Recipe;

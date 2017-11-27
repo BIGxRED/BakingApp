@@ -17,15 +17,24 @@
         <activity android:name=".activities.RecipeSelection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.RecipeDetails">
 
+        <activity android:name=".activities.RecipeDetails"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.RecipeSelection">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.RecipeSelection"
+                />
         </activity>
-        <activity android:name=".activities.StepDisplay">
 
+        <activity android:name=".activities.StepDisplay"
+            android:parentActivityName=".activities.RecipeDetails">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.RecipeDetails"/>
         </activity>
 
         <receiver android:name=".widget.GroceryListAppWidgetProvider">

@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.fragments.StepSelection;
@@ -94,6 +96,43 @@ public class StepDisplay extends AppCompatActivity
                     .replace(R.id.step_display_tablet_video, watcher)
                     .commit();
         }
+
+        // Finally, we allow for Up navigation as well, with RecipeSelection as the parent activity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    /*
+    This method is overriden in order to provide Up navigation
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            // Responding to the action bar's Up button
+            case android.R.id.home:
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                /*
+                If we have any entries within the backstack, then we will pop the backstack when
+                the Up button is pressed. This essentially indicates that the user is currently
+                viewing a step and is using a handheld device. The user is shown a StepWatcher
+                fragment and should return to the previous StepSelection fragment.
+                 */
+                if (fragmentManager.getBackStackEntryCount() > 0){
+                    fragmentManager.popBackStack(FRAGMENT_TAG_STEP_WATCHER,
+                            FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
+                /*
+                Otherwise, the user is either looking at a StepSelection fragment on a handheld or
+                is simply using a tablet device. In either case, we will return to the parent
+                activity when the Up button is pressed.
+                 */
+                else {
+                    NavUtils.navigateUpFromSameTask(this);
+                }
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

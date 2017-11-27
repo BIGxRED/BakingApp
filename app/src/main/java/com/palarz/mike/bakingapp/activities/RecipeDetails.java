@@ -7,7 +7,9 @@ package com.palarz.mike.bakingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -104,6 +106,22 @@ public class RecipeDetails extends AppCompatActivity {
             }
         }
 
+        // Finally, we allow for Up navigation as well, with RecipeSelection as the parent activity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    /*
+    This method is overriden in order to provide Up navigation
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            // Responding to the action bar's Up button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
