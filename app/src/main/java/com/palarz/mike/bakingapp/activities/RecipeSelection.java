@@ -23,6 +23,7 @@ import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.utilities.Bakery;
 import com.palarz.mike.bakingapp.utilities.BakingApplication;
 import com.palarz.mike.bakingapp.utilities.ConnectivityReceiver;
+import com.palarz.mike.bakingapp.utilities.OkHttpClientProvider;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.utilities.RecipesClient;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -143,6 +145,7 @@ public class RecipeSelection extends AppCompatActivity
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(RecipesClient.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(OkHttpClientProvider.getOkHttpClient())
                 .build();
 
         // We then create an instance of our interface and create our Call object

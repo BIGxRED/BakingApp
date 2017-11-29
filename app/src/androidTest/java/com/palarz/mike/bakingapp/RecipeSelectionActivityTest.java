@@ -4,11 +4,15 @@ The following code is the property and sole work of Mike Palarz, a student at Ud
 
 package com.palarz.mike.bakingapp;
 
+import android.support.test.espresso.IdlingRegistry;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.jakewharton.espresso.OkHttp3IdlingResource;
 import com.palarz.mike.bakingapp.activities.RecipeDetails;
 import com.palarz.mike.bakingapp.activities.RecipeSelection;
+import com.palarz.mike.bakingapp.utilities.OkHttpClientProvider;
 import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 
 import org.junit.Rule;
@@ -47,10 +51,19 @@ public class RecipeSelectionActivityTest {
     // Clicks on a recipe and tests whether the correct recipe name is shown in RecipeDetails
     @Test
     public void clickRecipe_CheckDetails(){
+        // First, we ensure that Espresso waits until Retrofit has finished obtaining the HTTP
+        // response by creating an IdlingResource and registering it
+        IdlingResource idlingResource =
+                OkHttp3IdlingResource.create("okhttp", OkHttpClientProvider.getOkHttpClient());
+        IdlingRegistry.getInstance().register(idlingResource);
+
         // Clicks on the first recipe
         onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         // Verifies that the correct name is shown
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_NUTELLA)));
+
+        // Finally, we unregister our IdlingResource
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     /*
@@ -60,6 +73,12 @@ public class RecipeSelectionActivityTest {
     */
     @Test
     public void clickRecipe_GetToIntroVideo(){
+        // First, we ensure that Espresso waits until Retrofit has finished obtaining the HTTP
+        // response by creating an IdlingResource and registering it
+        IdlingResource idlingResource =
+                OkHttp3IdlingResource.create("okhttp", OkHttpClientProvider.getOkHttpClient());
+        IdlingRegistry.getInstance().register(idlingResource);
+
         // Click on the first recipe in the list
         onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         // Within RecipeDetails, click on the 'Let's start cooking!' button
@@ -70,16 +89,25 @@ public class RecipeSelectionActivityTest {
         onView(withId(R.id.step_watcher_player_view)).check(matches(isDisplayed()));
         // Verify that the short description of the step is correct
         onView(withId(R.id.step_watcher_short_description)).check(matches(withText(RECIPE_STEP_INTRO_TITLE)));
+
+        // Finally, we unregister our IdlingResource
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     /*
     A very thorough test which first checks if the correct title is shown for every recipe and
     then clicks on every recipe and checks if the correct title is shown in RecipeDetails.
      */
-
     @Test
     public void clickEveryRecipe_CheckEachRecipeTitle(){
-        // First we check to see if every single recipe has the right title. These tests were
+        // First, we ensure that Espresso waits until Retrofit has finished obtaining the HTTP
+        // response by creating an IdlingResource and registering it
+        IdlingResource idlingResource =
+                OkHttp3IdlingResource.create("okhttp", OkHttpClientProvider.getOkHttpClient());
+        IdlingRegistry.getInstance().register(idlingResource);
+
+
+        // We check to see if every single recipe has the right title. These tests were
         // partly done so that I can play around with asserting the contents of the RecyclerView's
         // ViewHolder.
         onView(withId(R.id.step_selection_recycler_view))
@@ -108,6 +136,9 @@ public class RecipeSelectionActivityTest {
         pressBack();
         onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(3, click()));
         onView(withId(R.id.recipe_details_name)).check(matches(withText(RECIPE_NAME_CHEESECAKE)));
+
+        // Finally, we unregister our IdlingResource
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
     /*
@@ -116,12 +147,21 @@ public class RecipeSelectionActivityTest {
      */
     @Test
     public void clickFirstRecipe_CheckIntent(){
+        // First, we ensure that Espresso waits until Retrofit has finished obtaining the HTTP
+        // response by creating an IdlingResource and registering it
+        IdlingResource idlingResource =
+                OkHttp3IdlingResource.create("okhttp", OkHttpClientProvider.getOkHttpClient());
+        IdlingRegistry.getInstance().register(idlingResource);
+
         // The first recipe in the RecyclerView is clicked on.
         onView(withId(R.id.step_selection_recycler_view)).perform(actionOnItemAtPosition(0, click()));
         // We then ensure that the correct class was launched
         intended(hasComponent(RecipeDetails.class.getName()));
         // We also ensure that the Intent had the right Extra key value
         intended(hasExtraWithKey(RecipeAdapter.EXTRA_RECIPE_ID));
+
+        // Finally, we unregister our IdlingResource
+        IdlingRegistry.getInstance().unregister(idlingResource);
     }
 
 }
