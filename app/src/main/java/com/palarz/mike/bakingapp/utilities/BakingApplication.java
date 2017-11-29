@@ -40,15 +40,6 @@ public class BakingApplication extends Application {
         });
 
         mInstance = this;
-
-        /*
-        Within Android N and greater, the CONNECTIVITY_CHANGE broadcast is no longer received. In
-        order to get around this, we must programatically define our intent filter.
-         */
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            this.registerReceiver(new ConnectivityReceiver(),
-                    new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-        }
     }
 
     public static synchronized BakingApplication getInstance(){

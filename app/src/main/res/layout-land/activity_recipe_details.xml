@@ -1,72 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--The following code is the property and sole work of Mike Palarz, a student at Udacity.-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/recipe_details_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/recipe_details_margin_top"
-        android:gravity="center"
-        android:textSize="@dimen/recipe_details_name_text_size"
-        tools:text="@string/recipe_details_name_testing"/>
+<!--The coordinator layout is preferred in order to display Snackbars within the activity-->
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_details_coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/recipe_details_image"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            tools:src="@drawable/hourglass" />
+        <TextView
+            android:id="@+id/recipe_details_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/recipe_details_margin_top"
+            android:gravity="center"
+            android:textSize="@dimen/recipe_details_name_text_size"
+            tools:text="@string/recipe_details_name_testing"/>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/recipe_details_ingredients_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/recipe_details_margin_top"
-                android:text="@string/recipe_details_ingredients_heading"
-                android:textSize="@dimen/recipe_details_ingredients_heading_text_size" />
+            <ImageView
+                android:id="@+id/recipe_details_image"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                tools:src="@drawable/hourglass" />
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/recipe_details_ingredients_height_landscape"
-                android:layout_marginTop="@dimen/recipe_details_margin_top">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/recipe_details_ingredients"
+                    android:id="@+id/recipe_details_ingredients_heading"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/recipe_details_margin_top"
+                    android:text="@string/recipe_details_ingredients_heading"
+                    android:textSize="@dimen/recipe_details_ingredients_heading_text_size" />
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/recipe_details_ingredients_height_landscape"
+                    android:layout_marginTop="@dimen/recipe_details_margin_top">
+
+                    <TextView
+                        android:id="@+id/recipe_details_ingredients"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/recipe_details_ingredients_text_size"
+                        tools:text="@string/recipe_details_ingredients_testing" />
+
+                </ScrollView>
+
+                <Button
+                    android:id="@+id/recipe_details_start_cooking_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/recipe_details_ingredients_text_size"
-                    tools:text="@string/recipe_details_ingredients_testing" />
+                    android:text="@string/recipe_details_start_cooking_button_text" />
 
-            </ScrollView>
-
-            <Button
-                android:id="@+id/recipe_details_start_cooking_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/recipe_details_start_cooking_button_text" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

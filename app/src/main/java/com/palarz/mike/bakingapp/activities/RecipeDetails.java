@@ -7,6 +7,7 @@ package com.palarz.mike.bakingapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -85,8 +86,10 @@ public class RecipeDetails extends AppCompatActivity {
                     If all else fails, we notify the user that the image could not be found. With
                     the way tha this app has been designed, this should never actually happen.
                      */
-
-                    Toast.makeText(this, "Could not load image recourse", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(
+                            findViewById(R.id.recipe_details_coordinator_layout),
+                            getString(R.string.recipe_details_image_load_error),
+                            Snackbar.LENGTH_SHORT).show();
                     finish();
                 }
 

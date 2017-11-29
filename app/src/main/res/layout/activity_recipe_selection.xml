@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--The following code is the property and sole work of Mike Palarz, a student at Udacity.-->
 
+<!--The coordinator layout is preferred in order to display Snackbars within the activity-->
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

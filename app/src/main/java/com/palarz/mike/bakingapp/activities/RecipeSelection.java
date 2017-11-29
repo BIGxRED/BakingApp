@@ -6,7 +6,10 @@ package com.palarz.mike.bakingapp.activities;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -76,6 +79,15 @@ public class RecipeSelection extends AppCompatActivity
 
         mAdapter = new RecipeAdapter(this, null);
         mRecyclerView.setAdapter(mAdapter);
+
+                /*
+        Within Android N and greater, the CONNECTIVITY_CHANGE broadcast is no longer received. In
+        order to get around this, we must programatically define our intent filter.
+         */
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            this.registerReceiver(new ConnectivityReceiver(),
+                    new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
 
     }
 

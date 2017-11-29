@@ -7,6 +7,7 @@ package com.palarz.mike.bakingapp.utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         // If the image property of the Recipe is empty in any way, we'll simply load a random
         // recipe image from drawables
-        if  (recipe.getImage() == null || recipe.getImage().isEmpty()){
+        if  (TextUtils.isEmpty(recipe.getImage())){
             int imageResource = Utilities.getImageResource(recipe);
             recipe.setImage(String.valueOf(imageResource));
             mRecipeList.set(position, recipe);
