@@ -68,13 +68,12 @@ class RecipesListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         remoteViews.setTextViewText(R.id.app_widget_recipe_list_item_name, currentRecipe.getName());
 
         /*
-        In order for the grocery list TextView to be updated each time a recipe is clicked, we
+        In order for the grocery list ListView to be updated each time a recipe is clicked, we
         must create a fill-in Intent. To do so, we first create a Bundle which contains whatever
         data is needed for this Intent.
         */
         Bundle extras = new Bundle();
         extras.putInt(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, currentRecipe.getID());
-//        extras.putString(GroceryListAppWidgetProvider.GROCERY_LIST_CONTENTS, currentRecipe.printIngredients());
 
         /*
         We then create an Intent that contains the extras and set the fill-in Intent to the

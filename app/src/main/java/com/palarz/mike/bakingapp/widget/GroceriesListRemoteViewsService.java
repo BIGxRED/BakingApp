@@ -19,8 +19,6 @@ public class GroceriesListRemoteViewsService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        Timber.d("Within onGetViewFactory() of groceries list service");
-        Timber.d("Value of recipe ID within onGetViewFactory(): " + intent.getIntExtra(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, -1));
 
         return new GroceriesListRemoteViewsFactory(getApplicationContext(), intent);
     }
@@ -35,18 +33,14 @@ class GroceriesListRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
     Ingredient[] mIngredients;
 
     public GroceriesListRemoteViewsFactory(Context newContext, Intent recipeIDIntent){
-        Timber.d("Constructor of GroceriesListRemoteViewsFactory:\n");
         this.mContext = newContext;
         this.mRecipeID = recipeIDIntent.getIntExtra(BUNDLE_KEY_RECIPE_ID, -1);
-        Timber.d("Value of recipe ID within constructor: " + mRecipeID);
     }
 
     @Override
     public void onCreate() {
         // If we have a valid recipe ID value, then we'll obtain the array of ingredients
-        Timber.d("Within onCreate() of groceries list factory");
         if (mRecipeID != -1) {
-            Timber.d("Correctly obtained recipe ID within onCreate() of groceries factory");
             this.mIngredients = Bakery.get().getRecipe(mRecipeID).getIngredients();
         }
 
@@ -67,7 +61,6 @@ class GroceriesListRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public void onDataSetChanged() {
-        Timber.d("onDataSetChanged() is called");
         // If we don't have any ingredients to show, then we'll simply exit the method
         if (mIngredients == null || mRecipeID == -1) {
             return;
@@ -79,10 +72,8 @@ class GroceriesListRemoteViewsFactory implements RemoteViewsService.RemoteViewsF
 
     @Override
     public RemoteViews getViewAt(int index) {
-        Timber.d("Within getViewAt() of groceries factory");
         Ingredient currentIngredient = mIngredients[index];
         if (currentIngredient == null){
-            Timber.d("Could not obtain groceries within getViewAt()");
             return null;
         }
 
