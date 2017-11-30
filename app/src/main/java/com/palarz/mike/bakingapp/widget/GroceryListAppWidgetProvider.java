@@ -9,9 +9,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.palarz.mike.bakingapp.R;
+
+import java.util.Random;
 
 import timber.log.Timber;
 
@@ -19,6 +22,7 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
 
     public static final String GROCERY_LIST_ACTION = "com.palarz.mike.bakingapp.GROCERY_LIST_ACTION";
 //    public static final String GROCERY_LIST_CONTENTS = "com.palarz.mike.bakingapp.GROCERY_LIST_CONTENTS";
+    int mRandomNumber;
 
 
     @Override
@@ -38,6 +42,9 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
             RemoteViews updatedView = new RemoteViews(context.getPackageName(), R.layout.app_widget);
             Intent groceriesListIntent = new Intent(context, GroceriesListRemoteViewsService.class);
             groceriesListIntent.putExtra(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, recipeID);
+            mRandomNumber = new Random().nextInt();
+            groceriesListIntent.setData(Uri.fromParts("content", String.valueOf(appWidgetID + mRandomNumber), null));
+
             updatedView.setRemoteAdapter(R.id.app_widget_list_view_groceries, groceriesListIntent);
             updatedView.setEmptyView(R.id.app_widget_list_view_groceries, R.id.app_widget_empty_view_groceries);
 
