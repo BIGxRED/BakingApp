@@ -9,29 +9,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.TextView;
 
 import com.palarz.mike.bakingapp.R;
 import com.palarz.mike.bakingapp.model.Recipe;
 import com.palarz.mike.bakingapp.utilities.Bakery;
-import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
 
 import java.util.List;
 
-public class GroceryListRemoteViewsService extends RemoteViewsService {
+public class RecipesListRemoteViewsService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new GroceryListRemoteViewsFactory(this.getApplicationContext());
+        return new RecipesListRemoteViewsFactory(this.getApplicationContext());
     }
 }
 
-class GroceryListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
+class RecipesListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory{
 
     Context mContext;
     List<Recipe> mRecipes;
 
-    public GroceryListRemoteViewsFactory(Context context) {
+    public RecipesListRemoteViewsFactory(Context context) {
         mContext = context;
     }
 
@@ -64,10 +62,10 @@ class GroceryListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         }
 
         // Otherwise, we will setup the RemoteView for the currentRecipe...
-        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.app_widget_list_item);
+        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.app_widget_recipe_list_item);
 
         //...and set the recipe name for the current list item.
-        remoteViews.setTextViewText(R.id.app_widget_list_item_recipe_name, currentRecipe.getName());
+        remoteViews.setTextViewText(R.id.app_widget_recipe_list_item_name, currentRecipe.getName());
 
         /*
         In order for the grocery list TextView to be updated each time a recipe is clicked, we
@@ -75,8 +73,8 @@ class GroceryListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         data is needed for this Intent.
         */
         Bundle extras = new Bundle();
-        extras.putInt(RecipeAdapter.EXTRA_RECIPE_ID, currentRecipe.getID());
-        extras.putString(GroceryListAppWidgetProvider.GROCERY_LIST_CONTENTS, currentRecipe.printIngredients());
+        extras.putInt(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, currentRecipe.getID());
+//        extras.putString(GroceryListAppWidgetProvider.GROCERY_LIST_CONTENTS, currentRecipe.printIngredients());
 
         /*
         We then create an Intent that contains the extras and set the fill-in Intent to the
@@ -84,7 +82,7 @@ class GroceryListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFac
         */
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
-        remoteViews.setOnClickFillInIntent(R.id.app_widget_list_item_container, fillInIntent);
+        remoteViews.setOnClickFillInIntent(R.id.app_widget_recipe_list_item_container, fillInIntent);
 
         return remoteViews;
     }

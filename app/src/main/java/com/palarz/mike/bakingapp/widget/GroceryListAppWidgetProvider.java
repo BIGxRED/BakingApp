@@ -12,13 +12,13 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.palarz.mike.bakingapp.R;
-import com.palarz.mike.bakingapp.activities.RecipeDetails;
-import com.palarz.mike.bakingapp.utilities.RecipeAdapter;
+
+import timber.log.Timber;
 
 public class GroceryListAppWidgetProvider extends AppWidgetProvider {
 
     public static final String GROCERY_LIST_ACTION = "com.palarz.mike.bakingapp.GROCERY_LIST_ACTION";
-    public static final String GROCERY_LIST_CONTENTS = "com.palarz.mike.bakingapp.GROCERY_LIST_CONTENTS";
+//    public static final String GROCERY_LIST_CONTENTS = "com.palarz.mike.bakingapp.GROCERY_LIST_CONTENTS";
 
 
     @Override
@@ -27,32 +27,24 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
 
         // First we check if we've received the broadcast we're interested in
         if (intent.getAction().equals(GROCERY_LIST_ACTION)){
-
+            Timber.d("Within onReceive() and the action is a match");
             // Next, we pull the widget ID, String of groceries, and recipe ID all from the Intent
             int appWidgetID = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
-            String groceries = intent.getStringExtra(GROCERY_LIST_CONTENTS);
-            int recipeID = intent.getIntExtra(RecipeAdapter.EXTRA_RECIPE_ID, -1);
+//            String groceries = intent.getStringExtra(GROCERY_LIST_CONTENTS);
+            int recipeID = intent.getIntExtra(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, -1);
+            Timber.d("Value of recipe ID in onReceive(): " + recipeID);
 
-            // We create a new RemoteViews instance so that the contents of the groceries list
-            // can be updated for the current recipe
             RemoteViews updatedView = new RemoteViews(context.getPackageName(), R.layout.app_widget);
-            updatedView.setTextViewText(R.id.app_widget_groceries_list, groceries);
-
-            /*
-            The grocery list in the widget only provides a preview of all of the groceries. In order
-            for the entire grocery list to be made available, we allow the user to click on the
-            grocery list to launch RecipeDetails to see the full list of ingredients. In order to
-            offer this feature, we've setup a PendingIntent on the grocery list TextView.
-             */
-            Intent onClickIntent = new Intent(context, RecipeDetails.class);
-            onClickIntent.putExtra(RecipeAdapter.EXTRA_RECIPE_ID, recipeID);
-
-            PendingIntent onClickPendingIntent =
-                    PendingIntent.getActivity(context, 0, onClickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            updatedView.setOnClickPendingIntent(R.id.app_widget_groceries_list, onClickPendingIntent);
+            Intent groceriesListIntent = new Intent(context, GroceriesListRemoteViewsService.class);
+            groceriesListIntent.putExtra(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, recipeID);
+            updatedView.setRemoteAdapter(R.id.app_widget_list_view_groceries, groceriesListIntent);
+            updatedView.setEmptyView(R.id.app_widget_list_view_groceries, R.id.app_widget_empty_view_groceries);
 
             // Finally, we update the individual widget with the updated RemoteViews.
+            Timber.d("updateAppWidget() is called...");
+
+//            manager.notifyAppWidgetViewDataChanged(appWidgetID, R.id.app_widget_list_view_groceries);
             manager.updateAppWidget(appWidgetID, updatedView);
         }
 
@@ -65,9 +57,10 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
 
         for (int i = 0; i < appWidgetIds.length; i++){
 
-            // We set up an Intent which starts the GroceryListRemoteViewsService which will
+            // We set up an Intent which starts the RecipesListRemoteViewsService which will
             // provide the views for the ListView within our widget
-            Intent remoteViewsServiceIntent = new Intent(context, GroceryListRemoteViewsService.class);
+            Timber.d("onUpdate():\n");
+            Intent remoteViewsServiceIntent = new Intent(context, RecipesListRemoteViewsService.class);
 
             // We create an instance of the RemoteViews object
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.app_widget);
@@ -77,13 +70,25 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
             to a RemoteViewsService through the specified intent which is where the data is
             populated.
              */
-            remoteViews.setRemoteAdapter(R.id.app_widget_list_view, remoteViewsServiceIntent);
+            Timber.d("Setting remote adapter for recipes");
+            remoteViews.setRemoteAdapter(R.id.app_widget_list_view_recipes, remoteViewsServiceIntent);
 
             /*
             The empty view is displayed when the ListView has no data to display. It should be in
             the same layout XML as the RemoteViews object created above.
              */
-            remoteViews.setEmptyView(R.id.app_widget_list_view, R.id.app_widget_empty_view);
+            Timber.d("Setting empty view for recipes");
+            remoteViews.setEmptyView(R.id.app_widget_list_view_recipes, R.id.app_widget_empty_view_recipes);
+
+
+//            // Setting up the grocery list ListView as well....
+//            Intent groceriesListIntent = new Intent(context, GroceriesListRemoteViewsService.class);
+//            groceriesListIntent.putExtra(GroceriesListRemoteViewsFactory.BUNDLE_KEY_RECIPE_ID, -1);
+//
+//            Timber.d("Setting remote adapter for groceries");
+//            remoteViews.setRemoteAdapter(R.id.app_widget_list_view_groceries, groceriesListIntent);
+//            Timber.d("Setting empty view for groceries");
+//            remoteViews.setEmptyView(R.id.app_widget_list_view_groceries, R.id.app_widget_empty_view_groceries);
 
             /*
             We'd also like the functionality of allowing for each item within the ListView to
@@ -99,7 +104,7 @@ public class GroceryListAppWidgetProvider extends AppWidgetProvider {
             intentTemplate.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             PendingIntent pendingIntentTemplate = PendingIntent.getBroadcast(
                     context, 0, intentTemplate, PendingIntent.FLAG_UPDATE_CURRENT);
-            remoteViews.setPendingIntentTemplate(R.id.app_widget_list_view, pendingIntentTemplate);
+            remoteViews.setPendingIntentTemplate(R.id.app_widget_list_view_recipes, pendingIntentTemplate);
 
             // Finally, we tell the AppWidgetManager to update the current widget within the array
             appWidgetManager.updateAppWidget(appWidgetIds[i], remoteViews);

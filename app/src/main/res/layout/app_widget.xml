@@ -12,13 +12,13 @@
         android:layout_weight="2">
 
         <ListView
-            android:id="@+id/app_widget_list_view"
+            android:id="@+id/app_widget_list_view_recipes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/app_widget_empty_view"
+            android:id="@+id/app_widget_empty_view_recipes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/app_widget_empty_view_text"
@@ -26,21 +26,30 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/app_widget_groceries_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/app_widget_groceries_list_margin"
-        android:padding="@dimen/app_widget_groceries_list_padding"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="@string/app_widget_groceries_list_default_contents"
-        android:textSize="@dimen/app_widget_groceries_list_text_size"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:ellipsize="end"
-        android:maxLines="6"
-        android:scrollbars="vertical"/>
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/app_widget_list_view_groceries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/app_widget_empty_view_groceries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/app_widget_groceries_list_margin"
+            android:padding="@dimen/app_widget_groceries_list_padding"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="@string/app_widget_groceries_list_default_contents"
+            android:textSize="@dimen/app_widget_groceries_list_text_size"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </FrameLayout>
 
 </LinearLayout>

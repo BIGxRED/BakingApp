@@ -33,7 +33,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -168,7 +167,7 @@ public class RecipeSelection extends AppCompatActivity
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(RecipeSelection.this);
                 int[] appWidgetIDs = appWidgetManager.getAppWidgetIds(new ComponentName(RecipeSelection.this,
                         GroceryListAppWidgetProvider.class));
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.app_widget_list_view);
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIDs, R.id.app_widget_list_view_recipes);
             }
 
             // If we failed to obtain an HTTP response, we at least notify the user.

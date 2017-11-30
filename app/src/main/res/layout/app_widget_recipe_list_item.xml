@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--The following code is the property and sole work of Mike Palarz, a student at Udacity.-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/app_widget_recipe_list_item_container"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
+    android:layout_margin="@dimen/app_widget_list_item_margin"
+    android:padding="@dimen/app_widget_list_item_padding"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/app_widget_recipe_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/app_widget_list_item_recipe_name_text_size"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+</LinearLayout>

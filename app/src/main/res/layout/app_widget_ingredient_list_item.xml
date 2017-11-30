@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--The following code is the property and sole work of Mike Palarz, a student at Udacity.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/app_widget_list_item_container"
+    android:id="@+id/app_widget_ingredient_list_item_container"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -11,7 +11,7 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/app_widget_list_item_recipe_name"
+        android:id="@+id/app_widget_ingredient_list_item_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/app_widget_list_item_recipe_name_text_size"
