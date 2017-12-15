@@ -1,6 +1,6 @@
 # BakingApp
 
-This is an app that was developed as a part of the [Udacity Android Development Nanodegree](https://www.udacity.com/course/android-developer-nanodegree-by-google--nd801) program. It includes features such as:
+This is an app that was developed as a part of the [Udacity Android Development Nanodegree](https://www.udacity.com/course/android-developer-nanodegree-by-google--nd801) program. The primary purpose of this app is to display different baking recipes to the end user and show them how to make the recipes. It includes features such as:
 
 - Media loading by using ExoPlayer to show the user a video for each step of the recipe
 - A complete UX through grocery list widget to show the user all of the necessary ingredients for a recipe
